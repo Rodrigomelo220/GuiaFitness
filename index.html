@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Fitness</title>
+
+<!-- PWA: permite instalar como app no celular (Adicionar à Tela de Início) -->
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogIkd1aWEgRml0bmVzcyIsICJzaG9ydF9uYW1lIjogIkd1aWEgRml0bmVzcyIsICJzdGFydF91cmwiOiAiLiIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjMEUxMTE2IiwgInRoZW1lX2NvbG9yIjogIiMwRTExMTYiLCAiaWNvbnMiOiBbeyJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFNQUFBQURBQ0FZQUFBQlMzR3dIQUFBRldrbEVRVlI0bk8zY1BXN2RSaFFGNEhHUXlvVUFOd2E4Z0d6S2EvQnl2SVpzeWdzdzRNYUFpclJPOVFCRGlaNzRjMmVHODg3MzFaSWVSWjdETzZRR2FnMEFBQUFBNEtHOW0zMEFleng5K1BocjlqR3d6ZlBQSDB0azY3SUhLZXlQNTRxbHVOUUJDWDJPcTVUaEVnY2grTGxtRjJIcWh3cytON09LTU9WREJaL1hqQzdDMEE4VGZMWWFWWVEvUm54SWE4TFBQcVB5MHIxbGdzOVpQYWRCMXdrZy9GVG9tYU51elJvVi91OWZuMFo4REhkOCt2STg1SE42VElJdUJlZ1ZmbUZmUjY5U1ZKZWd2QURWNFJmNjlWV1hvYklFcFFXb0RML2dQNTdLSWxTVm9Ld0FWZUVYL01kWFZZU0tFcFFVb0NMOGdwK25vZ2huUzNENk5handjMVRGZFQrYnYxTUZFSDdPbWwyQ1UrUGp6QWNMUGkrZFdSSWRYUW9kbmdEQ1Q3VXp1VGlheDBNRkVINTZHVjJDWWJ0Qld4Tit0aG1aazkwRk9IcjNGMzcyT0pxWHZma2NNZ0dFbnlORzVHWlhBV3h2WmdWN2N0cDlBcmo3YzBidi9Hd3V3Skc3di9CVDRVaU90dWExMndRUWZpcjF5dE9tQWxqN3M2SXR1ZTB5QWR6OTZhRkhyb2IrSVF5dTVzMEM3RjMrdVB2VDA5NTh2WlZmRTRCb3BRVnc5MmVFeXB5WkFFUlRBS0xkTGNDZUIyRExIMGJhazdkN09UWUJpS1lBUkZNQW9pa0EwVW9LNEFHWUdTcHlad0lRVFFHSXBnQkVVd0NpS1FEUkZJQm9Da0EwQlNDYUFoQk5BWWltQUVSVEFLSXBBTkVVZ0doL3pqNkFNOTUvL3JicDYvNzUrNi9PUi9LNEh2MGNMMW1BclJmbDVkZXZlcEZtU0RuSHl5MkI5bDZZcXU5TmtuU09seXBBeGNsZDdRS05sbmFPbHlvQVZGdW1BSlYzbFpYdVVDTWxudU5sQ2dBOUtBRFJGSUJvQ2tBMEJTQ2FBaEJ0NmxhSXQxNlZyZlpuZFY1MzFXczlaUUs4Ly94dDAzdmlWZDRsODdxclgrdkxMNEdVSU1lTWF6MjhBRWQrU1NWWTB3clgrdklUQUhwU0FLSXBBTkVVZ0dnS1FEUUZJSm9DRUUwQmlLWUFSRk1Bb2kzNWo3RXEyRjVCYXlZQTRSU0FhQXBBTkFVZ21nSVFUUUdJcGdCRVV3Q2lLUURSRklCb0NrQTBCU0NhQWhCTkFZZ1d1eDNhUDk3OXI4UXQ0aVlBMFJTQWFBcEFOQVVnbWdJUVRRR0lwZ0JFVXdDaUtRRFJGSUJvd3d0d1pBdUNiUXRyV3VGYVQ1a0FlMzVKNFYvYjFhLzF0Q1hRbGw5VytCL0RsYS8xMU4yZ0FwN2pxdGZhUXpEUkZJQm9Da0EwQlNDYUFoQk5BWWkyVEFFcVg2TmQ5WlhjYklubmVKa0NRQTlMRmFEaXJyTEtuV21XdEhPOFZBRmFPM2R5Vjdvd015V2Q0eVgvTWRidEpHLzlSMDZyWFpRclNEbkhTeGJnWnRXVHZwSkhQOGZMTFlHZ2tnSVFUUUdJcGdCRVV3Q2lLUURSRklCb0NrQTBCU0NhQWhCTkFZaW1BRVJUQUtJcEFORktDdkRweTNQRmo0RmRLbkpuQWhCTkFZaW1BRVJUQUtMZExjRHp6eC92dHY0Z0Q4S010Q2R2OTNKc0FoQk5BWWhXV2dETElFYW96SmtKUUxRM0M3RG5RYmcxVTRDKzl1YnJyZnlhQUVUclVnQlRnQjU2NUdwVEFmWXVnK0FLdHVTMjJ4TElGS0JTcnp4dExzQ1JLYUFFVkRpU282MTU3ZjRRckFTYzBUcy91d3JnV1lBVjdNbnBrTmVncGdCSGpNak43Z0ljblFKS3dCNUg4N0kzbjBQL0VLWUViREV5SjRjS2NPWlpRQW00NTB3K2p1VHk4QVJRQXFxTkRuOXJyWjE2cS9QMDRlT3ZNOS9mV212ZnZ6NmQvUkVzcnVLR2VMUUFwNTRCS2w2TG1nYlpab2EvdFlLSFlDWGdxTm5oYisza0V1aDNGY3VoMWl5SkVsVGQ4Q3B1dnFWLzJhMHFRV3VLOElncUozM1Zyb1R5clEyVkpXaE5FUjVCOVJLM2NrdE9sNzA5MVNXNFVZWjE5SHF1cTk2UDFtMXpXNjhTdktRVTg0MTZpZEZqTTJiWDNaMmpTc0RqNjdVVHVldGVJTnVucWRBelI4TUNhaHF3MTRnYjZMRGRvS1lCZTR6S3k1UlFtZ2E4WnZTTmN1cGRXUkc0bWJWQ3VNU3lSQkZ5elY0YVg2SUFONHFRWTNid2J5NXhFUDlIR1I3UFZVTC91OHNkMEQxS3NZNHJoaDBBQUFDQVZQOENyWjdIckd4Z0lnY0FBQUFBU1VWT1JLNUNZSUk9IiwgInNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9wbmcifSwgeyJzcmMiOiAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFnQUFBQUlBQ0FZQUFBRDBlTlQ2QUFBUTkwbEVRVlI0bk8zY1RZNWN4OUdHMGJEQUVRY0NQREhnQlhCVFhJT1g0elZ3VTF5QUFVOE1hTUNwdjRIY0g0dE5OdGsvZGUrTmlQZWN1VnBadDdJeW5zNXFxUW9BQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFCMitzdlZDK0Fjdi8vMWIvKzllZzNBSEgvODU5L213M0xlNENVTWVPQk1BbUUrYitCQWhqM1FrU2lZeFpzMWdJRVBUQ1FJZXZQbU5HVGdBeHNKZ2w2OEdVMFkra0FTTVhBOWI4Q0ZESDBBTVhBVkQvMWtoajdBMDhUQWVUem9reGo4QU04bkJJN25BUi9JMEFkNE96RndEQS8xQUFZL3dQMEpnZnZ5TU8vSTRBYzRuaEM0RHcveERneCtnUE1KZ2JmeDhON0E0QWU0bmhCNEhRL3RGUXgrZ0g2RXdNdjhkdlVDcGpIOEFYcHlQcitNV25vbUd3dGdEcmNCditZQi9ZTEJEekNYRUhpYXJ3Qit3dkFIbU0wNS9qUmw5QU0yRE1BK2JnTys1UWJnRWNNZllDZm4rN2NFd0EyYkEyQTM1L3hYcmtQS2hnQklsUDZWUVB3TmdPRVBrQ245L0k4T2dQUTNIeUJkOGh5SXZQNUlmc01CK0xHMHJ3U2lYbXlWNGY5Yy8vcm43MWN2QWJpanYvL2pqNnVYTUVKU0JNUzgwQ3JEL3pGREhxZ1NCNCtsUkVERWk2d3kvQTE3NENYU295QWhBdGEvd0tyTTRXL2dBL2VVR0FUYkkyRDFpNnZLR2Y0R1BuQ21sQ0RZSEFGclgxalYvdUZ2NkFNZGJJK0JyUkd3OGtWVjdSNytCai9RMGVZUTJCZ0I2MTVRMWM3aGIrZ0RrMnlNZ1cwUnNPckZWTzBiL2dZL01ObTJFTmdVQVd0ZVNOV3U0Vy93QTV0c0NvRXRFYkRpUlZUdEdmNEdQN0RabGhEWUVBSGpYMERWanVGdjhBTkpOb1RBOUFnWXZmaXErY1BmNEFlU1RRK0J5UkV3ZHVGVnM0ZS93US93MWVRUW1Cb0JJeGRkTlhmNEcvd0FUNXNhQWhNajRMZXJGL0FhaGovQVRsUFB5WWx6YVZ5eFZNMTcwRk0zTk1DVnB0MEdUTHNGR0hjRFlQZ0RaSmgyZms2YlQ2TUNZTnJEbmJaNUFicVpkbzVPbWxOanJpc21QZFJwR3haZ2drbGZDVXo0T21EVURjQUVoai9BTVp5djl6VWlBS2I4OW05ekFoeHJ5ams3WVc2MXY2S1k4QkNuYkVpQVRTWjhKZEQ1cTREV053Q0dQd0JQbVhEK2RwNWpyUU9ndXdtYkQyQXo1L0RydFEyQXp0VlVaZE1CZE5IOVBPNDZ6MW9HUU5lSDlhRDdaZ05JMC8xYzdqalhXZ1pBWjkwM0dVQXE1L1BMdEF1QWpwWDB3T1lDNkszek9kMXR2clVMZ0s0NmJ5b0F2bkplUDArckFPaFdSdzlzSm9CWnVwN2JuZVpjbXdEbzlGQnVkZDFFQVB4YzEvTzd5N3hyRXdBZGRkMDhBRHlQYy94cExRS2dTdzNkc21rQWR1aDRubmVZZXkwQ29KdU9td1dBMTNPdWYrL3lBT2hRUWJkc0VvQ2R1cDN2VjgrL3l3TUFBRGpmcFFGd2RmMDgxcTBPQWJpdmJ1ZjhsWFBRRGNEL2ROc1VBQnpEZWYrbnl3S2cwMi8vTmdOQWxrN24vbFh6MEEwQUFBUzZKQUQ4OWcvQTFUcWQvMWZNeGVnYmdFNXZQZ0RuUzU0RHNRR1EvS1lEOEZYcVBEZzlBRHBkL3dOQUYyZlB4OGdiZ05UYUErREhFdWZDcVFIUTRiZi94RGNaZ0Yvck1CL09uSk9STndBQWtDNHFBRHJVSFFCOUpjMkowd0tndy9VL0FIUjMxcnlNdVFGSXFqb0FYaTlsWHNRRUFBRHcxU2tCY1BYMWYwck5BWEFmVjgrTk0rYW1Hd0FBQ0xRK0FLNnVPQUJtMmo0L0RnK0FxNi8vQVdDaW8rZm42aHVBN2ZVR3dMRTJ6NUhWQVFBQS9OamFBTmhjYlFDY1orczhPVFFBZlA4UEFLOTM1QnhkZVFPd3RkWUF1TWJHdWJJeUFBQ0FueE1BQUJEb3NBQzQ2dnYvamRjMEFGenZxdmx5MUR4MUF3QUFnVllGZ04vK0FUalNwam16S2dBQWdPY1JBQUFRNkpBQXVPSVBBRGRkeXdEUTF4WHo1b2k1NmdZQUFBSUpBQUFJSkFBQUlOQ0tBUEQ5UHdCbjJqQjNWZ1FBQVBBeUFnQUFBZ2tBQUFoMDl3QTQrLzhCc09GN0dBRG1PWHYrM0h1K3VnRUFnRUFDQUFBQ0NRQUFDQ1FBQUNEUTZBRHdCNEFBWEdueUhCb2RBQURBNndnQUFBZ2tBQUFna0FBQWdFQUNBQUFDQ1FBQUNEUTJBQ2IvcHhjQTdERjFIbzBOQUFEZzlRUUFBQVFTQUFBUVNBQUFRQ0FCQUFDQkJBQUFCQklBQUJCSUFBQkFJQUVBQUlFRUFBQUVFZ0FBRUVnQUFFQWdBUUFBZ1FRQUFBUVNBQUFRU0FBQVFDQUJBQUNCQkFBQUJCSUFBQkJJQUFCQUlBRUFBSUVFQUFBRUVnQUFFRWdBQUVBZ0FRQUFnUVFBQUFRU0FBQVFTQUFBUUNBQkFBQ0JCQUFBQkJJQUFCQklBQUJBSUFFQUFJRUVBQUFFZW5mMUFyak8rNCtmRC8zNVh6NTlPUFRuUXdxZlZZNGdBTUljZlpBODllOXl3TURMK0t4eU5BRVE0c3pENUdmL2ZvY0wvSnpQS21meE53QUJyajVRYm5WYUMzVFQ2ZlBSYVMwY3d3M0FZbDAvd0g3RGdHLzVySElGTndCTGRUMVFiazFZSXh4dHd1ZGd3aHA1T1FHdzBLUVA2NlMxd3IxTjJ2K1Qxc3J6Q0FBQUNDUUFscGxZNlJQWERHODFjZDlQWEROUEV3Q0xUUDV3VGw0N3ZOVGsvVDU1N1h4TEFBQkFJQUd3eElZcTMvQWE0RmMyN1BNTnJ3RUJBQUNSQkFBQUJCSUFDMnk2anR2MFd1Q3hUZnQ3MDJ0SkpRQUFJSkFBQUlCQUFnQUFBZ2tBQUFna0FBQWdrQUFBZ0VBQ0FBQUNDUUFBQ0NRQUFDQ1FBQUNBUUFJQUFBSUpBQUFJSkFBQUlKQUFBSUJBQWdBQUFna0FBQWowN3VvRmJQVCs0K2MzL2ZOZlBuMjQwMG9BK25BMjlpSUE3dVN0Ry90SFA4dG1CNlp6TnZibEs0QTd1T2NHZi94emovclpBRWR6TnZZbUFON29qRTFvb3dQVE9CdjdFd0J2Y09ibXM5R0JLWnlOTXdpQVY3cGkwOW5vUUhmT3hqa0V3Q3RjdWRsc2RLQXJaK01zQWdBQUFna0FBQWdrQUY2b3d6VlRoelVBM09wd0xuVll3eVFDQUFBQ0NRQUFDQ1FBQUNDUUFBQ0FRQUlBQUFJSkFBQUlKQUFBSUpBQUFJQkFBZ0FBQWdrQUFBZ2tBQUFna0FBQWdFQUNBQUFDQ1FBQUNDUUFBQ0NRQUFDQVFBSUFBQUlKQUFBSUpBQUFJSkFBQUlCQUFnQUFBZ2tBQUFna0FBQWdrQUFBZ0VBQ0FBQUNDUUFBQ0NRQUFDRFF1NnNYQUkrOS8vajU2aVVBck9jR0FBQUNDUUFBQ0NRQUFDQ1FBQUNBUUFJQUFBSUpBQUFJSkFBQUlKQUFBSUJBQWdBQUFna0FBQWdrQUFBZ2tBQUFnRUFDQUFBQ0NRQUFDQ1FBQUNDUUFBQ0FRQUlBQUFJSkFBQUlKQUFBSUpBQUFJQkFBZ0FBQWdrQUFBZ2tBQUFna0FBQWdFQUNBQUFDQ1FBQUNDUUFBQ0NRQUFDQVFBSUFBQUlKQUFBSUpBQUFJSkFBQUlCQUFnQUFBZ2tBQUFna0FBQWdrQUFBZ0VBQ0FBQUNDUUFBQ1BUdTZnWEFZMTgrZmJoNkNYQ0k5eDgvWDcwRStIOXVBQUFna0FBQWdFQUNBQUFDQ1FBQUNDUUFBQ0NRQUFDQVFBSUFBQUlKQUFBSUpBQUFJSkFBQUlCQUFnQUFBZ2tBQUFna0FBQWdrQUFBZ0VBQ0FBQUNDUUFBQ0NRQUFDQ1FBQUNBUUFJQUFBSUpBQUFJSkFBQUlKQUFBSUJBQWdBQUFna0FBQWdrQUFBZ2tBQUFnRUFDQUFBQ0NZQVgrdkxwdzlWTGFMRUdnRnNkenFVT2E1aEVBQUJBSUFId0NsZFdwc0lGdW5JMnppSUFBQ0NRQUhpbEsycFQ0UUxkT1J2bkVBQnZjT2FtczhHQktaeU5Nd2lBTnpwajg5bmd3RFRPeHY0RXdCMGN0UW0vZlBwZ2d3TmpPUnQ3ZTNmMUFyYTQzWXp2UDM2KzI4OENtTXpaMkpjQU9JQk5DdkE5WjJNdnZnSUFnRUFDQUFBQ0NRQUFDQ1FBQUNDUUFBQ0FRQUlBQUFJSkFBQUlKQUFBSUpBQUFJQkFBZ0FBQWdrQUFBZ2tBQUFna0FBQWdFQUNBQUFDQ1FBQUNDUUFBQ0NRQUZqZ3k2Y1BWeS9oYmphOUZuaHMwLzdlOUZwU0NRQUFDQ1FBQUNDUUFGaGl3M1hjaHRjQXY3SmhuMjk0RFFnQUFJZ2tBQmFaWE9XVDF3NHZOWG0vVDE0NzN4SUF5MHo4Y0U1Y003elZ4SDAvY2MwOFRRQndLUWNLek9DenVvOEFXR2pLQjNYS091RW9VejREVTliSnl3aUFwYnAvWUx1dkQ4N1MvYlBRZlgyOG5nQlk3TXVuRHkwL3ZCM1hCRmZ5V2VVS0FpQkFwdzl4cDdWQU41MCtINTNXd2pIZVhiMEF6dkh3WVg3LzhmT2wvMzdnNTN4V09Zc0FDSFA3NFQ3NmdIR1F3T3Y1ckhJMEFSRE1oeDVtOEZubENQNEdBQUFDQ1FBQUNDUUFBQ0NRQUFDQVFBSUFBQUlKQUFBSUpBQUFJSkFBQUlCQUFnQUFBZ2tBQUFna0FBQWdrQUFBZ0VBQ0FBQUNDUUFBQ0NRQUFDQ1FBQUNBUUFJQUFBSUpBQUFJSkFBQUlKQUFBSUJBQWdBQUFna0FBQWdrQUFBZ2tBQUFnRUFDQUFBQ0NRQUFDQ1FBQUNDUUFBQ0FRQUlBQUFJSkFBQUlKQUFBSUpBQUFJQkFBZ0FBQWdrQUFBZzBOZ0QrL284L3JsNENBSXlkUjJNREFBQjRQUUVBQUlFRUFBQUVFZ0FBRUVnQUFFQWdBUUFBZ1VZSHdOVC85QUtBSFNiUG9kRUJBQUM4amdBQWdFQUNBQUFDQ1FBQUNIVDNBUGpqUC8vK3k3MS81czlNL2dNTUFPWTZlLzdjZTc2NkFRQ0FRQUlBQUFJSkFBQUl0Q0lBL0IwQUFHZmFNSGRXQkFBQThESUNBQUFDQ1FBQUNIUklBSno5L3dLbzJ2RjlEQUQ5WFRGdmpwaXJiZ0FBSUpBQUFJQkFxd0xBMXdBQUhHblRuRmtWQUFEQTh4d1dBRmY4SVdEVnJqb0RvSStyNXN0Ujg5UU5BQUFFRWdBQUVHaGxBUGdhQUlCNzJqaFhEZzJBcS80T0FBQTJPSEtPcnJ3QnFOcFphd0NjYitzOFdSc0FBTURUVmdmQTFtb0Q0QnliNThqaEFlRHZBQURnNVk2ZW42dHZBS3AyMXhzQXg5aytQOVlIQUFEd3ZWTUM0T3F2QWJaWEhBRDNkZlhjT0dOdXVnRUFnRUF4QVhCMXpRRXdROHE4T0MwQXJ2NGFBQUFtT0d0ZXh0d0FWT1ZVSFFDdmt6UW5vZ0lBQVBqVHFRSFE0V3VBcExvRDRQazZ6SWN6NTJUa0RVQ0hOeG1BUGhMbnd1a0IwT0VXQUFDNk9YcytSdDRBVkdYV0hnRGZTNTBIc1FGUWxmdW1BL0NuNURsd1NRQjAraG9nK2MwSFNOYnAvTDlpTGtiZkFBQkFxc3NDd0MwQUFGZnBkTzVmTlEvZEFQeFBwODBBd0hHYzkzKzZOQUE2M1FKVTJSUUEyM1U3NTYrY2cyNEFBQ0RRNVFIZ0ZnQ0FNM1E3MzYrZWY1Y0hRRWZkTmdrQWIrTmMvMTZMQUxpNmduN0VaZ0hZb2VONTNtSHV0UWlBcmpwdUdnQ2V6em4rdERZQjBLR0dmc1RtQVppcDYvbmRaZDYxQ1lDcVBnL2xzYTZiQ0lBZjYzcHVkNXB6clFLZ3M2NmJDWUJ2T2ErZnAxMEFkS3FqeDJ3cWdONDZuOVBkNWx1N0FPaXU4K1lDU09aOGZwbVdBZEN0a2g2enlRQjY2WDR1ZDV4ckxRT2dxdWZEdXRWOXN3R2s2SDRlZDUxbmJRTmdndTZiRG1BNzUvRHJ0UTZBcnRWMHkrWUR1TWFFODdmekhHdTdzRnUvLy9Wdi83MTZEYy94cjMvK2Z2VVNBTmFiTVBpcmVnLy9xdVkzQUErNlA4UUhVellsd0ZSVHp0a0pjMnRFQUV3eVpYTUNUT044dmEvMmhYSnJ5bGNCRDN3bEFQQjIwd2IvaE4vK3E0YmRBRXg1cUErbWJWcUFicWFkbzVQbTFLZ0FxSnIxY0t2bWJWNkFMcWFkbjlQbTA2akZQcGoyVmNBRFh3a0EvTnEwd2Y5Z1dnQ011d0dvbXZlUUgwemQxQUJubVhwT1RweEw0eFo4YStwTlFKWGJBSUJiVXdkLzFjemhYelU4QUtwbVIwQ1ZFQUN5VFI3OFZYT0hmOVdDQUtpYUh3RlZRZ0RJTW4zd1Y4MGUvbFZMQXFCcVJ3UlVDUUZndHcyRHYycis4SzlhRkFCVmV5S2dTZ2dBdTJ3Wi9GVTdobi9Wc2dDbzJoVUJWVUlBbUczVDRLL2FNL3lyRmdaQTFiNElxQklDd0N6YkJuL1ZydUZmdFRRQXFuWkd3QU14QUhTMGNlZy8yRGI4cXhZSFFOWHVDS2dTQWtBUG13ZC8xYzdoWDdVOEFLcjJSOEFETVFDY2FmdlFmN0IxK0ZjRkJFQlZUZ1RjRWdUQVBhVU0vRnViaDM5VlNBQlVaVWJBTFVFQXZFVGl3TCsxZmZoWEJRVkFsUWg0VEJRQVZZYjlZd25Ednlvc0FLcEV3SE9KQTlqRmtIK2VsT0ZmRlJnQVZTSUFnTzhsRGYrcTBBQjRJQVFBU0J2OEQzNjdlZ0ZYU24zVEFmaFQ4aHlJRG9DcTdEY2ZJRm42K1IvOTRoL3psUURBZnVtRC8wSDhEY0F0bXdKZ04rZjhWd0xnRVpzRFlDZm4rN2M4akovd2xRREFmQWIvajdrQitBbWJCbUEyNS9qVFBKaG5jaHNBTUlmQi8yc2UwQXNKQVlDK0RQN244eFhBQzlsY0FEMDVuMS9HdzNvRHR3RUExelA0WDhkRHV3TWhBSEErZy85dFBMdzdFZ0lBeHpQNDc4TkRQSUFRQUxnL2cvKytQTXdEQ1FHQXR6UDRqK0dobmtRTUFEeWZvWDg4RC9oa1FnRGdhUWIvZVR6b0M0a0JBRVAvS2g1NkUySUFTR0xvWDg4YjBKQVlBRFl5OUh2eFpnd2dDSUNKRFB6ZXZEa0RDUUtnSXdOL0ZtL1dFcUlBT0pOaFA1ODNNSVJBQUY3Q2dBY0FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFsdmcvZ1ZwK2gxaUxrcjhBQUFBQVNVVk9SSzVDWUlJPSIsICJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIn1dfQ==">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAFWklEQVR4nO3cPW7dRhQF4HGQyoUANwa8gGzKa/ByvIZsygsw4MaAirRO9QBDiZ74c2eG88731ZIeRZ7DO6QGag0AAAAA4KG9m30Aezx9+Phr9jGwzfPPH0tk67IHKeyP54qluNQBCX2Oq5ThEgch+LlmF2Hqhws+N7OKMOVDBZ/XjC7C0A8TfLYaVYQ/RnxIa8LPPqPy0r1lgs9ZPadB1wkg/FTomaNuzRoV/u9fn0Z8DHd8+vI85HN6TIIuBegVfmFfR69SVJegvADV4Rf69VWXobIEpQWoDL/gP57KIlSVoKwAVeEX/MdXVYSKEpQUoCL8gp+noghnS3D6Najwc1TFdT+bv1MFEH7Oml2CU+PjzAcLPi+dWRIdXQodngDCT7UzuTiax0MFEH56GV2CYbtBWxN+thmZk90FOHr3F372OJqXvfkcMgGEnyNG5GZXAWxvZgV7ctp9Arj7c0bv/GwuwJG7v/BT4UiOtua12wQQfir1ytOmAlj7s6Itue0yAdz96aFHrob+IQyu5s0C7F3+uPvT0958vZVfE4BopQVw92eEypyZAERTAKLdLcCeB2DLH0bak7d7OTYBiKYARFMAoikA0UoK4AGYGSpyZwIQTQGIpgBEUwCiKQDRFIBoCkA0BSCaAhBNAYimAERTAKIpANEUgGh/zj6AM95//rbp6/75+6/OR/K4Hv0cL1mArRfl5devepFmSDnHyy2B9l6Yqu9NknSOlypAxcld7QKNlnaOlyoAVFumAJV3lZXuUCMlnuNlCgA9KADRFIBoCkA0BSCaAhBt6laIt16VrfZndV531Ws9ZQK8//xt03viVd4l87qrX+vLL4GUIMeMaz28AEd+SSVY0wrX+vITAHpSAKIpANEUgGgKQDQFIJoCEE0BiKYARFMAoi35j7Eq2F5BayYA4RSAaApANAUgmgIQTQGIpgBEUwCiKQDRFIBoCkA0BSCaAhBNAYgWux3aP979r8Qt4iYA0RSAaApANAUgmgIQTQGIpgBEUwCiKQDRFIBowwtwZAuCbQtrWuFaT5kAe35J4V/b1a/1tCXQll9W+B/Dla/11N2gAp7jqtfaQzDRFIBoCkA0BSCaAhBNAYi2TAEqX6Nd9ZXcbInneJkCQA9LFaDirrLKnWmWtHO8VAFaO3dyV7owMyWd4yX/MdbtJG/9R06rXZQrSDnHSxbgZtWTvpJHP8fLLYGgkgIQTQGIpgBEUwCiKQDRFIBoCkA0BSCaAhBNAYimAERTAKIpANFKCvDpy3PFj4FdKnJnAhBNAYimAERTAKLdLcDzzx/vtv4gD8KMtCdv93JsAhBNAYhWWgDLIEaozJkJQLQ3C7DnQbg1U4C+9ubrrfyaAETrUgBTgB565GpTAfYug+AKtuS22xLIFKBSrzxtLsCRKaAEVDiSo6157f4QrASc0Ts/uwrgWYAV7MnpkNegpgBHjMjN7gIcnQJKwB5H87I3n0P/EKYEbDEyJ4cKcOZZQAm450w+juTy8ARQAqqNDn9rrZ16q/P04eOvM9/fWmvfvz6d/REsruKGeLQAp54BKl6LmgbZZoa/tYKHYCXgqNnhb+3kEuh3Fcuh1iyJElTd8CpuvqV/2a0qQWuK8IgqJ33VroTyrQ2VJWhNER5B9RK3cktOl7091SW4UYZ19Hquq96P1m1zW68SvKQU8416idFjM2bX3Z2jSsDj67UTueteINunqdAzR8MCahqw14gb6LDdoKYBe4zKy5RQmga8ZvSNcupdWRG4mbVCuMSyRBFyzV4aX6IAN4qQY3bwby5xEP9HGR7PVUL/u8sd0D1KsY4rhh0AAACAVP8CrZ7HrGxgIgcAAAAASUVORK5CYII=">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAFWklEQVR4nO3cPW7dRhQF4HGQyoUANwa8gGzKa/ByvIZsygsw4MaAirRO9QBDiZ74c2eG88731ZIeRZ7DO6QGag0AAAAA4KG9m30Aezx9+Phr9jGwzfPPH0tk67IHKeyP54qluNQBCX2Oq5ThEgch+LlmF2Hqhws+N7OKMOVDBZ/XjC7C0A8TfLYaVYQ/RnxIa8LPPqPy0r1lgs9ZPadB1wkg/FTomaNuzRoV/u9fn0Z8DHd8+vI85HN6TIIuBegVfmFfR69SVJegvADV4Rf69VWXobIEpQWoDL/gP57KIlSVoKwAVeEX/MdXVYSKEpQUoCL8gp+noghnS3D6Najwc1TFdT+bv1MFEH7Oml2CU+PjzAcLPi+dWRIdXQodngDCT7UzuTiax0MFEH56GV2CYbtBWxN+thmZk90FOHr3F372OJqXvfkcMgGEnyNG5GZXAWxvZgV7ctp9Arj7c0bv/GwuwJG7v/BT4UiOtua12wQQfir1ytOmAlj7s6Itue0yAdz96aFHrob+IQyu5s0C7F3+uPvT0958vZVfE4BopQVw92eEypyZAERTAKLdLcCeB2DLH0bak7d7OTYBiKYARFMAoikA0UoK4AGYGSpyZwIQTQGIpgBEUwCiKQDRFIBoCkA0BSCaAhBNAYimAERTAKIpANEUgGh/zj6AM95//rbp6/75+6/OR/K4Hv0cL1mArRfl5devepFmSDnHyy2B9l6Yqu9NknSOlypAxcld7QKNlnaOlyoAVFumAJV3lZXuUCMlnuNlCgA9KADRFIBoCkA0BSCaAhBt6laIt16VrfZndV531Ws9ZQK8//xt03viVd4l87qrX+vLL4GUIMeMaz28AEd+SSVY0wrX+vITAHpSAKIpANEUgGgKQDQFIJoCEE0BiKYARFMAoi35j7Eq2F5BayYA4RSAaApANAUgmgIQTQGIpgBEUwCiKQDRFIBoCkA0BSCaAhBNAYgWux3aP979r8Qt4iYA0RSAaApANAUgmgIQTQGIpgBEUwCiKQDRFIBowwtwZAuCbQtrWuFaT5kAe35J4V/b1a/1tCXQll9W+B/Dla/11N2gAp7jqtfaQzDRFIBoCkA0BSCaAhBNAYi2TAEqX6Nd9ZXcbInneJkCQA9LFaDirrLKnWmWtHO8VAFaO3dyV7owMyWd4yX/MdbtJG/9R06rXZQrSDnHSxbgZtWTvpJHP8fLLYGgkgIQTQGIpgBEUwCiKQDRFIBoCkA0BSCaAhBNAYimAERTAKIpANFKCvDpy3PFj4FdKnJnAhBNAYimAERTAKLdLcDzzx/vtv4gD8KMtCdv93JsAhBNAYhWWgDLIEaozJkJQLQ3C7DnQbg1U4C+9ubrrfyaAETrUgBTgB565GpTAfYug+AKtuS22xLIFKBSrzxtLsCRKaAEVDiSo6157f4QrASc0Ts/uwrgWYAV7MnpkNegpgBHjMjN7gIcnQJKwB5H87I3n0P/EKYEbDEyJ4cKcOZZQAm450w+juTy8ARQAqqNDn9rrZ16q/P04eOvM9/fWmvfvz6d/REsruKGeLQAp54BKl6LmgbZZoa/tYKHYCXgqNnhb+3kEuh3Fcuh1iyJElTd8CpuvqV/2a0qQWuK8IgqJ33VroTyrQ2VJWhNER5B9RK3cktOl7091SW4UYZ19Hquq96P1m1zW68SvKQU8416idFjM2bX3Z2jSsDj67UTueteINunqdAzR8MCahqw14gb6LDdoKYBe4zKy5RQmga8ZvSNcupdWRG4mbVCuMSyRBFyzV4aX6IAN4qQY3bwby5xEP9HGR7PVUL/u8sd0D1KsY4rhh0AAACAVP8CrZ7HrGxgIgcAAAAASUVORK5CYII=">
+<meta name="theme-color" content="#0E1116">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Guia Fitness">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --accent: #F5A524;
+    --accent-2: #22C55E;
+    --accent-3: #38BDF8;
+    --accent-4: #C084FC;
+    --bg-deep: #0E1116;
+    --bg-panel: #161B22;
+    --bg-card: #1B222B;
+    --line: rgba(255,255,255,0.08);
+  }
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(245,165,36,0.10), transparent 60%),
+      radial-gradient(ellipse 900px 500px at 100% 0%, rgba(56,189,248,0.08), transparent 55%),
+      var(--bg-deep);
+    font-family:'Inter', system-ui, sans-serif;
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  h1,h2,h3,h4,.brand,.stat-num{
+    font-family:'Poppins', system-ui, sans-serif;
+  }
+  .navbar-fit{
+    background:rgba(14,17,22,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{
+    font-weight:800;
+    letter-spacing:0.3px;
+    font-size:1.25rem;
+  }
+  .brand .bi{ color:var(--accent); }
+  .greet{
+    font-size:0.85rem;
+    color:#9aa4b2;
+  }
+  .greet strong{ color:#fff; }
+  .navbar-tools .btn{ font-size:0.78rem; padding:6px 10px; }
+
+  .nav-pills .nav-link{
+    color:#9aa4b2;
+    font-weight:600;
+    font-size:0.9rem;
+    border-radius:10px;
+    padding:10px 16px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .nav-pills .nav-link .bi{ font-size:1.05rem; }
+  .nav-pills .nav-link.active{
+    background:var(--accent);
+    color:#1a1200;
+  }
+  .nav-pills{ gap:6px; flex-wrap:nowrap; overflow-x:auto; }
+
+  .panel{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:24px;
+  }
+  .stat-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px;
+    height:100%;
+  }
+  .stat-label{
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:#8a94a3;
+    margin-bottom:6px;
+  }
+  .stat-num{
+    font-size:1.9rem;
+    font-weight:800;
+    line-height:1;
+  }
+  .stat-sub{
+    font-size:0.78rem;
+    color:#8a94a3;
+    margin-top:6px;
+  }
+  .accent-1{ color:var(--accent); }
+  .accent-2{ color:var(--accent-2); }
+  .accent-3{ color:var(--accent-3); }
+  .accent-4{ color:var(--accent-4); }
+
+  .form-control, .form-select{
+    background:#10151c;
+    border:1px solid var(--line);
+    color:#fff;
+  }
+  .form-control:focus, .form-select:focus{
+    background:#10151c;
+    color:#fff;
+    border-color:var(--accent);
+    box-shadow:0 0 0 0.2rem rgba(245,165,36,0.18);
+  }
+  .form-control::placeholder{ color:#5b6472; }
+  .form-label{ font-size:0.82rem; color:#b8c0cc; font-weight:600; }
+
+  .btn-accent{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#1a1200;
+    font-weight:700;
+  }
+  .btn-accent:hover{ background:#e0961c; border-color:#e0961c; color:#1a1200; }
+
+  .ex-item{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .ex-item.status-feito{ border-color: rgba(34,197,94,0.5); }
+  .ex-item.status-pulado{ opacity:0.55; }
+  .ex-item .ex-name{ font-weight:700; }
+  .ex-item .ex-name.done{ text-decoration:line-through; color:#8a94a3; }
+  .ex-badges .badge{ font-weight:600; margin-right:4px; }
+  .ex-actions .btn{ padding:5px 9px; font-size:0.85rem; }
+  .drag-handle{
+    cursor:grab;
+    color:#5b6472;
+    font-size:1.2rem;
+    padding:4px 6px;
+    touch-action:none;
+  }
+  .drag-handle:active{ cursor:grabbing; }
+  .ex-item.sortable-ghost{ opacity:0.35; }
+  .ex-item.sortable-chosen{ border-color:var(--accent-3); }
+
+  .badge-series{ background:rgba(255,255,255,0.08); color:#e5e9ef; border:1px solid rgba(255,255,255,0.15); }
+  .badge-met{ background:rgba(245,165,36,0.18); color:var(--accent); border:1px solid rgba(245,165,36,0.4); }
+  .badge-rest{ background:rgba(56,189,248,0.14); color:var(--accent-3); border:1px solid rgba(56,189,248,0.35); }
+  .badge-dur{ background:rgba(148,163,184,0.14); color:#cbd5e1; border:1px solid rgba(148,163,184,0.3); }
+  .badge-kcal{ background:rgba(192,132,252,0.14); color:var(--accent-4); border:1px solid rgba(192,132,252,0.35); }
+
+  .water-glass{
+    width:34px; height:44px;
+    border:2px solid rgba(56,189,248,0.5);
+    border-radius:0 0 8px 8px;
+    display:inline-flex;
+    align-items:flex-end;
+    overflow:hidden;
+    margin:3px;
+    background:rgba(56,189,248,0.05);
+  }
+  .water-glass.filled{ background: var(--accent-3); border-color: var(--accent-3); }
+
+  .empty-state{
+    text-align:center;
+    padding:36px 12px;
+    color:#6b7480;
+    border:1px dashed var(--line);
+    border-radius:12px;
+  }
+  .empty-state .bi{ font-size:1.8rem; display:block; margin-bottom:8px; }
+
+  #toast-area{ position:fixed; bottom:18px; right:18px; z-index:1080; }
+
+  .day-tabs{ gap:6px; flex-wrap:wrap; }
+  .day-tab-btn{
+    font-family:'Inter', sans-serif;
+    font-size:0.82rem;
+    font-weight:600;
+    color:#9aa4b2;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:8px 14px;
+    cursor:pointer;
+  }
+  .day-tab-btn.active{
+    background:var(--accent-3);
+    border-color:var(--accent-3);
+    color:#04202c;
+  }
+  .day-tab-btn.is-today:not(.active){
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+  .today-banner{
+    background:linear-gradient(90deg, rgba(245,165,36,0.14), rgba(56,189,248,0.08));
+    border:1px solid rgba(245,165,36,0.35);
+    border-radius:14px;
+    padding:16px 20px;
+    margin-bottom:20px;
+  }
+
+  .meal-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px 18px;
+    margin-bottom:16px;
+  }
+  .meal-card h6{ font-weight:700; display:flex; align-items:center; gap:8px; }
+  .food-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 0;
+    border-bottom:1px dashed var(--line);
+  }
+  .food-row:last-child{ border-bottom:none; }
+  .food-row .food-name{ font-weight:600; }
+  .food-row .food-name.done{ text-decoration:line-through; color:#8a94a3; }
+  .food-row .form-check-input{ width:1.2em; height:1.2em; }
+
+  #restModal .modal-content{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:#fff;
+  }
+  .rest-count{
+    font-family:'Poppins', sans-serif;
+    font-weight:800;
+    font-size:4rem;
+    color:var(--accent-3);
+    line-height:1;
+  }
+  .rest-ring-wrap{ position:relative; width:180px; height:180px; margin:0 auto; }
+
+  ::-webkit-scrollbar{ height:6px; width:6px; }
+  ::-webkit-scrollbar-thumb{ background:#333c47; border-radius:3px; }
+
+  @media (max-width:576px){
+    .stat-num{ font-size:1.5rem; }
+    .panel{ padding:16px; }
+    .rest-count{ font-size:3rem; }
+    .greet{ font-size:0.78rem; }
+    .navbar-tools .btn{ padding:6px 8px; }
+    .food-row{ flex-wrap:wrap; }
+    .food-row .badge{ order:3; }
+    #inpProtocolo{ font-size:0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-fit sticky-top">
+  <div class="container-fluid px-3 px-md-4 d-flex flex-wrap gap-2">
+    <span class="brand"><i class="bi bi-heart-pulse-fill"></i> Guia Fitness</span>
+    <span class="greet flex-grow-1" id="greetBox">defina seu nome na aba Perfil</span>
+    <div class="navbar-tools d-flex gap-2">
+      <button class="btn btn-sm btn-accent d-none" id="btnInstall" title="Instalar como app"><i class="bi bi-phone"></i> Instalar app</button>
+      <button class="btn btn-sm btn-outline-light" id="btnExport" title="Baixar backup"><i class="bi bi-cloud-arrow-down"></i> Backup</button>
+      <button class="btn btn-sm btn-outline-light" id="btnImportBtn" title="Restaurar backup"><i class="bi bi-cloud-arrow-up"></i> Restaurar</button>
+      <input type="file" id="btnImport" accept="application/json" class="d-none">
+    </div>
+  </div>
+</nav>
+
+<div class="container py-4">
+
+  <ul class="nav nav-pills mb-4" id="mainTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="tab-perfil-btn" data-bs-toggle="pill" data-bs-target="#tab-perfil" type="button"><i class="bi bi-person-circle"></i> Perfil</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-peso-btn" data-bs-toggle="pill" data-bs-target="#tab-peso" type="button"><i class="bi bi-graph-up-arrow"></i> Peso &amp; IMC</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-ex-btn" data-bs-toggle="pill" data-bs-target="#tab-ex" type="button"><i class="bi bi-lightning-charge-fill"></i> Exercícios</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-dieta-btn" data-bs-toggle="pill" data-bs-target="#tab-dieta" type="button"><i class="bi bi-egg-fried"></i> Alimentação</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="tab-agua-btn" data-bs-toggle="pill" data-bs-target="#tab-agua" type="button"><i class="bi bi-droplet-fill"></i> Água</button>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+
+    <!-- PERFIL -->
+    <div class="tab-pane fade show active" id="tab-perfil" role="tabpanel">
+      <div class="panel">
+        <h4 class="mb-3"><i class="bi bi-person-circle accent-1"></i> Meu perfil</h4>
+        <form id="perfilForm" class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nome</label>
+            <input type="text" class="form-control" id="inpNome" placeholder="Seu nome">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Altura (cm)</label>
+            <input type="number" class="form-control" id="inpAltura" placeholder="Ex: 175" min="100" max="250">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Idade (opcional)</label>
+            <input type="number" class="form-control" id="inpIdade" placeholder="Ex: 30" min="10" max="100">
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-accent"><i class="bi bi-check2"></i> Salvar perfil</button>
+          </div>
+        </form>
+        <hr style="border-color:var(--line);" class="my-4">
+        <div class="d-flex align-items-start gap-2">
+          <i class="bi bi-info-circle accent-3 mt-1"></i>
+          <div class="stat-sub mb-0">
+            Seus dados agora ficam salvos no armazenamento local <strong>deste navegador/celular</strong>, sem depender do Claude — funciona mesmo offline. Importante: isso só funciona quando você abre o arquivo <strong>baixado</strong> diretamente (ou instalado na tela inicial) — dentro do preview do Claude o navegador bloqueia esse tipo de armazenamento. Também é por navegador/app: se limpar os dados do navegador, trocar de celular ou abrir em outro app, os dados não acompanham — use o botão <strong>Backup</strong> de vez em quando pra ter uma cópia de segurança que você pode restaurar em qualquer lugar.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PESO & IMC -->
+    <div class="tab-pane fade" id="tab-peso" role="tabpanel">
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-label"><i class="bi bi-speedometer2"></i> Peso atual</div>
+            <div class="stat-num accent-1" id="statPesoAtual">--</div>
+            <div class="stat-sub">kg</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-label"><i class="bi bi-bar-chart-line"></i> Média semanal</div>
+            <div class="stat-num accent-3" id="statMedia">--</div>
+            <div class="stat-sub">kg (últimos 7 registros)</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-label"><i class="bi bi-rulers"></i> IMC</div>
+            <div class="stat-num accent-2" id="statImc">--</div>
+            <div class="stat-sub" id="statImcClass">cadastre altura e peso</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-label"><i class="bi bi-arrow-down-up"></i> Variação</div>
+            <div class="stat-num" id="statVar">--</div>
+            <div class="stat-sub">desde o 1º registro</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel mb-4">
+        <h5 class="mb-3"><i class="bi bi-plus-circle accent-1"></i> Registrar peso</h5>
+        <form id="pesoForm" class="row g-3 align-items-end">
+          <div class="col-md-4">
+            <label class="form-label">Data</label>
+            <input type="date" class="form-control" id="inpDataPeso">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Peso (kg)</label>
+            <input type="number" step="0.1" class="form-control" id="inpPeso" placeholder="Ex: 78.5" min="20" max="300">
+          </div>
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-accent w-100"><i class="bi bi-check2"></i> Adicionar registro</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h5 class="mb-3"><i class="bi bi-list-ul accent-3"></i> Histórico de pesagens</h5>
+        <div id="pesoList"></div>
+      </div>
+    </div>
+
+    <!-- EXERCÍCIOS -->
+    <div class="tab-pane fade" id="tab-ex" role="tabpanel">
+
+      <div class="today-banner">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <div>
+            <div class="stat-label mb-1"><i class="bi bi-calendar-check accent-1"></i> Treino de hoje</div>
+            <div class="stat-num" id="hojeDiaNome" style="font-size:1.4rem;">--</div>
+          </div>
+          <div class="row g-3 text-center">
+            <div class="col-auto">
+              <div class="stat-num accent-2" id="statFeitos" style="font-size:1.4rem;">0</div>
+              <div class="stat-sub">feitos</div>
+            </div>
+            <div class="col-auto">
+              <div class="stat-num" id="statPulados" style="font-size:1.4rem;">0</div>
+              <div class="stat-sub">pulados</div>
+            </div>
+            <div class="col-auto">
+              <div class="stat-num accent-1" id="statCalTotal" style="font-size:1.4rem;">0</div>
+              <div class="stat-sub">kcal hoje</div>
+            </div>
+            <div class="col-auto">
+              <div class="stat-num accent-3" id="statCalMedia" style="font-size:1.4rem;">0</div>
+              <div class="stat-sub">média kcal</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+          <h5 class="mb-0"><i class="bi bi-calendar-week accent-3"></i> Plano semanal</h5>
+          <div class="day-tabs d-flex" id="dayTabs"></div>
+        </div>
+
+        <div class="stat-sub mb-3"><i class="bi bi-arrows-move"></i> arraste pelo ícone <i class="bi bi-grip-vertical"></i> para reordenar os exercícios</div>
+
+        <div id="exList"></div>
+
+        <button type="button" class="btn btn-accent w-100 mt-2" id="btnAbrirAddEx"><i class="bi bi-plus-lg"></i> Adicionar exercício</button>
+      </div>
+    </div>
+
+    <!-- ALIMENTAÇÃO -->
+    <div class="tab-pane fade" id="tab-dieta" role="tabpanel">
+
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-label"><i class="bi bi-bullseye"></i> Meta diária</div>
+            <div class="stat-num accent-1" id="statMetaKcal">--</div>
+            <div class="stat-sub">kcal</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-label"><i class="bi bi-check2-circle"></i> Consumido</div>
+            <div class="stat-num accent-2" id="statConsumidoKcal">0</div>
+            <div class="stat-sub">kcal hoje</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-label"><i class="bi bi-dash-circle"></i> Restante</div>
+            <div class="stat-num accent-3" id="statRestanteKcal">--</div>
+            <div class="stat-sub">kcal</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="stat-label"><i class="bi bi-pie-chart"></i> Progresso</div>
+            <div class="stat-num accent-4" id="statPctKcal">0%</div>
+            <div class="progress mt-2" style="height:8px;">
+              <div class="progress-bar" id="dietaProgress" style="width:0%; background:var(--accent-4);"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h5 class="mb-0"><i class="bi bi-journal-text accent-4"></i> Meu protocolo alimentar</h5>
+          <button class="btn btn-sm btn-accent" id="btnSalvarProtocolo"><i class="bi bi-check2"></i> Salvar</button>
+        </div>
+        <div class="stat-sub mb-2">cole aqui o protocolo completo que você segue — regras, horários, suplementos, observações — pra ter sempre à mão como guia</div>
+        <textarea class="form-control" id="inpProtocolo" rows="6" placeholder="Ex: Jejum até 10h. Café: ovos + aveia. Almoço: proteína + carboidrato + salada à vontade. Suplementos: whey pós-treino, creatina 5g ao acordar. Evitar açúcar e frituras..."></textarea>
+      </div>
+
+      <div class="panel mb-4">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-4">
+            <label class="form-label"><i class="bi bi-bullseye accent-1"></i> Meta calórica diária (kcal)</label>
+            <input type="number" class="form-control" id="inpMetaKcal" placeholder="Ex: 2200" min="800" max="6000">
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-accent w-100" id="btnSalvarMeta"><i class="bi bi-check2"></i> Salvar</button>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <button class="btn btn-outline-light btn-sm" id="btnResetDieta"><i class="bi bi-arrow-repeat"></i> Reiniciar consumo de hoje</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel mb-4">
+        <h5 class="mb-3"><i class="bi bi-plus-circle accent-1"></i> Adicionar alimento</h5>
+        <form id="foodForm" class="row g-2 align-items-end">
+          <div class="col-md-3">
+            <label class="form-label">Refeição</label>
+            <select class="form-select" id="inpFoodRefeicao"></select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Alimento</label>
+            <input type="text" class="form-control" id="inpFoodNome" placeholder="Ex: Peito de frango" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Quantidade</label>
+            <input type="text" class="form-control" id="inpFoodQtd" placeholder="Ex: 150g">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Kcal</label>
+            <input type="number" class="form-control" id="inpFoodKcal" placeholder="Ex: 250" min="0">
+          </div>
+          <div class="col-md-1">
+            <button type="submit" class="btn btn-accent w-100"><i class="bi bi-plus-lg"></i></button>
+          </div>
+        </form>
+      </div>
+
+      <div id="mealsList"></div>
+    </div>
+
+    <!-- ÁGUA -->
+    <div class="tab-pane fade" id="tab-agua" role="tabpanel">
+      <div class="panel">
+        <div class="row g-4 align-items-center">
+          <div class="col-md-5 text-center">
+            <div class="stat-label mb-2"><i class="bi bi-droplet-half"></i> Meta diária</div>
+            <div class="stat-num accent-3" style="font-size:2.6rem;" id="statAguaMeta">--</div>
+            <div class="stat-sub mb-3">ml recomendados (35ml x seu peso)</div>
+            <div class="progress mb-2" style="height:14px;">
+              <div class="progress-bar" id="aguaProgress" role="progressbar" style="width:0%; background:var(--accent-3);"></div>
+            </div>
+            <div class="stat-sub" id="aguaAtualTexto">0 ml consumidos</div>
+          </div>
+          <div class="col-md-7">
+            <div class="d-flex justify-content-center flex-wrap mb-3" id="aguaGlasses"></div>
+            <div class="d-flex justify-content-center gap-2">
+              <button class="btn btn-outline-light" id="btnAguaMenos"><i class="bi bi-dash-lg"></i> copo</button>
+              <button class="btn btn-accent" id="btnAguaMais"><i class="bi bi-plus-lg"></i> copo (250ml)</button>
+            </div>
+            <div class="text-center mt-3">
+              <button class="btn btn-sm btn-outline-secondary" id="btnAguaReset">reiniciar dia</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL DE DESCANSO -->
+<div class="modal fade" id="restModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center p-4">
+      <div class="stat-label mb-2"><i class="bi bi-hourglass-split accent-3"></i> Descanso</div>
+      <div id="restExName" class="fw-bold mb-3"></div>
+      <div class="rest-count mb-3" id="restCount">60</div>
+      <div class="progress mb-4" style="height:8px;">
+        <div class="progress-bar" id="restProgress" style="width:100%; background:var(--accent-3);"></div>
+      </div>
+      <div class="d-flex justify-content-center gap-2">
+        <button class="btn btn-outline-light" id="btnPularDescanso"><i class="bi bi-skip-forward"></i> Pular descanso</button>
+        <button class="btn btn-accent" id="btnConcluirAgora"><i class="bi bi-check2"></i> Concluir exercício</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE ADICIONAR EXERCÍCIO -->
+<div class="modal fade" id="addExModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-2">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title"><i class="bi bi-plus-circle accent-1"></i> Adicionar exercício</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="stat-sub mb-3">Adicionando em: <strong id="addExDiaLabel" class="accent-3"></strong></div>
+        <form id="exForm" class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Exercício</label>
+            <input type="text" class="form-control" id="inpExNome" placeholder="Ex: Leg Press 45" required>
+          </div>
+          <div class="col-6">
+            <label class="form-label">Séries</label>
+            <input type="text" class="form-control" id="inpExSeries" placeholder="Ex: 4x10">
+          </div>
+          <div class="col-6">
+            <label class="form-label">Duração (min)</label>
+            <input type="number" class="form-control" id="inpExDuracao" placeholder="8" min="1" max="120" value="8">
+          </div>
+          <div class="col-6">
+            <label class="form-label">Categoria</label>
+            <select class="form-select" id="inpExCategoria">
+              <option value="alongamento">Alongamento</option>
+              <option value="musc_leve">Musc. leve</option>
+              <option value="musc_pesada" selected>Musc. pesada</option>
+              <option value="cardio_mod">Cardio moderado</option>
+              <option value="cardio_intenso">Cardio intenso</option>
+              <option value="funcional">Funcional</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label class="form-label">Descanso</label>
+            <select class="form-select" id="inpExDescanso">
+              <option value="30s">30s</option>
+              <option value="45s">45s</option>
+              <option value="60s" selected>60s</option>
+              <option value="90s">90s</option>
+              <option value="120s">120s</option>
+              <option value="180s">180s</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-accent w-100"><i class="bi bi-plus-lg"></i> Adicionar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE INSTRUÇÕES DE INSTALAÇÃO (iOS) -->
+<div class="modal fade" id="iosInstallModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-2">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title"><i class="bi bi-phone accent-1"></i> Instalar no iPhone</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-3">O Safari não deixa instalar com um clique — são só 2 passos rápidos:</p>
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <span class="stat-num accent-3" style="font-size:1.4rem;">1</span>
+          <div>Toque no ícone de compartilhar <i class="bi bi-box-arrow-up accent-3"></i> na barra do Safari</div>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <span class="stat-num accent-3" style="font-size:1.4rem;">2</span>
+          <div>Toque em <strong>"Adicionar à Tela de Início"</strong> <i class="bi bi-plus-square accent-3"></i></div>
+        </div>
+        <div class="stat-sub mt-3">Precisa estar usando o Safari (não funciona no Chrome do iPhone).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-area"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  const MET = {
+    alongamento:   { label: "Alongamento",        met: 2.5 },
+    musc_leve:     { label: "Musc. leve",          met: 3.5 },
+    musc_pesada:   { label: "Musc. pesada",        met: 6.0 },
+    cardio_mod:    { label: "Cardio moderado",     met: 5.0 },
+    cardio_intenso:{ label: "Cardio intenso",      met: 8.5 },
+    funcional:     { label: "Funcional",           met: 7.0 }
+  };
+
+  const DAY_ORDER = ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'];
+  const JS_DAY_TO_NAME = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+  const MEAL_ORDER = ['Café da manhã','Lanche da manhã','Almoço','Lanche da tarde','Jantar','Ceia'];
+  const MEAL_ICON = {
+    'Café da manhã':'bi-sunrise', 'Lanche da manhã':'bi-cup-straw', 'Almoço':'bi-egg-fried',
+    'Lanche da tarde':'bi-cup-straw', 'Jantar':'bi-moon-stars', 'Ceia':'bi-cup-hot'
+  };
+
+  function todayStr(){
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function todayDayName(){ return JS_DAY_TO_NAME[new Date().getDay()]; }
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+  function fmt1(n){ return (Math.round(n*10)/10).toString(); }
+  function escapeHtml(s){
+    return (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+  function parseSecs(descanso){
+    const n = parseInt(String(descanso).replace(/[^0-9]/g,''), 10);
+    return isNaN(n) ? 60 : n;
+  }
+
+  function toast(msg, icon){
+    icon = icon || 'bi-check2-circle';
+    const area = document.getElementById('toast-area');
+    const el = document.createElement('div');
+    el.className = 'toast align-items-center text-bg-dark border-0 show mb-2';
+    el.style.border = '1px solid rgba(245,165,36,0.4)';
+    el.innerHTML = '<div class="d-flex"><div class="toast-body"><i class="bi '+icon+' accent-1"></i> '+msg+'</div></div>';
+    area.appendChild(el);
+    setTimeout(()=>{ el.remove(); }, 2200);
+  }
+
+  const KEYS = {
+    perfil: 'fitness:perfil',
+    pesos: 'fitness:pesos',
+    plano: 'fitness:plano',
+    status: () => 'fitness:status:' + todayStr(),
+    agua: () => 'fitness:agua:' + todayStr(),
+    dietaPlano: 'fitness:dieta:plano',
+    dietaMeta: 'fitness:dieta:meta',
+    dietaHorarios: 'fitness:dieta:horarios',
+    dietaProtocolo: 'fitness:dieta:protocolo',
+    dietaConsumido: () => 'fitness:dieta:consumido:' + todayStr()
+  };
+
+  function ex(nome, series, categoria, descanso, duracao){
+    return { id: uid(), nome, series, categoria, descanso, duracao };
+  }
+  function food(nome, qtd, kcal){
+    return { id: uid(), nome, qtd, kcal };
+  }
+
+  const DEFAULT_PLANO = {
+    'Segunda': [
+      ex('Puxada Aberta Barra reta','4x10','musc_pesada','60s',8),
+      ex('Remada Baixa (Pegada Pronada)','4x10','musc_pesada','60s',8),
+      ex('Remada Curvada com Halteres (Pegada Supinada)','4x10','musc_pesada','60s',8),
+      ex('Pulldown com Corda','4x10','musc_pesada','60s',8),
+      ex('Rosca Alternada com Halteres','4x10','musc_leve','60s',6),
+      ex('Esteira Caminhada','20 min','cardio_mod','60s',20)
+    ],
+    'Terça': [
+      ex('Cadeira Extensora','4x10','musc_pesada','60s',8),
+      ex('Leg Press 45','4x10','musc_pesada','60s',8),
+      ex('Agachamento Sumô com Halteres','4x10','musc_pesada','60s',8),
+      ex('Stiff com Halteres','4x10','musc_pesada','60s',8),
+      ex('Abdominal Infra com as Pernas Estendidas','4x10','musc_leve','60s',6),
+      ex('Glúteos Coice na Polia','4x10','musc_leve','60s',6),
+      ex('Esteira Caminhada','10 min','cardio_mod','60s',10)
+    ],
+    'Quarta': [
+      ex('Crucifixo com Halteres','4x12','musc_pesada','60s',8),
+      ex('Tríceps na Polia com Barra Reta','4x12','musc_leve','60s',6),
+      ex('Tríceps na Polia com Corda','4x12','musc_leve','60s',6),
+      ex('Desenvolvimento com Halteres Sentado','4x12','musc_pesada','60s',8),
+      ex('Tríceps Testa com Halteres','4x12','musc_leve','60s',6),
+      ex('Esteira Caminhada','','cardio_mod','60s',15)
+    ],
+    'Quinta': [
+      ex('Abdução de Quadril Máquina com Corpo a Frente','5x10','musc_leve','60s',6),
+      ex('Stiff com Halteres','4x10','musc_pesada','60s',8),
+      ex('Glúteos Coice na Polia','4x10','musc_leve','60s',6),
+      ex('Búlgaro com Halter','4x10','musc_pesada','60s',8),
+      ex('Agachamento Sumô com Halteres','4x10','musc_pesada','60s',8),
+      ex('Panturrilha Sentado Maquina','4x10','musc_leve','60s',6),
+      ex('Esteira Caminhada','20 min','cardio_mod','60s',20)
+    ],
+    'Sexta': [
+      ex('Leg Press 45','4x15','musc_pesada','60s',8),
+      ex('Glúteos Coice na Polia Pernas Estendidas','6x12','musc_leve','60s',6),
+      ex('Agachamento Sumô com Halteres','4x12','musc_pesada','60s',8),
+      ex('Panturrilha Sentado Maquina','4x12','musc_leve','60s',6),
+      ex('Esteira Caminhada','10 min','cardio_mod','60s',10),
+      ex('Stiff com Halteres','','musc_pesada','60s',8)
+    ],
+    'Sábado': [],
+    'Domingo': []
+  };
+
+  const DEFAULT_DIETA_PLANO = {
+    'Café da manhã': [], 'Lanche da manhã': [], 'Almoço': [],
+    'Lanche da tarde': [], 'Jantar': [], 'Ceia': []
+  };
+
+  let state = {
+    perfil: { nome:'', altura:null, idade:null },
+    pesos: [],
+    plano: {},
+    status: {},
+    agua: { copos: 0 },
+    selectedDay: todayDayName(),
+    dietaPlano: {},
+    dietaMeta: 2000,
+    dietaHorarios: {},
+    dietaProtocolo: '',
+    dietaConsumido: {}
+  };
+
+  let restTimer = null;
+  let restPendingId = null;
+  let exSortable = null;
+
+  // Armazenamento local do navegador (localStorage) — os dados ficam salvos
+  // neste navegador/dispositivo específico, sem depender do Claude.
+  async function saveJSON(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); }
+    catch(e){ console.error('erro ao salvar', key, e); toast('Erro ao salvar — armazenamento do navegador indisponível', 'bi-exclamation-triangle'); }
+  }
+  async function loadJSON(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      return raw !== null ? JSON.parse(raw) : fallback;
+    }catch(e){ return fallback; }
+  }
+
+  // ---------- PERFIL ----------
+  function pesoAtual(){
+    if(state.pesos.length === 0) return null;
+    const sorted = [...state.pesos].sort((a,b)=> a.data.localeCompare(b.data));
+    return sorted[sorted.length-1].peso;
+  }
+  function pesoParaCalculo(){ return pesoAtual() || 70; }
+
+  function renderGreet(){
+    const box = document.getElementById('greetBox');
+    if(state.perfil.nome){
+      box.innerHTML = 'Bem-vindo, <strong>'+escapeHtml(state.perfil.nome)+'</strong>';
+    } else {
+      box.textContent = 'defina seu nome na aba Perfil';
+    }
+  }
+  function renderPerfilForm(){
+    document.getElementById('inpNome').value = state.perfil.nome || '';
+    document.getElementById('inpAltura').value = state.perfil.altura || '';
+    document.getElementById('inpIdade').value = state.perfil.idade || '';
+  }
+  document.getElementById('perfilForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    state.perfil.nome = document.getElementById('inpNome').value.trim();
+    state.perfil.altura = parseFloat(document.getElementById('inpAltura').value) || null;
+    state.perfil.idade = parseInt(document.getElementById('inpIdade').value) || null;
+    await saveJSON(KEYS.perfil, state.perfil);
+    renderGreet(); renderPesoStats(); renderAgua();
+    toast('Perfil salvo');
+  });
+
+  // ---------- PESO & IMC ----------
+  function imcClass(imc){
+    if(imc < 18.5) return { label:'Abaixo do peso', cls:'accent-3' };
+    if(imc < 25) return { label:'Peso normal', cls:'accent-2' };
+    if(imc < 30) return { label:'Sobrepeso', cls:'accent-1' };
+    if(imc < 35) return { label:'Obesidade grau I', cls:'text-warning' };
+    if(imc < 40) return { label:'Obesidade grau II', cls:'text-danger' };
+    return { label:'Obesidade grau III', cls:'text-danger' };
+  }
+  function renderPesoStats(){
+    const sorted = [...state.pesos].sort((a,b)=> a.data.localeCompare(b.data));
+    const atual = sorted.length ? sorted[sorted.length-1].peso : null;
+    document.getElementById('statPesoAtual').textContent = atual !== null ? fmt1(atual) : '--';
+    const last7 = sorted.slice(-7);
+    const media = last7.length ? last7.reduce((s,r)=>s+r.peso,0)/last7.length : null;
+    document.getElementById('statMedia').textContent = media !== null ? fmt1(media) : '--';
+    const imcEl = document.getElementById('statImc');
+    const imcClassEl = document.getElementById('statImcClass');
+    if(atual && state.perfil.altura){
+      const alturaM = state.perfil.altura/100;
+      const imc = atual / (alturaM*alturaM);
+      imcEl.textContent = fmt1(imc);
+      const c = imcClass(imc);
+      imcClassEl.textContent = c.label;
+      imcEl.className = 'stat-num ' + c.cls;
+    } else {
+      imcEl.textContent = '--';
+      imcClassEl.textContent = 'cadastre altura e peso';
+      imcEl.className = 'stat-num accent-2';
+    }
+    const varEl = document.getElementById('statVar');
+    if(sorted.length >= 2){
+      const diff = sorted[sorted.length-1].peso - sorted[0].peso;
+      const sign = diff > 0 ? '+' : '';
+      varEl.textContent = sign + fmt1(diff) + ' kg';
+      varEl.className = 'stat-num ' + (diff > 0 ? 'text-danger' : (diff < 0 ? 'accent-2' : ''));
+    } else {
+      varEl.textContent = '--';
+      varEl.className = 'stat-num';
+    }
+  }
+  function formatDate(iso){ const [y,m,d] = iso.split('-'); return d+'/'+m+'/'+y; }
+  function renderPesoList(){
+    const box = document.getElementById('pesoList');
+    if(state.pesos.length === 0){
+      box.innerHTML = '<div class="empty-state"><i class="bi bi-clipboard-data"></i>nenhum registro ainda — adicione sua primeira pesagem acima</div>';
+      return;
+    }
+    const sorted = [...state.pesos].sort((a,b)=> b.data.localeCompare(a.data));
+    box.innerHTML = sorted.map(r => `
+      <div class="d-flex justify-content-between align-items-center border-bottom py-2" style="border-color:var(--line) !important;">
+        <div><i class="bi bi-calendar3 accent-3"></i> ${formatDate(r.data)}</div>
+        <div class="fw-bold">${fmt1(r.peso)} kg</div>
+        <button class="btn btn-sm btn-outline-danger" data-del-peso="${r.id}"><i class="bi bi-trash"></i></button>
+      </div>
+    `).join('');
+    box.querySelectorAll('[data-del-peso]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        state.pesos = state.pesos.filter(r => r.id !== btn.dataset.delPeso);
+        await saveJSON(KEYS.pesos, state.pesos);
+        renderPesoList(); renderPesoStats(); renderAgua();
+        toast('Registro removido', 'bi-trash');
+      });
+    });
+  }
+  document.getElementById('inpDataPeso').value = todayStr();
+  document.getElementById('pesoForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = document.getElementById('inpDataPeso').value || todayStr();
+    const peso = parseFloat(document.getElementById('inpPeso').value);
+    if(!peso) return;
+    state.pesos.push({ id: uid(), data, peso });
+    await saveJSON(KEYS.pesos, state.pesos);
+    document.getElementById('inpPeso').value = '';
+    renderPesoList(); renderPesoStats(); renderAgua();
+    toast('Peso registrado');
+  });
+
+  // ---------- EXERCÍCIOS ----------
+  function calcCalorias(exItem){
+    const met = MET[exItem.categoria] ? MET[exItem.categoria].met : 5;
+    const peso = pesoParaCalculo();
+    return Math.round(met * 3.5 * peso / 200 * (exItem.duracao || 0));
+  }
+
+  function renderDayTabs(){
+    const box = document.getElementById('dayTabs');
+    const hoje = todayDayName();
+    box.innerHTML = DAY_ORDER.map(day => {
+      const isActive = day === state.selectedDay;
+      const isToday = day === hoje;
+      return `<button type="button" class="day-tab-btn ${isActive?'active':''} ${isToday?'is-today':''}" data-day="${day}">${day}${isToday?' •':''}</button>`;
+    }).join('');
+    box.querySelectorAll('.day-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.selectedDay = btn.dataset.day;
+        renderDayTabs();
+        renderExList();
+      });
+    });
+  }
+
+  function renderHojeStats(){
+    const hoje = todayDayName();
+    document.getElementById('hojeDiaNome').textContent = hoje;
+    const lista = state.plano[hoje] || [];
+    const feitos = lista.filter(e => state.status[e.id] === 'feito');
+    const pulados = lista.filter(e => state.status[e.id] === 'pulado');
+    document.getElementById('statFeitos').textContent = feitos.length;
+    document.getElementById('statPulados').textContent = pulados.length;
+    const totalCal = feitos.reduce((s,e)=> s + calcCalorias(e), 0);
+    document.getElementById('statCalTotal').textContent = totalCal;
+    document.getElementById('statCalMedia').textContent = feitos.length ? Math.round(totalCal/feitos.length) : 0;
+  }
+
+  async function marcarFeito(id){
+    state.status[id] = 'feito';
+    await saveJSON(KEYS.status(), state.status);
+    renderExList();
+    renderHojeStats();
+  }
+
+  function abrirDescanso(exItem){
+    restPendingId = exItem.id;
+    const secs = parseSecs(exItem.descanso);
+    let remaining = secs;
+    document.getElementById('restExName').textContent = exItem.nome;
+    document.getElementById('restCount').textContent = remaining;
+    document.getElementById('restProgress').style.width = '100%';
+    const modalEl = document.getElementById('restModal');
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modal.show();
+
+    clearInterval(restTimer);
+    restTimer = setInterval(() => {
+      remaining -= 1;
+      document.getElementById('restCount').textContent = Math.max(remaining,0);
+      document.getElementById('restProgress').style.width = Math.max(0, (remaining/secs)*100) + '%';
+      if(remaining <= 0){
+        clearInterval(restTimer);
+        if(navigator.vibrate) navigator.vibrate([120,60,120]);
+        modal.hide();
+        marcarFeito(restPendingId);
+        toast('Descanso concluído — próximo exercício!', 'bi-alarm');
+      }
+    }, 1000);
+  }
+  document.getElementById('btnPularDescanso').addEventListener('click', () => {
+    clearInterval(restTimer);
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('restModal')).hide();
+    if(restPendingId) marcarFeito(restPendingId);
+  });
+  document.getElementById('btnConcluirAgora').addEventListener('click', () => {
+    clearInterval(restTimer);
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('restModal')).hide();
+    if(restPendingId) marcarFeito(restPendingId);
+  });
+
+  function renderExList(){
+    const box = document.getElementById('exList');
+    const day = state.selectedDay;
+    const isToday = day === todayDayName();
+    const lista = state.plano[day] || [];
+
+    if(exSortable){ exSortable.destroy(); exSortable = null; }
+
+    if(lista.length === 0){
+      box.innerHTML = '<div class="empty-state"><i class="bi bi-lightning-charge"></i>nenhum exercício em '+escapeHtml(day)+' — adicione acima ou aproveite o descanso</div>';
+      return;
+    }
+
+    box.innerHTML = lista.map(exItem => {
+      const metInfo = MET[exItem.categoria] || { label: 'Categoria', met: 5 };
+      const kcal = calcCalorias(exItem);
+      const status = isToday ? (state.status[exItem.id] || 'pendente') : null;
+      const statusClass = status === 'feito' ? 'status-feito' : (status === 'pulado' ? 'status-pulado' : '');
+      const seriesBadge = exItem.series ? `<span class="badge badge-series"><i class="bi bi-repeat"></i> ${escapeHtml(exItem.series)}</span>` : '';
+      const actions = isToday
+        ? `<button class="btn btn-outline-success ${status==='feito'?'active':''}" data-action="feito" title="Marcar feito (inicia descanso)"><i class="bi bi-check-lg"></i></button>
+           <button class="btn btn-outline-warning ${status==='pulado'?'active':''}" data-action="pular" title="Pular exercício"><i class="bi bi-skip-forward"></i></button>`
+        : '';
+      return `
+      <div class="ex-item ${statusClass}" data-id="${exItem.id}">
+        <i class="bi bi-grip-vertical drag-handle" title="Arrastar para reordenar"></i>
+        <div class="flex-grow-1" style="min-width:200px;">
+          <div class="ex-name ${status==='feito' ? 'done' : ''}">${escapeHtml(exItem.nome)}</div>
+          <div class="ex-badges mt-1">
+            ${seriesBadge}
+            <span class="badge badge-met"><i class="bi bi-lightning-charge"></i> ${metInfo.label}</span>
+            <span class="badge badge-rest"><i class="bi bi-hourglass-split"></i> ${exItem.descanso}</span>
+            <span class="badge badge-dur"><i class="bi bi-clock"></i> ${exItem.duracao} min</span>
+            <span class="badge badge-dur"><i class="bi bi-fire"></i> ${kcal} kcal</span>
+          </div>
+        </div>
+        <div class="ex-actions d-flex gap-1">
+          ${actions}
+          <button class="btn btn-outline-light" data-action="editar" title="Editar"><i class="bi bi-pencil"></i></button>
+          <button class="btn btn-outline-danger" data-action="remover" title="Remover do plano"><i class="bi bi-trash"></i></button>
+        </div>
+      </div>`;
+    }).join('');
+
+    if(exSortable){ exSortable.destroy(); exSortable = null; }
+    exSortable = Sortable.create(box, {
+      handle: '.drag-handle',
+      animation: 150,
+      onEnd: async (evt) => {
+        if(evt.oldIndex === evt.newIndex) return;
+        const arr = state.plano[day];
+        const moved = arr.splice(evt.oldIndex, 1)[0];
+        arr.splice(evt.newIndex, 0, moved);
+        await saveJSON(KEYS.plano, state.plano);
+      }
+    });
+
+    box.querySelectorAll('.ex-item').forEach(item => {
+      const id = item.dataset.id;
+      const exItem = (state.plano[day] || []).find(e => e.id === id);
+      item.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const action = btn.dataset.action;
+          if(action === 'feito'){
+            if(state.status[id] === 'feito'){
+              state.status[id] = 'pendente';
+              await saveJSON(KEYS.status(), state.status);
+              renderExList(); renderHojeStats();
+            } else {
+              abrirDescanso(exItem);
+            }
+          } else if(action === 'pular'){
+            state.status[id] = state.status[id] === 'pulado' ? 'pendente' : 'pulado';
+            await saveJSON(KEYS.status(), state.status);
+            renderExList(); renderHojeStats();
+          } else if(action === 'remover'){
+            state.plano[day] = state.plano[day].filter(e => e.id !== id);
+            await saveJSON(KEYS.plano, state.plano);
+            renderExList(); renderHojeStats();
+          } else if(action === 'editar'){
+            const novoNome = prompt('Nome do exercício:', exItem.nome);
+            if(novoNome === null) return;
+            const novasSeries = prompt('Séries (ex: 4x10):', exItem.series || '');
+            if(novasSeries === null) return;
+            const novaDur = prompt('Duração estimada (minutos):', exItem.duracao);
+            if(novaDur === null) return;
+            exItem.nome = novoNome.trim() || exItem.nome;
+            exItem.series = novasSeries.trim();
+            exItem.duracao = parseFloat(novaDur) || exItem.duracao;
+            await saveJSON(KEYS.plano, state.plano);
+            renderExList(); renderHojeStats();
+          }
+        });
+      });
+    });
+  }
+
+  document.getElementById('btnAbrirAddEx').addEventListener('click', () => {
+    document.getElementById('addExDiaLabel').textContent = state.selectedDay;
+    document.getElementById('exForm').reset();
+    document.getElementById('inpExDuracao').value = 8;
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('addExModal')).show();
+  });
+
+  document.getElementById('exForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nome = document.getElementById('inpExNome').value.trim();
+    if(!nome) return;
+    const series = document.getElementById('inpExSeries').value.trim();
+    const categoria = document.getElementById('inpExCategoria').value;
+    const descanso = document.getElementById('inpExDescanso').value;
+    const duracao = parseFloat(document.getElementById('inpExDuracao').value) || 8;
+    const day = state.selectedDay;
+    if(!state.plano[day]) state.plano[day] = [];
+    state.plano[day].push(ex(nome, series, categoria, descanso, duracao));
+    await saveJSON(KEYS.plano, state.plano);
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('addExModal')).hide();
+    renderExList();
+    renderHojeStats();
+    toast('Exercício adicionado em ' + day);
+  });
+
+  // ---------- ALIMENTAÇÃO ----------
+  const foodSelect = document.getElementById('inpFoodRefeicao');
+  foodSelect.innerHTML = MEAL_ORDER.map(m => `<option value="${m}">${m}</option>`).join('');
+
+  function renderDietaStats(){
+    document.getElementById('inpMetaKcal').value = state.dietaMeta || '';
+    document.getElementById('statMetaKcal').textContent = state.dietaMeta || '--';
+    let consumido = 0;
+    MEAL_ORDER.forEach(m => {
+      (state.dietaPlano[m] || []).forEach(f => {
+        if(state.dietaConsumido[f.id]) consumido += (f.kcal || 0);
+      });
+    });
+    document.getElementById('statConsumidoKcal').textContent = consumido;
+    const restante = state.dietaMeta ? Math.max(0, state.dietaMeta - consumido) : '--';
+    document.getElementById('statRestanteKcal').textContent = restante;
+    const pct = state.dietaMeta ? Math.min(100, Math.round((consumido/state.dietaMeta)*100)) : 0;
+    document.getElementById('statPctKcal').textContent = pct + '%';
+    document.getElementById('dietaProgress').style.width = pct + '%';
+  }
+
+  function renderMeals(){
+    const box = document.getElementById('mealsList');
+    box.innerHTML = MEAL_ORDER.map(meal => {
+      const items = state.dietaPlano[meal] || [];
+      const icon = MEAL_ICON[meal] || 'bi-egg-fried';
+      const mealKcal = items.reduce((s,f)=> s + (state.dietaConsumido[f.id] ? (f.kcal||0) : 0), 0);
+      const rows = items.length
+        ? items.map(f => `
+          <div class="food-row" data-food-id="${f.id}" data-meal="${meal}">
+            <input type="checkbox" class="form-check-input" data-action="toggle" ${state.dietaConsumido[f.id] ? 'checked' : ''}>
+            <div class="flex-grow-1">
+              <div class="food-name ${state.dietaConsumido[f.id] ? 'done' : ''}">${escapeHtml(f.nome)}</div>
+              <div class="stat-sub mb-0">${escapeHtml(f.qtd || '')}</div>
+            </div>
+            <span class="badge badge-kcal">${f.kcal || 0} kcal</span>
+            <button class="btn btn-sm btn-outline-light" data-action="editar" title="Editar"><i class="bi bi-pencil"></i></button>
+            <button class="btn btn-sm btn-outline-danger" data-action="remover" title="Remover"><i class="bi bi-trash"></i></button>
+          </div>`).join('')
+        : '<div class="stat-sub mb-0">nenhum alimento cadastrado</div>';
+      return `
+      <div class="meal-card">
+        <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+          <h6 class="mb-0"><i class="bi ${icon} accent-4"></i> ${meal}</h6>
+          <div class="d-flex align-items-center gap-2">
+            <input type="time" class="form-control form-control-sm" style="width:110px;" data-meal-horario="${meal}" value="${state.dietaHorarios[meal] || ''}">
+            <span class="badge badge-kcal">${mealKcal} kcal hoje</span>
+          </div>
+        </div>
+        ${rows}
+      </div>`;
+    }).join('');
+
+    box.querySelectorAll('[data-meal-horario]').forEach(inp => {
+      inp.addEventListener('change', async () => {
+        state.dietaHorarios[inp.dataset.mealHorario] = inp.value;
+        await saveJSON(KEYS.dietaHorarios, state.dietaHorarios);
+        toast('Horário atualizado');
+      });
+    });
+
+    box.querySelectorAll('.food-row').forEach(row => {
+      const meal = row.dataset.meal;
+      const id = row.dataset.foodId;
+      const f = (state.dietaPlano[meal] || []).find(x => x.id === id);
+      row.querySelectorAll('[data-action]').forEach(el => {
+        el.addEventListener('click', async () => {
+          const action = el.dataset.action;
+          if(action === 'toggle'){
+            if(state.dietaConsumido[id]) delete state.dietaConsumido[id];
+            else state.dietaConsumido[id] = true;
+            await saveJSON(KEYS.dietaConsumido(), state.dietaConsumido);
+            renderMeals(); renderDietaStats();
+          } else if(action === 'remover'){
+            state.dietaPlano[meal] = state.dietaPlano[meal].filter(x => x.id !== id);
+            await saveJSON(KEYS.dietaPlano, state.dietaPlano);
+            renderMeals(); renderDietaStats();
+          } else if(action === 'editar'){
+            const novoNome = prompt('Alimento:', f.nome);
+            if(novoNome === null) return;
+            const novaQtd = prompt('Quantidade (ex: 150g):', f.qtd || '');
+            if(novaQtd === null) return;
+            const novoKcal = prompt('Kcal:', f.kcal || 0);
+            if(novoKcal === null) return;
+            f.nome = novoNome.trim() || f.nome;
+            f.qtd = novaQtd.trim();
+            f.kcal = parseFloat(novoKcal) || 0;
+            await saveJSON(KEYS.dietaPlano, state.dietaPlano);
+            renderMeals(); renderDietaStats();
+          }
+        });
+      });
+    });
+  }
+
+  document.getElementById('foodForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const meal = foodSelect.value;
+    const nome = document.getElementById('inpFoodNome').value.trim();
+    if(!nome) return;
+    const qtd = document.getElementById('inpFoodQtd').value.trim();
+    const kcal = parseFloat(document.getElementById('inpFoodKcal').value) || 0;
+    if(!state.dietaPlano[meal]) state.dietaPlano[meal] = [];
+    state.dietaPlano[meal].push(food(nome, qtd, kcal));
+    await saveJSON(KEYS.dietaPlano, state.dietaPlano);
+    document.getElementById('inpFoodNome').value = '';
+    document.getElementById('inpFoodQtd').value = '';
+    document.getElementById('inpFoodKcal').value = '';
+    document.getElementById('inpFoodNome').focus();
+    renderMeals(); renderDietaStats();
+    toast('Alimento adicionado em ' + meal);
+  });
+
+  document.getElementById('btnSalvarProtocolo').addEventListener('click', async () => {
+    state.dietaProtocolo = document.getElementById('inpProtocolo').value;
+    await saveJSON(KEYS.dietaProtocolo, state.dietaProtocolo);
+    toast('Protocolo salvo');
+  });
+
+  document.getElementById('btnSalvarMeta').addEventListener('click', async () => {
+    const v = parseFloat(document.getElementById('inpMetaKcal').value);
+    state.dietaMeta = v || 0;
+    await saveJSON(KEYS.dietaMeta, state.dietaMeta);
+    renderDietaStats();
+    toast('Meta calórica salva');
+  });
+
+  document.getElementById('btnResetDieta').addEventListener('click', async () => {
+    if(!confirm('Reiniciar o consumo de hoje? (os alimentos cadastrados continuam)')) return;
+    state.dietaConsumido = {};
+    await saveJSON(KEYS.dietaConsumido(), state.dietaConsumido);
+    renderMeals(); renderDietaStats();
+    toast('Consumo do dia reiniciado', 'bi-arrow-repeat');
+  });
+
+  // ---------- ÁGUA ----------
+  function aguaMetaML(){ return Math.round(pesoParaCalculo() * 35); }
+  function renderAgua(){
+    const meta = aguaMetaML();
+    document.getElementById('statAguaMeta').textContent = meta;
+    const consumido = state.agua.copos * 250;
+    document.getElementById('aguaAtualTexto').textContent = consumido + ' ml consumidos';
+    const pct = Math.min(100, Math.round((consumido/meta)*100));
+    const bar = document.getElementById('aguaProgress');
+    bar.style.width = pct + '%';
+    bar.textContent = pct + '%';
+    const glassBox = document.getElementById('aguaGlasses');
+    glassBox.innerHTML = '';
+    for(let i=0;i<Math.ceil(meta/250);i++){
+      const g = document.createElement('div');
+      g.className = 'water-glass' + (i < state.agua.copos ? ' filled' : '');
+      glassBox.appendChild(g);
+    }
+  }
+  document.getElementById('btnAguaMais').addEventListener('click', async () => {
+    state.agua.copos += 1;
+    await saveJSON(KEYS.agua(), state.agua);
+    renderAgua();
+  });
+  document.getElementById('btnAguaMenos').addEventListener('click', async () => {
+    state.agua.copos = Math.max(0, state.agua.copos - 1);
+    await saveJSON(KEYS.agua(), state.agua);
+    renderAgua();
+  });
+  document.getElementById('btnAguaReset').addEventListener('click', async () => {
+    state.agua.copos = 0;
+    await saveJSON(KEYS.agua(), state.agua);
+    renderAgua();
+    toast('Consumo de água reiniciado', 'bi-arrow-repeat');
+  });
+
+  // ---------- BACKUP / RESTORE ----------
+  document.getElementById('btnExport').addEventListener('click', () => {
+    const backup = {
+      exportadoEm: new Date().toISOString(),
+      perfil: state.perfil,
+      pesos: state.pesos,
+      plano: state.plano,
+      dietaPlano: state.dietaPlano,
+      dietaMeta: state.dietaMeta,
+      dietaHorarios: state.dietaHorarios,
+      dietaProtocolo: state.dietaProtocolo
+    };
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type:'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'guia-fitness-backup-' + todayStr() + '.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    toast('Backup baixado');
+  });
+
+  document.getElementById('btnImportBtn').addEventListener('click', () => {
+    document.getElementById('btnImport').click();
+  });
+  document.getElementById('btnImport').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      try{
+        const data = JSON.parse(ev.target.result);
+        if(!confirm('Restaurar este backup vai substituir seus dados atuais de perfil, peso, treinos e alimentação. Continuar?')) return;
+        if(data.perfil) state.perfil = data.perfil;
+        if(data.pesos) state.pesos = data.pesos;
+        if(data.plano) state.plano = data.plano;
+        if(data.dietaPlano) state.dietaPlano = data.dietaPlano;
+        if(typeof data.dietaMeta === 'number') state.dietaMeta = data.dietaMeta;
+        if(data.dietaHorarios) state.dietaHorarios = data.dietaHorarios;
+        if(typeof data.dietaProtocolo === 'string') state.dietaProtocolo = data.dietaProtocolo;
+
+        await saveJSON(KEYS.perfil, state.perfil);
+        await saveJSON(KEYS.pesos, state.pesos);
+        await saveJSON(KEYS.plano, state.plano);
+        await saveJSON(KEYS.dietaPlano, state.dietaPlano);
+        await saveJSON(KEYS.dietaMeta, state.dietaMeta);
+        await saveJSON(KEYS.dietaHorarios, state.dietaHorarios);
+        await saveJSON(KEYS.dietaProtocolo, state.dietaProtocolo);
+
+        document.getElementById('inpProtocolo').value = state.dietaProtocolo;
+        renderPerfilForm(); renderGreet();
+        renderPesoStats(); renderPesoList();
+        renderDayTabs(); renderHojeStats(); renderExList();
+        renderMeals(); renderDietaStats();
+        renderAgua();
+        toast('Backup restaurado com sucesso');
+      }catch(err){
+        console.error(err);
+        toast('Arquivo de backup inválido', 'bi-exclamation-triangle');
+      }
+      e.target.value = '';
+    };
+    reader.readAsText(file);
+  });
+
+  // ---------- INSTALAR COMO APP ----------
+  let deferredInstallPrompt = null;
+  const btnInstall = document.getElementById('btnInstall');
+
+  function isStandalone(){
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  }
+  function isIOS(){
+    return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream;
+  }
+
+  if(!isStandalone()){
+    if(isIOS()){
+      // Safari não dispara beforeinstallprompt — mostramos o botão com instruções manuais
+      btnInstall.classList.remove('d-none');
+    }
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if(!isStandalone()) btnInstall.classList.remove('d-none');
+  });
+
+  btnInstall.addEventListener('click', async () => {
+    if(deferredInstallPrompt){
+      deferredInstallPrompt.prompt();
+      const { outcome } = await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      if(outcome === 'accepted'){
+        btnInstall.classList.add('d-none');
+        toast('App instalado!');
+      }
+    } else if(isIOS()){
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('iosInstallModal')).show();
+    } else {
+      toast('Seu navegador não oferece instalação automática — procure "Adicionar à tela inicial" no menu do navegador', 'bi-info-circle');
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    btnInstall.classList.add('d-none');
+    toast('App instalado com sucesso!');
+  });
+
+  // ---------- INIT ----------
+  async function init(){
+    state.perfil = await loadJSON(KEYS.perfil, { nome:'', altura:null, idade:null });
+    state.pesos = await loadJSON(KEYS.pesos, []);
+    state.plano = await loadJSON(KEYS.plano, JSON.parse(JSON.stringify(DEFAULT_PLANO)));
+    state.status = await loadJSON(KEYS.status(), {});
+    state.agua = await loadJSON(KEYS.agua(), { copos: 0 });
+    state.dietaPlano = await loadJSON(KEYS.dietaPlano, JSON.parse(JSON.stringify(DEFAULT_DIETA_PLANO)));
+    state.dietaMeta = await loadJSON(KEYS.dietaMeta, 2000);
+    state.dietaHorarios = await loadJSON(KEYS.dietaHorarios, {});
+    state.dietaProtocolo = await loadJSON(KEYS.dietaProtocolo, '');
+    state.dietaConsumido = await loadJSON(KEYS.dietaConsumido(), {});
+
+    document.getElementById('inpProtocolo').value = state.dietaProtocolo;
+
+    renderPerfilForm();
+    renderGreet();
+    renderPesoStats();
+    renderPesoList();
+    renderDayTabs();
+    renderHojeStats();
+    renderExList();
+    renderMeals();
+    renderDietaStats();
+    renderAgua();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
