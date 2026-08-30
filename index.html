@@ -78,6 +78,28 @@
   }
   .nav-pills{ gap:6px; flex-wrap:nowrap; overflow-x:auto; }
 
+  #mainMenu{
+    background:var(--bg-panel);
+    border-right:1px solid var(--line);
+    width:260px;
+  }
+  #mainMenu .nav-pills{ flex-wrap:wrap; overflow-x:visible; }
+  #mainMenu .offcanvas-title{ font-family:'Poppins', system-ui, sans-serif; }
+
+  .menu-toggle-btn{
+    border-radius:10px;
+    font-weight:600;
+    transition:background 0.15s ease, border-color 0.15s ease;
+  }
+  .menu-toggle-btn:hover, .menu-toggle-btn:focus{
+    background:rgba(245,165,36,0.12);
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+  .menu-toggle-btn #menuToggleLabel{
+    font-family:'Poppins', system-ui, sans-serif;
+  }
+
   .panel{
     background:var(--bg-panel);
     border:1px solid var(--line);
@@ -273,7 +295,12 @@
 <body>
 
 <nav class="navbar navbar-fit sticky-top">
-  <div class="container-fluid px-3 px-md-4 d-flex flex-wrap gap-2">
+  <div class="container-fluid px-3 px-md-4 d-flex flex-wrap align-items-center gap-2">
+    <button class="btn btn-sm btn-outline-light menu-toggle-btn d-flex align-items-center gap-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenu" aria-controls="mainMenu" title="Abrir menu — trocar de seção">
+      <i class="bi bi-list" style="font-size:1.2rem;"></i>
+      <span id="menuToggleLabel">Perfil</span>
+      <i class="bi bi-chevron-down" style="font-size:0.7rem;"></i>
+    </button>
     <span class="brand"><i class="bi bi-heart-pulse-fill"></i> Guia Fitness</span>
     <span class="greet flex-grow-1" id="greetBox">defina seu nome na aba Perfil</span>
     <div class="navbar-tools d-flex gap-2">
@@ -285,25 +312,33 @@
   </div>
 </nav>
 
-<div class="container py-4">
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="mainMenuLabel"><i class="bi bi-heart-pulse-fill"></i> Guia Fitness</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="nav nav-pills flex-column gap-2" id="mainTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active w-100 text-start" id="tab-perfil-btn" data-bs-toggle="pill" data-bs-target="#tab-perfil" type="button"><i class="bi bi-person-circle"></i> Perfil</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link w-100 text-start" id="tab-peso-btn" data-bs-toggle="pill" data-bs-target="#tab-peso" type="button"><i class="bi bi-graph-up-arrow"></i> Peso &amp; IMC</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link w-100 text-start" id="tab-ex-btn" data-bs-toggle="pill" data-bs-target="#tab-ex" type="button"><i class="bi bi-lightning-charge-fill"></i> Exercícios</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link w-100 text-start" id="tab-dieta-btn" data-bs-toggle="pill" data-bs-target="#tab-dieta" type="button"><i class="bi bi-egg-fried"></i> Alimentação</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link w-100 text-start" id="tab-agua-btn" data-bs-toggle="pill" data-bs-target="#tab-agua" type="button"><i class="bi bi-droplet-fill"></i> Água</button>
+      </li>
+    </ul>
+  </div>
+</div>
 
-  <ul class="nav nav-pills mb-4" id="mainTabs" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="tab-perfil-btn" data-bs-toggle="pill" data-bs-target="#tab-perfil" type="button"><i class="bi bi-person-circle"></i> Perfil</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tab-peso-btn" data-bs-toggle="pill" data-bs-target="#tab-peso" type="button"><i class="bi bi-graph-up-arrow"></i> Peso &amp; IMC</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tab-ex-btn" data-bs-toggle="pill" data-bs-target="#tab-ex" type="button"><i class="bi bi-lightning-charge-fill"></i> Exercícios</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tab-dieta-btn" data-bs-toggle="pill" data-bs-target="#tab-dieta" type="button"><i class="bi bi-egg-fried"></i> Alimentação</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="tab-agua-btn" data-bs-toggle="pill" data-bs-target="#tab-agua" type="button"><i class="bi bi-droplet-fill"></i> Água</button>
-    </li>
-  </ul>
+<div class="container py-4">
 
   <div class="tab-content">
 
@@ -446,7 +481,11 @@
           <div class="stat-card">
             <div class="stat-label"><i class="bi bi-bullseye"></i> Meta diária</div>
             <div class="stat-num accent-1" id="statMetaKcal">--</div>
-            <div class="stat-sub">kcal</div>
+            <div class="stat-sub mb-2">kcal</div>
+            <div class="d-flex gap-1">
+              <input type="number" class="form-control form-control-sm" id="inpMetaKcal" placeholder="kcal" min="800" max="6000">
+              <button class="btn btn-sm btn-accent" id="btnSalvarMeta" title="Salvar meta"><i class="bi bi-check2"></i></button>
+            </div>
           </div>
         </div>
         <div class="col-6 col-md-3">
@@ -483,19 +522,8 @@
         <textarea class="form-control" id="inpProtocolo" rows="6" placeholder="Ex: Jejum até 10h. Café: ovos + aveia. Almoço: proteína + carboidrato + salada à vontade. Suplementos: whey pós-treino, creatina 5g ao acordar. Evitar açúcar e frituras..."></textarea>
       </div>
 
-      <div class="panel mb-4">
-        <div class="row g-3 align-items-end">
-          <div class="col-md-4">
-            <label class="form-label"><i class="bi bi-bullseye accent-1"></i> Meta calórica diária (kcal)</label>
-            <input type="number" class="form-control" id="inpMetaKcal" placeholder="Ex: 2200" min="800" max="6000">
-          </div>
-          <div class="col-md-2">
-            <button class="btn btn-accent w-100" id="btnSalvarMeta"><i class="bi bi-check2"></i> Salvar</button>
-          </div>
-          <div class="col-md-6 text-md-end">
-            <button class="btn btn-outline-light btn-sm" id="btnResetDieta"><i class="bi bi-arrow-repeat"></i> Reiniciar consumo de hoje</button>
-          </div>
-        </div>
+      <div class="panel mb-4 d-flex justify-content-end">
+        <button class="btn btn-outline-light btn-sm" id="btnResetDieta"><i class="bi bi-arrow-repeat"></i> Reiniciar consumo de hoje</button>
       </div>
 
       <div class="panel mb-4">
@@ -533,7 +561,12 @@
           <div class="col-md-5 text-center">
             <div class="stat-label mb-2"><i class="bi bi-droplet-half"></i> Meta diária</div>
             <div class="stat-num accent-3" style="font-size:2.6rem;" id="statAguaMeta">--</div>
-            <div class="stat-sub mb-3">ml recomendados (35ml x seu peso)</div>
+            <div class="stat-sub mb-3" id="aguaMetaOrigemTexto">ml recomendados (35ml x seu peso)</div>
+            <div class="d-flex justify-content-center gap-2 mb-3 flex-wrap">
+              <input type="number" class="form-control form-control-sm" id="inpAguaMeta" placeholder="Meta em ml" min="200" max="10000" style="max-width:140px;">
+              <button class="btn btn-sm btn-accent" id="btnSalvarAguaMeta"><i class="bi bi-check2"></i> Salvar</button>
+              <button class="btn btn-sm btn-outline-light" id="btnAutoAguaMeta"><i class="bi bi-arrow-repeat"></i> Automático</button>
+            </div>
             <div class="progress mb-2" style="height:14px;">
               <div class="progress-bar" id="aguaProgress" role="progressbar" style="width:0%; background:var(--accent-3);"></div>
             </div>
@@ -709,6 +742,7 @@
     plano: 'fitness:plano',
     status: () => 'fitness:status:' + todayStr(),
     agua: () => 'fitness:agua:' + todayStr(),
+    aguaMetaManual: 'fitness:agua:metaManual',
     dietaPlano: 'fitness:dieta:plano',
     dietaMeta: 'fitness:dieta:meta',
     dietaHorarios: 'fitness:dieta:horarios',
@@ -781,6 +815,7 @@
     plano: {},
     status: {},
     agua: { copos: 0 },
+    aguaMetaManual: null,
     selectedDay: todayDayName(),
     dietaPlano: {},
     dietaMeta: 2000,
@@ -1253,10 +1288,22 @@
   });
 
   // ---------- ÁGUA ----------
-  function aguaMetaML(){ return Math.round(pesoParaCalculo() * 35); }
+  function aguaMetaAutoML(){ return Math.round(pesoParaCalculo() * 35); }
+  function aguaMetaML(){
+    return (state.aguaMetaManual != null && state.aguaMetaManual > 0) ? state.aguaMetaManual : aguaMetaAutoML();
+  }
   function renderAgua(){
     const meta = aguaMetaML();
     document.getElementById('statAguaMeta').textContent = meta;
+    const origemTexto = document.getElementById('aguaMetaOrigemTexto');
+    const inpMeta = document.getElementById('inpAguaMeta');
+    if(state.aguaMetaManual != null && state.aguaMetaManual > 0){
+      origemTexto.textContent = 'ml (definido manualmente)';
+      if(document.activeElement !== inpMeta) inpMeta.value = state.aguaMetaManual;
+    } else {
+      origemTexto.textContent = 'ml recomendados (35ml x seu peso)';
+      if(document.activeElement !== inpMeta) inpMeta.value = '';
+    }
     const consumido = state.agua.copos * 250;
     document.getElementById('aguaAtualTexto').textContent = consumido + ' ml consumidos';
     const pct = Math.min(100, Math.round((consumido/meta)*100));
@@ -1287,6 +1334,20 @@
     renderAgua();
     toast('Consumo de água reiniciado', 'bi-arrow-repeat');
   });
+  document.getElementById('btnSalvarAguaMeta').addEventListener('click', async () => {
+    const val = parseInt(document.getElementById('inpAguaMeta').value, 10);
+    if(!val || val <= 0){ toast('Informe uma meta válida em ml', 'bi-exclamation-triangle'); return; }
+    state.aguaMetaManual = val;
+    await saveJSON(KEYS.aguaMetaManual, state.aguaMetaManual);
+    renderAgua();
+    toast('Meta de água salva');
+  });
+  document.getElementById('btnAutoAguaMeta').addEventListener('click', async () => {
+    state.aguaMetaManual = null;
+    await saveJSON(KEYS.aguaMetaManual, null);
+    renderAgua();
+    toast('Meta de água voltou ao cálculo automático', 'bi-arrow-repeat');
+  });
 
   // ---------- BACKUP / RESTORE ----------
   document.getElementById('btnExport').addEventListener('click', () => {
@@ -1298,7 +1359,8 @@
       dietaPlano: state.dietaPlano,
       dietaMeta: state.dietaMeta,
       dietaHorarios: state.dietaHorarios,
-      dietaProtocolo: state.dietaProtocolo
+      dietaProtocolo: state.dietaProtocolo,
+      aguaMetaManual: state.aguaMetaManual
     };
     const blob = new Blob([JSON.stringify(backup, null, 2)], { type:'application/json' });
     const url = URL.createObjectURL(blob);
@@ -1330,6 +1392,7 @@
         if(typeof data.dietaMeta === 'number') state.dietaMeta = data.dietaMeta;
         if(data.dietaHorarios) state.dietaHorarios = data.dietaHorarios;
         if(typeof data.dietaProtocolo === 'string') state.dietaProtocolo = data.dietaProtocolo;
+        if(data.aguaMetaManual !== undefined) state.aguaMetaManual = data.aguaMetaManual;
 
         await saveJSON(KEYS.perfil, state.perfil);
         await saveJSON(KEYS.pesos, state.pesos);
@@ -1338,6 +1401,7 @@
         await saveJSON(KEYS.dietaMeta, state.dietaMeta);
         await saveJSON(KEYS.dietaHorarios, state.dietaHorarios);
         await saveJSON(KEYS.dietaProtocolo, state.dietaProtocolo);
+        await saveJSON(KEYS.aguaMetaManual, state.aguaMetaManual);
 
         document.getElementById('inpProtocolo').value = state.dietaProtocolo;
         renderPerfilForm(); renderGreet();
@@ -1400,6 +1464,14 @@
     toast('App instalado com sucesso!');
   });
 
+  document.querySelectorAll('#mainTabs .nav-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const oc = bootstrap.Offcanvas.getInstance(document.getElementById('mainMenu'));
+      if(oc) oc.hide();
+      document.getElementById('menuToggleLabel').textContent = btn.textContent.trim();
+    });
+  });
+
   // ---------- INIT ----------
   async function init(){
     state.perfil = await loadJSON(KEYS.perfil, { nome:'', altura:null, idade:null });
@@ -1407,6 +1479,7 @@
     state.plano = await loadJSON(KEYS.plano, JSON.parse(JSON.stringify(DEFAULT_PLANO)));
     state.status = await loadJSON(KEYS.status(), {});
     state.agua = await loadJSON(KEYS.agua(), { copos: 0 });
+    state.aguaMetaManual = await loadJSON(KEYS.aguaMetaManual, null);
     state.dietaPlano = await loadJSON(KEYS.dietaPlano, JSON.parse(JSON.stringify(DEFAULT_DIETA_PLANO)));
     state.dietaMeta = await loadJSON(KEYS.dietaMeta, 2000);
     state.dietaHorarios = await loadJSON(KEYS.dietaHorarios, {});
