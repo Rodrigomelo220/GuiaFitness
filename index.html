@@ -1620,9 +1620,17 @@
     const pathD = coords.map((c,i) => (i===0?'M':'L') + c[0].toFixed(1) + ',' + c[1].toFixed(1)).join(' ');
     const areaD = pathD + ' L' + coords[coords.length-1][0].toFixed(1) + ',' + (h-marginBottom) + ' L' + coords[0][0].toFixed(1) + ',' + (h-marginBottom) + ' Z';
     const dots = coords.map((c,i) => `<circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="5" fill="var(--accent-4)"><title>${fmt1(pontos[i].peso)} kg — ${formatDate(pontos[i].data)}</title></circle>`).join('');
+
+    // Calcula o tamanho da fonte com base na largura real do container, pra ficar
+    // com tamanho parecido (em pixels de verdade) tanto no celular quanto no PC.
+    const containerWidth = box.clientWidth || 340;
+    const scale = containerWidth / w;
+    const desiredPx = containerWidth < 500 ? 16 : 13; // um pouco maior no celular
+    const fontSizeUnits = Math.round(desiredPx / scale);
+
     const labels = coords.map((c,i) => {
-      const alterna = i % 2 === 0 ? 0 : 24; // alterna altura pra rótulos vizinhos não colarem
-      return `<text x="${c[0].toFixed(1)}" y="${(c[1]-16-alterna).toFixed(1)}" text-anchor="middle" font-size="24" fill="#e5e9f0" font-weight="700">${fmt1(pontos[i].peso)}</text>`;
+      const alterna = i % 2 === 0 ? 0 : fontSizeUnits * 2; // alterna altura pra rótulos vizinhos não colarem
+      return `<text x="${c[0].toFixed(1)}" y="${(c[1]-16-alterna).toFixed(1)}" text-anchor="middle" font-size="${fontSizeUnits}" fill="#e5e9f0" font-weight="700">${fmt1(pontos[i].peso)}</text>`;
     }).join('');
     box.innerHTML = `
       <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto; display:block;">
