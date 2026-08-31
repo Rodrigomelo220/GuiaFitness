@@ -531,6 +531,21 @@
         <div id="dashWeightChart"></div>
       </div>
 
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <div class="panel h-100">
+            <h5 class="mb-3"><i class="bi bi-egg-fried accent-2"></i> Calorias (últimos 7 dias)</h5>
+            <div id="dashKcalChart"></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="panel h-100">
+            <h5 class="mb-3"><i class="bi bi-droplet-fill accent-3"></i> Água (últimos 7 dias)</h5>
+            <div id="dashAguaChart"></div>
+          </div>
+        </div>
+      </div>
+
       <div class="panel mb-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="mb-0"><i class="bi bi-list-check accent-3"></i> Treino de hoje</h5>
@@ -1569,6 +1584,8 @@
 
     renderDashStreak(hoje);
     renderDashWeightChart(sortedPesos);
+    renderDashKcalChart();
+    renderDashAguaChart();
     renderDashTreinoList(listaHoje);
   }
 
@@ -1659,6 +1676,97 @@
         <span class="${st === 'feito' ? 'text-decoration-line-through' : ''}" style="font-size:0.9rem;">${escapeHtml(e.nome)}</span>
       </div>`;
     }).join('');
+  }
+
+  const DIA_ABREV = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+  function ultimosNDias(n){
+    // Retorna os últimos n dias (mais antigo primeiro) com data (YYYY-MM-DD), dia da semana e label abreviado
+    const dias = [];
+    const cursor = new Date();
+    cursor.setDate(cursor.getDate() - (n - 1));
+    for(let i = 0; i < n; i++){
+      const dataStr = cursor.getFullYear() + '-' + String(cursor.getMonth()+1).padStart(2,'0') + '-' + String(cursor.getDate()).padStart(2,'0');
+      dias.push({
+        data: dataStr,
+        diaSemana: JS_DAY_TO_NAME[cursor.getDay()],
+        label: DIA_ABREV[cursor.getDay()]
+      });
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    return dias;
+  }
+
+  function getHistoricoCalorias(n){
+    return ultimosNDias(n).map(d => {
+      let consumido = {};
+      try{
+        const raw = localStorage.getItem('fitness:dieta:consumido:' + d.data);
+        if(raw) consumido = JSON.parse(raw);
+      }catch(e){ consumido = {}; }
+      let kcal = 0;
+      MEAL_ORDER.forEach(m => {
+        (state.dietaPlano[m] || []).forEach(f => { if(consumido[f.id]) kcal += (f.kcal || 0); });
+      });
+      return { label: d.label, valor: Math.round(kcal) };
+    });
+  }
+
+  function getHistoricoAgua(n){
+    return ultimosNDias(n).map(d => {
+      let copos = 0;
+      try{
+        const raw = localStorage.getItem('fitness:agua:' + d.data);
+        if(raw) copos = (JSON.parse(raw).copos || 0);
+      }catch(e){ copos = 0; }
+      return { label: d.label, valor: copos * 250 };
+    });
+  }
+
+  function renderBarChartSVG(box, items, metaValor, corVar){
+    const maxValor = Math.max(metaValor || 0, ...items.map(i => i.valor), 1);
+    const w = 700, h = 260, marginX = 24, marginTop = 40, marginBottom = 34;
+    const chartH = h - marginTop - marginBottom;
+    const barGap = 14;
+    const barW = (w - marginX*2 - barGap*(items.length-1)) / items.length;
+
+    const containerWidth = box.clientWidth || 320;
+    const scale = containerWidth / w;
+    const fontValor = Math.round((containerWidth < 500 ? 15 : 14) / scale);
+    const fontLabel = Math.round((containerWidth < 500 ? 13 : 12) / scale);
+
+    const metaY = metaValor ? marginTop + chartH * (1 - metaValor / maxValor) : null;
+
+    const bars = items.map((item, i) => {
+      const x = marginX + i * (barW + barGap);
+      const barH = chartH * (item.valor / maxValor);
+      const y = marginTop + chartH - barH;
+      const atingiuMeta = metaValor && item.valor >= metaValor;
+      return `
+        <rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(barH,2).toFixed(1)}" rx="6" fill="${atingiuMeta ? 'var(--accent-2)' : corVar}" opacity="${item.valor > 0 ? '0.9' : '0.25'}"></rect>
+        <text x="${(x + barW/2).toFixed(1)}" y="${(y - 10).toFixed(1)}" text-anchor="middle" font-size="${fontValor}" fill="#e5e9f0" font-weight="700">${item.valor > 0 ? item.valor : ''}</text>
+        <text x="${(x + barW/2).toFixed(1)}" y="${(marginTop + chartH + 22)}" text-anchor="middle" font-size="${fontLabel}" fill="#8a94a3">${item.label}</text>
+      `;
+    }).join('');
+
+    const linhaMeta = metaY !== null
+      ? `<line x1="${marginX}" y1="${metaY.toFixed(1)}" x2="${w - marginX}" y2="${metaY.toFixed(1)}" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="6,5" opacity="0.7"></line>
+         <text x="${w - marginX}" y="${(metaY - 8).toFixed(1)}" text-anchor="end" font-size="${fontLabel}" fill="var(--accent)">meta</text>`
+      : '';
+
+    box.innerHTML = `<svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto; display:block;">${bars}${linhaMeta}</svg>`;
+  }
+
+  function renderDashKcalChart(){
+    const box = document.getElementById('dashKcalChart');
+    const dados = getHistoricoCalorias(7);
+    renderBarChartSVG(box, dados, state.dietaMeta || 0, 'var(--accent-2)');
+  }
+
+  function renderDashAguaChart(){
+    const box = document.getElementById('dashAguaChart');
+    const dados = getHistoricoAgua(7);
+    renderBarChartSVG(box, dados, aguaMetaML(), 'var(--accent-3)');
   }
 
   // ---------- PERFIL ----------
