@@ -1085,6 +1085,81 @@
   </div>
 </div>
 
+<!-- ONBOARDING (PRIMEIRA VEZ) -->
+<div class="modal fade" id="onboardingModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-2">
+      <div class="modal-body">
+
+        <div id="onbStep1">
+          <div class="text-center mb-3">
+            <div class="auth-logo"><i class="bi bi-heart-pulse-fill"></i></div>
+            <h4 class="mb-1">Bem-vindo ao Guia Fitness!</h4>
+            <div class="stat-sub">Vamos configurar rapidinho pra você já começar</div>
+          </div>
+          <label class="form-label">Como podemos te chamar?</label>
+          <input type="text" class="form-control mb-3" id="onbNome" placeholder="Seu nome">
+          <button type="button" class="btn btn-accent w-100" id="onbBtnStep1"><i class="bi bi-arrow-right"></i> Continuar</button>
+          <div class="text-center mt-3">
+            <a href="#" id="onbPular1" class="stat-sub accent-3">Pular por enquanto</a>
+          </div>
+        </div>
+
+        <div id="onbStep2" class="d-none">
+          <div class="text-center mb-3">
+            <i class="bi bi-graph-up-arrow accent-4" style="font-size:2rem;"></i>
+            <h5 class="mb-1">Seus dados corporais</h5>
+            <div class="stat-sub">Opcional, mas ajuda a calcular seu IMC e gasto calórico</div>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-4">
+              <label class="form-label">Altura (cm)</label>
+              <input type="number" class="form-control" id="onbAltura" placeholder="175" min="100" max="250">
+            </div>
+            <div class="col-4">
+              <label class="form-label">Idade</label>
+              <input type="number" class="form-control" id="onbIdade" placeholder="30" min="10" max="100">
+            </div>
+            <div class="col-4">
+              <label class="form-label">Peso (kg)</label>
+              <input type="number" class="form-control" id="onbPeso" placeholder="75" step="0.1" min="30" max="300">
+            </div>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-light" id="onbBtnVoltar2"><i class="bi bi-arrow-left"></i></button>
+            <button type="button" class="btn btn-accent flex-grow-1" id="onbBtnStep2"><i class="bi bi-arrow-right"></i> Continuar</button>
+          </div>
+        </div>
+
+        <div id="onbStep3" class="d-none">
+          <div class="text-center mb-3">
+            <i class="bi bi-compass accent-1" style="font-size:2rem;"></i>
+            <h5 class="mb-1">Um tour rápido</h5>
+          </div>
+          <div class="d-flex align-items-start gap-2 mb-2">
+            <i class="bi bi-lightning-charge-fill accent-1 mt-1"></i>
+            <div><strong>Treino</strong><div class="stat-sub">seu plano semanal de exercícios, com vídeo de cada um</div></div>
+          </div>
+          <div class="d-flex align-items-start gap-2 mb-2">
+            <i class="bi bi-egg-fried accent-2 mt-1"></i>
+            <div><strong>Dieta</strong><div class="stat-sub">registre o que comeu — a IA pode estimar as calorias pra você</div></div>
+          </div>
+          <div class="d-flex align-items-start gap-2 mb-2">
+            <i class="bi bi-droplet-fill accent-3 mt-1"></i>
+            <div><strong>Água</strong><div class="stat-sub">acompanhe sua hidratação diária</div></div>
+          </div>
+          <div class="d-flex align-items-start gap-2 mb-3">
+            <i class="bi bi-collection-play-fill accent-4 mt-1"></i>
+            <div><strong>Biblioteca</strong><div class="stat-sub">mais de 800 exercícios pra explorar e adicionar ao seu plano</div></div>
+          </div>
+          <button type="button" class="btn btn-accent w-100" id="onbBtnFinalizar"><i class="bi bi-check2-circle"></i> Vamos começar!</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="toast-area"></div>
 
 <nav class="bottom-nav d-md-none" id="bottomNav">
@@ -1485,6 +1560,7 @@
 
   function hideAuthGate(){
     document.getElementById('authScreen').classList.add('d-none');
+    maybeShowOnboarding();
   }
   function maybeShowAuthGate(){
     if(FIREBASE_CONFIG.apiKey && !localStorage.getItem(AUTH_SKIP_KEY) && !currentUser){
@@ -1908,6 +1984,69 @@
       card.querySelector('.btn-close').addEventListener('click', () => card.remove());
     });
   }
+
+  // ---------- ONBOARDING (PRIMEIRA VEZ) ----------
+  const ONBOARDING_KEY = 'fitness:onboarding:completo';
+
+  function maybeShowOnboarding(){
+    if(localStorage.getItem(ONBOARDING_KEY)) return;
+    // Usuário que já tinha dados antes desse recurso existir — não interromper
+    if(state.perfil.nome || state.pesos.length > 0){
+      localStorage.setItem(ONBOARDING_KEY, '1');
+      return;
+    }
+    // Não empilha com a tela de login, se estiver visível
+    if(!document.getElementById('authScreen').classList.contains('d-none')) return;
+    document.getElementById('onbStep1').classList.remove('d-none');
+    document.getElementById('onbStep2').classList.add('d-none');
+    document.getElementById('onbStep3').classList.add('d-none');
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('onboardingModal')).show();
+  }
+
+  function encerrarOnboarding(){
+    localStorage.setItem(ONBOARDING_KEY, '1');
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('onboardingModal')).hide();
+  }
+
+  document.getElementById('onbPular1').addEventListener('click', (e) => {
+    e.preventDefault();
+    encerrarOnboarding();
+  });
+
+  document.getElementById('onbBtnStep1').addEventListener('click', () => {
+    document.getElementById('onbStep1').classList.add('d-none');
+    document.getElementById('onbStep2').classList.remove('d-none');
+  });
+  document.getElementById('onbBtnVoltar2').addEventListener('click', () => {
+    document.getElementById('onbStep2').classList.add('d-none');
+    document.getElementById('onbStep1').classList.remove('d-none');
+  });
+  document.getElementById('onbBtnStep2').addEventListener('click', () => {
+    document.getElementById('onbStep2').classList.add('d-none');
+    document.getElementById('onbStep3').classList.remove('d-none');
+  });
+
+  document.getElementById('onbBtnFinalizar').addEventListener('click', async () => {
+    const nome = document.getElementById('onbNome').value.trim();
+    const altura = parseFloat(document.getElementById('onbAltura').value) || null;
+    const idade = parseInt(document.getElementById('onbIdade').value) || null;
+    const peso = parseFloat(document.getElementById('onbPeso').value) || null;
+
+    if(nome) state.perfil.nome = nome;
+    if(altura) state.perfil.altura = altura;
+    if(idade) state.perfil.idade = idade;
+    await saveJSON(KEYS.perfil, state.perfil);
+
+    if(peso){
+      state.pesos.push({ id: uid(), data: todayStr(), peso });
+      await saveJSON(KEYS.pesos, state.pesos);
+      desbloquearConquista('primeiro_peso');
+    }
+
+    renderPerfilForm(); renderGreet(); renderPesoStats(); renderPesoList(); renderAgua(); renderDashboard();
+    encerrarOnboarding();
+    toast('Tudo pronto! Bem-vindo(a), ' + (nome || 'de volta') + '!');
+  });
 
   // ---------- PERFIL ----------
   function pesoAtual(){
@@ -3006,6 +3145,7 @@
     renderDietaStats();
     renderAgua();
     renderDashboard();
+    maybeShowOnboarding();
   }
 
   init();
