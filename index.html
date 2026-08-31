@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR" data-bs-theme="dark">
 <head>
+<script>
+  (function(){
+    try{
+      var tema = localStorage.getItem('fitness:tema');
+      if(tema === 'light') document.documentElement.setAttribute('data-bs-theme', 'light');
+    }catch(e){}
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Guia Fitness</title>
@@ -29,6 +37,32 @@
     --bg-panel: #161B22;
     --bg-card: #1B222B;
     --line: rgba(255,255,255,0.08);
+    --text-1: #e5e9f0;
+    --text-2: #8a94a3;
+    --input-bg: #10151c;
+    --overlay-1: rgba(255,255,255,0.08);
+    --overlay-1-border: rgba(255,255,255,0.15);
+    --scrollbar-thumb: #333c47;
+    --auth-gradient-from: #1a2130;
+  }
+  [data-bs-theme="light"]{
+    --bg-deep: #F4F6F9;
+    --bg-panel: #FFFFFF;
+    --bg-card: #FFFFFF;
+    --line: rgba(15,23,42,0.10);
+    --text-1: #1a2130;
+    --text-2: #5b6472;
+    --input-bg: #EEF1F5;
+    --overlay-1: rgba(15,23,42,0.05);
+    --overlay-1-border: rgba(15,23,42,0.12);
+    --scrollbar-thumb: #c4cbd4;
+    --auth-gradient-from: #e9edf3;
+  }
+  [data-bs-theme="light"] body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(245,165,36,0.08), transparent 60%),
+      radial-gradient(ellipse 900px 500px at 100% 0%, rgba(56,189,248,0.06), transparent 55%),
+      var(--bg-deep);
   }
   body{
     background:
@@ -55,13 +89,13 @@
   .brand .bi{ color:var(--accent); }
   .greet{
     font-size:0.85rem;
-    color:#9aa4b2;
+    color:var(--text-2);
   }
-  .greet strong{ color:#fff; }
+  .greet strong{ color:var(--text-1); }
   .navbar-tools .btn{ font-size:0.78rem; padding:6px 10px; }
 
   .nav-pills .nav-link{
-    color:#9aa4b2;
+    color:var(--text-2);
     font-weight:600;
     font-size:0.9rem;
     border-radius:10px;
@@ -116,7 +150,7 @@
     font-size:0.72rem;
     text-transform:uppercase;
     letter-spacing:0.08em;
-    color:#8a94a3;
+    color:var(--text-2);
     margin-bottom:6px;
   }
   .stat-num{
@@ -126,7 +160,7 @@
   }
   .stat-sub{
     font-size:0.78rem;
-    color:#8a94a3;
+    color:var(--text-2);
     margin-top:6px;
   }
   .accent-1{ color:var(--accent); }
@@ -135,18 +169,18 @@
   .accent-4{ color:var(--accent-4); }
 
   .form-control, .form-select{
-    background:#10151c;
+    background:var(--input-bg);
     border:1px solid var(--line);
-    color:#fff;
+    color:var(--text-1);
   }
   .form-control:focus, .form-select:focus{
-    background:#10151c;
-    color:#fff;
+    background:var(--input-bg);
+    color:var(--text-1);
     border-color:var(--accent);
     box-shadow:0 0 0 0.2rem rgba(245,165,36,0.18);
   }
-  .form-control::placeholder{ color:#5b6472; }
-  .form-label{ font-size:0.82rem; color:#b8c0cc; font-weight:600; }
+  .form-control::placeholder{ color:var(--text-2); }
+  .form-label{ font-size:0.82rem; color:var(--text-2); font-weight:600; }
 
   .btn-accent{
     background:var(--accent);
@@ -170,12 +204,12 @@
   .ex-item.status-feito{ border-color: rgba(34,197,94,0.5); }
   .ex-item.status-pulado{ opacity:0.55; }
   .ex-item .ex-name{ font-weight:700; }
-  .ex-item .ex-name.done{ text-decoration:line-through; color:#8a94a3; }
+  .ex-item .ex-name.done{ text-decoration:line-through; color:var(--text-2); }
   .ex-badges .badge{ font-weight:600; margin-right:4px; }
   .ex-actions .btn{ padding:5px 9px; font-size:0.85rem; }
   .drag-handle{
     cursor:grab;
-    color:#5b6472;
+    color:var(--text-2);
     font-size:1.2rem;
     padding:4px 6px;
     touch-action:none;
@@ -184,10 +218,10 @@
   .ex-item.sortable-ghost{ opacity:0.35; }
   .ex-item.sortable-chosen{ border-color:var(--accent-3); }
 
-  .badge-series{ background:rgba(255,255,255,0.08); color:#e5e9ef; border:1px solid rgba(255,255,255,0.15); }
+  .badge-series{ background:var(--overlay-1); color:var(--text-1); border:1px solid var(--overlay-1-border); }
   .badge-met{ background:rgba(245,165,36,0.18); color:var(--accent); border:1px solid rgba(245,165,36,0.4); }
   .badge-rest{ background:rgba(56,189,248,0.14); color:var(--accent-3); border:1px solid rgba(56,189,248,0.35); }
-  .badge-dur{ background:rgba(148,163,184,0.14); color:#cbd5e1; border:1px solid rgba(148,163,184,0.3); }
+  .badge-dur{ background:rgba(148,163,184,0.14); color:var(--text-1); border:1px solid rgba(148,163,184,0.3); }
   .badge-kcal{ background:rgba(192,132,252,0.14); color:var(--accent-4); border:1px solid rgba(192,132,252,0.35); }
 
   .water-glass{
@@ -205,7 +239,7 @@
   .empty-state{
     text-align:center;
     padding:36px 12px;
-    color:#6b7480;
+    color:var(--text-2);
     border:1px dashed var(--line);
     border-radius:12px;
   }
@@ -218,7 +252,7 @@
     font-family:'Inter', sans-serif;
     font-size:0.82rem;
     font-weight:600;
-    color:#9aa4b2;
+    color:var(--text-2);
     background:var(--bg-card);
     border:1px solid var(--line);
     border-radius:10px;
@@ -259,7 +293,7 @@
   }
   .food-row:last-child{ border-bottom:none; }
   .food-row .food-name{ font-weight:600; }
-  .food-row .food-name.done{ text-decoration:line-through; color:#8a94a3; }
+  .food-row .food-name.done{ text-decoration:line-through; color:var(--text-2); }
   .food-row .form-check-input{ width:1.2em; height:1.2em; }
 
   .ia-item-row{
@@ -276,7 +310,7 @@
   #restModal .modal-content{
     background:var(--bg-panel);
     border:1px solid var(--line);
-    color:#fff;
+    color:var(--text-1);
   }
   .rest-count{
     font-family:'Poppins', sans-serif;
@@ -288,7 +322,7 @@
   .rest-ring-wrap{ position:relative; width:180px; height:180px; margin:0 auto; }
 
   ::-webkit-scrollbar{ height:6px; width:6px; }
-  ::-webkit-scrollbar-thumb{ background:#333c47; border-radius:3px; }
+  ::-webkit-scrollbar-thumb{ background:var(--scrollbar-thumb); border-radius:3px; }
 
   @media (max-width:576px){
     .stat-num{ font-size:1.5rem; }
@@ -305,7 +339,7 @@
     position:fixed;
     inset:0;
     z-index:2000;
-    background:radial-gradient(circle at 50% 0%, #1a2130 0%, var(--bg-deep) 70%);
+    background:radial-gradient(circle at 50% 0%, var(--auth-gradient-from) 0%, var(--bg-deep) 70%);
     display:flex;
     align-items:center;
     justify-content:center;
@@ -329,7 +363,7 @@
     display:flex;
     align-items:center;
     text-align:center;
-    color:#8a94a3;
+    color:var(--text-2);
     font-size:0.8rem;
   }
   .auth-divider::before, .auth-divider::after{
@@ -362,7 +396,7 @@
     gap:2px;
     background:none;
     border:none;
-    color:#8a94a3;
+    color:var(--text-2);
     font-size:0.68rem;
     padding:8px 2px;
     border-radius:10px;
@@ -397,7 +431,7 @@
     font-size:1.5rem;
     background:var(--bg-panel);
     border:2px solid var(--line);
-    color:#4a5261;
+    color:var(--text-2);
   }
   .conquista-badge.desbloqueada .conquista-icone{
     background:linear-gradient(135deg, var(--accent), #ffcf70);
@@ -406,10 +440,10 @@
   }
   .conquista-badge .conquista-nome{
     font-size:0.68rem;
-    color:#8a94a3;
+    color:var(--text-2);
     line-height:1.15;
   }
-  .conquista-badge.desbloqueada .conquista-nome{ color:#e5e9f0; }
+  .conquista-badge.desbloqueada .conquista-nome{ color:var(--text-1); }
 
   .lembrete-card{
     display:flex;
@@ -488,7 +522,7 @@
 <div class="offcanvas offcanvas-start" tabindex="-1" id="mainMenu" aria-labelledby="mainMenuLabel">
   <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="mainMenuLabel"><i class="bi bi-heart-pulse-fill"></i> Guia Fitness</h5>
-    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
   </div>
   <div class="offcanvas-body">
     <ul class="nav nav-pills flex-column gap-2" id="mainTabs" role="tablist">
@@ -514,7 +548,15 @@
         <button class="nav-link w-100 text-start" id="tab-agua-btn" data-bs-toggle="pill" data-bs-target="#tab-agua" type="button"><i class="bi bi-droplet-fill"></i> Água</button>
       </li>
     </ul>
-    <div id="offcanvasAuthFooter" class="mt-4 pt-3" style="border-top:1px solid var(--line);"></div>
+
+    <div class="mt-4 pt-3 d-flex align-items-center justify-content-between" style="border-top:1px solid var(--line);">
+      <span class="stat-sub mb-0"><i class="bi bi-brightness-high"></i> Tema claro</span>
+      <div class="form-check form-switch mb-0">
+        <input class="form-check-input" type="checkbox" role="switch" id="temaToggle" style="width:2.6em; height:1.4em; cursor:pointer;">
+      </div>
+    </div>
+
+    <div id="offcanvasAuthFooter" class="mt-3 pt-3" style="border-top:1px solid var(--line);"></div>
   </div>
 </div>
 
@@ -823,6 +865,27 @@
         </div>
       </div>
 
+      <div class="row g-3 mb-4">
+        <div class="col-4">
+          <div class="stat-card">
+            <div class="stat-label"><i class="bi bi-egg"></i> Proteína</div>
+            <div class="stat-num accent-1" id="statProteina" style="font-size:1.6rem;">0g</div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="stat-card">
+            <div class="stat-label"><i class="bi bi-basket"></i> Carboidrato</div>
+            <div class="stat-num accent-2" id="statCarbo" style="font-size:1.6rem;">0g</div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="stat-card">
+            <div class="stat-label"><i class="bi bi-droplet-half"></i> Gordura</div>
+            <div class="stat-num accent-3" id="statGordura" style="font-size:1.6rem;">0g</div>
+          </div>
+        </div>
+      </div>
+
       <div class="panel mb-4">
         <div class="d-flex justify-content-between align-items-center mb-2">
           <h5 class="mb-0"><i class="bi bi-journal-text accent-4"></i> Meu protocolo alimentar</h5>
@@ -877,7 +940,7 @@
             <label class="form-label">Refeição</label>
             <select class="form-select" id="inpFoodRefeicao"></select>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <label class="form-label">Alimento</label>
             <input type="text" class="form-control" id="inpFoodNome" placeholder="Ex: Peito de frango" required>
           </div>
@@ -889,8 +952,20 @@
             <label class="form-label">Kcal</label>
             <input type="number" class="form-control" id="inpFoodKcal" placeholder="Ex: 250" min="0">
           </div>
-          <div class="col-md-1">
-            <button type="submit" class="btn btn-accent w-100"><i class="bi bi-plus-lg"></i></button>
+          <div class="col-md-3">
+            <label class="form-label">Proteína (g)</label>
+            <input type="number" class="form-control" id="inpFoodProteina" placeholder="Ex: 30" min="0" step="0.1">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Carboidrato (g)</label>
+            <input type="number" class="form-control" id="inpFoodCarbo" placeholder="Ex: 10" min="0" step="0.1">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Gordura (g)</label>
+            <input type="number" class="form-control" id="inpFoodGordura" placeholder="Ex: 5" min="0" step="0.1">
+          </div>
+          <div class="col-md-3">
+            <button type="submit" class="btn btn-accent w-100"><i class="bi bi-plus-lg"></i> Adicionar</button>
           </div>
         </form>
       </div>
@@ -957,7 +1032,7 @@
     <div class="modal-content p-2">
       <div class="modal-header border-0 pb-0">
         <h5 class="modal-title"><i class="bi bi-plus-circle accent-1"></i> Adicionar exercício</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <div class="stat-sub mb-2">Adicionando em:</div>
@@ -1012,7 +1087,7 @@
     <div class="modal-content p-2">
       <div class="modal-header border-0 pb-0">
         <h5 class="modal-title"><i class="bi bi-phone accent-1"></i> Instalar no iPhone</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <p class="mb-3">O Safari não deixa instalar com um clique — são só 2 passos rápidos:</p>
@@ -1036,7 +1111,7 @@
     <div class="modal-content p-2">
       <div class="modal-header border-0 pb-0">
         <h5 class="modal-title" id="videoModalTitle"><i class="bi bi-play-circle accent-3"></i> Vídeo do exercício</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <div id="videoModalGifWrap" class="d-none">
@@ -1068,7 +1143,7 @@
     <div class="modal-content p-2">
       <div class="modal-header border-0 pb-0">
         <h5 class="modal-title" id="exLibDetailTitle"></h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
         <div class="text-center mb-3">
@@ -1307,8 +1382,8 @@
   function ex(nome, series, categoria, descanso, duracao){
     return { id: uid(), nome, series, categoria, descanso, duracao };
   }
-  function food(nome, qtd, kcal){
-    return { id: uid(), nome, qtd, kcal };
+  function food(nome, qtd, kcal, proteina, carbo, gordura){
+    return { id: uid(), nome, qtd, kcal, proteina: proteina || 0, carbo: carbo || 0, gordura: gordura || 0 };
   }
 
   const DEFAULT_PLANO = {
@@ -1778,7 +1853,7 @@
 
     const labels = coords.map((c,i) => {
       const alterna = i % 2 === 0 ? 0 : fontSizeUnits * 2; // alterna altura pra rótulos vizinhos não colarem
-      return `<text x="${c[0].toFixed(1)}" y="${(c[1]-16-alterna).toFixed(1)}" text-anchor="middle" font-size="${fontSizeUnits}" fill="#e5e9f0" font-weight="700">${fmt1(pontos[i].peso)}</text>`;
+      return `<text x="${c[0].toFixed(1)}" y="${(c[1]-16-alterna).toFixed(1)}" text-anchor="middle" font-size="${fontSizeUnits}" style="fill:var(--text-1)" font-weight="700">${fmt1(pontos[i].peso)}</text>`;
     }).join('');
     box.innerHTML = `
       <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto; display:block;">
@@ -1875,8 +1950,8 @@
       const atingiuMeta = metaValor && item.valor >= metaValor;
       return `
         <rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(barH,2).toFixed(1)}" rx="6" fill="${atingiuMeta ? 'var(--accent-2)' : corVar}" opacity="${item.valor > 0 ? '0.9' : '0.25'}"></rect>
-        <text x="${(x + barW/2).toFixed(1)}" y="${(y - 10).toFixed(1)}" text-anchor="middle" font-size="${fontValor}" fill="#e5e9f0" font-weight="700">${item.valor > 0 ? item.valor : ''}</text>
-        <text x="${(x + barW/2).toFixed(1)}" y="${(marginTop + chartH + 22)}" text-anchor="middle" font-size="${fontLabel}" fill="#8a94a3">${item.label}</text>
+        <text x="${(x + barW/2).toFixed(1)}" y="${(y - 10).toFixed(1)}" text-anchor="middle" font-size="${fontValor}" style="fill:var(--text-1)" font-weight="700">${item.valor > 0 ? item.valor : ''}</text>
+        <text x="${(x + barW/2).toFixed(1)}" y="${(marginTop + chartH + 22)}" text-anchor="middle" font-size="${fontLabel}" style="fill:var(--text-2)">${item.label}</text>
       `;
     }).join('');
 
@@ -1971,7 +2046,7 @@
       <div class="lembrete-card" data-idx="${i}">
         <i class="bi ${l.icon} lembrete-icone"></i>
         <span style="font-size:0.88rem;">${escapeHtml(l.texto)}</span>
-        <button type="button" class="btn-close btn-close-white" aria-label="Fechar"></button>
+        <button type="button" class="btn-close" aria-label="Fechar"></button>
       </div>
     `).join('');
 
@@ -2681,10 +2756,15 @@
   function renderDietaStats(){
     document.getElementById('inpMetaKcal').value = state.dietaMeta || '';
     document.getElementById('statMetaKcal').textContent = state.dietaMeta || '--';
-    let consumido = 0;
+    let consumido = 0, proteina = 0, carbo = 0, gordura = 0;
     MEAL_ORDER.forEach(m => {
       (state.dietaPlano[m] || []).forEach(f => {
-        if(state.dietaConsumido[f.id]) consumido += (f.kcal || 0);
+        if(state.dietaConsumido[f.id]){
+          consumido += (f.kcal || 0);
+          proteina += (f.proteina || 0);
+          carbo += (f.carbo || 0);
+          gordura += (f.gordura || 0);
+        }
       });
     });
     document.getElementById('statConsumidoKcal').textContent = consumido;
@@ -2693,6 +2773,9 @@
     const pct = state.dietaMeta ? Math.min(100, Math.round((consumido/state.dietaMeta)*100)) : 0;
     document.getElementById('statPctKcal').textContent = pct + '%';
     document.getElementById('dietaProgress').style.width = pct + '%';
+    document.getElementById('statProteina').textContent = fmt1(proteina) + 'g';
+    document.getElementById('statCarbo').textContent = fmt1(carbo) + 'g';
+    document.getElementById('statGordura').textContent = fmt1(gordura) + 'g';
   }
 
   function renderMeals(){
@@ -2702,17 +2785,24 @@
       const icon = MEAL_ICON[meal] || 'bi-egg-fried';
       const mealKcal = items.reduce((s,f)=> s + (state.dietaConsumido[f.id] ? (f.kcal||0) : 0), 0);
       const rows = items.length
-        ? items.map(f => `
+        ? items.map(f => {
+            const macros = [];
+            if(f.proteina) macros.push(`<span class="badge badge-dur">P ${fmt1(f.proteina)}g</span>`);
+            if(f.carbo) macros.push(`<span class="badge badge-dur">C ${fmt1(f.carbo)}g</span>`);
+            if(f.gordura) macros.push(`<span class="badge badge-dur">G ${fmt1(f.gordura)}g</span>`);
+            return `
           <div class="food-row" data-food-id="${f.id}" data-meal="${meal}">
             <input type="checkbox" class="form-check-input" data-action="toggle" ${state.dietaConsumido[f.id] ? 'checked' : ''}>
             <div class="flex-grow-1">
               <div class="food-name ${state.dietaConsumido[f.id] ? 'done' : ''}">${escapeHtml(f.nome)}</div>
               <div class="stat-sub mb-0">${escapeHtml(f.qtd || '')}</div>
+              ${macros.length ? `<div class="d-flex gap-1 mt-1">${macros.join('')}</div>` : ''}
             </div>
             <span class="badge badge-kcal">${f.kcal || 0} kcal</span>
             <button class="btn btn-sm btn-outline-light" data-action="editar" title="Editar"><i class="bi bi-pencil"></i></button>
             <button class="btn btn-sm btn-outline-danger" data-action="remover" title="Remover"><i class="bi bi-trash"></i></button>
-          </div>`).join('')
+          </div>`;
+          }).join('')
         : '<div class="stat-sub mb-0">nenhum alimento cadastrado</div>';
       return `
       <div class="meal-card">
@@ -2758,9 +2848,18 @@
             if(novaQtd === null) return;
             const novoKcal = prompt('Kcal:', f.kcal || 0);
             if(novoKcal === null) return;
+            const novaProteina = prompt('Proteína (g):', f.proteina || 0);
+            if(novaProteina === null) return;
+            const novoCarbo = prompt('Carboidrato (g):', f.carbo || 0);
+            if(novoCarbo === null) return;
+            const novaGordura = prompt('Gordura (g):', f.gordura || 0);
+            if(novaGordura === null) return;
             f.nome = novoNome.trim() || f.nome;
             f.qtd = novaQtd.trim();
             f.kcal = parseFloat(novoKcal) || 0;
+            f.proteina = parseFloat(novaProteina) || 0;
+            f.carbo = parseFloat(novoCarbo) || 0;
+            f.gordura = parseFloat(novaGordura) || 0;
             await saveJSON(KEYS.dietaPlano, state.dietaPlano);
             renderMeals(); renderDietaStats();
           }
@@ -2776,12 +2875,18 @@
     if(!nome) return;
     const qtd = document.getElementById('inpFoodQtd').value.trim();
     const kcal = parseFloat(document.getElementById('inpFoodKcal').value) || 0;
+    const proteina = parseFloat(document.getElementById('inpFoodProteina').value) || 0;
+    const carbo = parseFloat(document.getElementById('inpFoodCarbo').value) || 0;
+    const gordura = parseFloat(document.getElementById('inpFoodGordura').value) || 0;
     if(!state.dietaPlano[meal]) state.dietaPlano[meal] = [];
-    state.dietaPlano[meal].push(food(nome, qtd, kcal));
+    state.dietaPlano[meal].push(food(nome, qtd, kcal, proteina, carbo, gordura));
     await saveJSON(KEYS.dietaPlano, state.dietaPlano);
     document.getElementById('inpFoodNome').value = '';
     document.getElementById('inpFoodQtd').value = '';
     document.getElementById('inpFoodKcal').value = '';
+    document.getElementById('inpFoodProteina').value = '';
+    document.getElementById('inpFoodCarbo').value = '';
+    document.getElementById('inpFoodGordura').value = '';
     document.getElementById('inpFoodNome').focus();
     renderMeals(); renderDietaStats();
     toast('Alimento adicionado em ' + meal);
@@ -2834,11 +2939,25 @@
       return;
     }
     list.innerHTML = iaItensPendentes.map((item, idx) => `
-      <div class="ia-item-row" data-idx="${idx}">
+      <div class="ia-item-row" data-idx="${idx}" style="flex-wrap:wrap;">
         <input type="text" class="form-control" style="flex:2; min-width:140px;" data-field="nome" value="${escapeHtml(item.nome)}">
         <input type="text" class="form-control" style="flex:1; min-width:90px;" data-field="qtd" value="${escapeHtml(item.qtd || '')}" placeholder="qtd">
-        <input type="number" class="form-control" style="flex:0 0 90px;" data-field="kcal" value="${item.kcal || 0}" min="0">
-        <span class="stat-sub">kcal</span>
+        <div class="d-flex align-items-center gap-1">
+          <input type="number" class="form-control" style="width:70px;" data-field="kcal" value="${item.kcal || 0}" min="0">
+          <span class="stat-sub">kcal</span>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <input type="number" class="form-control" style="width:60px;" data-field="proteina" value="${item.proteina || 0}" min="0" step="0.1">
+          <span class="stat-sub">P g</span>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <input type="number" class="form-control" style="width:60px;" data-field="carbo" value="${item.carbo || 0}" min="0" step="0.1">
+          <span class="stat-sub">C g</span>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <input type="number" class="form-control" style="width:60px;" data-field="gordura" value="${item.gordura || 0}" min="0" step="0.1">
+          <span class="stat-sub">G g</span>
+        </div>
         <button type="button" class="btn btn-sm btn-outline-light" data-action="remover-ia" title="Remover"><i class="bi bi-x-lg"></i></button>
       </div>
     `).join('');
@@ -2847,7 +2966,7 @@
       row.querySelectorAll('input').forEach(inp => {
         inp.addEventListener('input', () => {
           const field = inp.dataset.field;
-          iaItensPendentes[idx][field] = field === 'kcal' ? (parseFloat(inp.value) || 0) : inp.value;
+          iaItensPendentes[idx][field] = field === 'nome' || field === 'qtd' ? inp.value : (parseFloat(inp.value) || 0);
         });
       });
       row.querySelector('[data-action="remover-ia"]').addEventListener('click', () => {
@@ -2868,7 +2987,7 @@
     loading.classList.remove('d-none');
     btn.disabled = true;
     try{
-      const systemPrompt = 'Você é um assistente de nutrição. O usuário vai descrever o que comeu em português, em texto livre. Divida a descrição em itens de alimento individuais e estime a quantidade e as calorias de cada um, usando valores nutricionais típicos brasileiros. Responda APENAS com um array JSON válido, no formato exato: [{"nome":"nome do alimento","qtd":"quantidade estimada (ex: 2 unidades, 150g, 1 copo)","kcal":numero_inteiro_de_calorias}]. Se a descrição tiver vários alimentos, retorne um item por alimento.';
+      const systemPrompt = 'Você é um assistente de nutrição. O usuário vai descrever o que comeu em português, em texto livre. Divida a descrição em itens de alimento individuais e estime a quantidade, calorias e macronutrientes (proteína, carboidrato e gordura em gramas) de cada um, usando valores nutricionais típicos brasileiros. Responda APENAS com um array JSON válido, no formato exato: [{"nome":"nome do alimento","qtd":"quantidade estimada (ex: 2 unidades, 150g, 1 copo)","kcal":numero_inteiro_de_calorias,"proteina":numero_de_gramas,"carbo":numero_de_gramas,"gordura":numero_de_gramas}]. Se a descrição tiver vários alimentos, retorne um item por alimento.';
       const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + encodeURIComponent(state.iaApiKey), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -2888,7 +3007,10 @@
       iaItensPendentes = itens.map(it => ({
         nome: String(it.nome || 'Alimento'),
         qtd: String(it.qtd || ''),
-        kcal: parseFloat(it.kcal) || 0
+        kcal: parseFloat(it.kcal) || 0,
+        proteina: parseFloat(it.proteina) || 0,
+        carbo: parseFloat(it.carbo) || 0,
+        gordura: parseFloat(it.gordura) || 0
       }));
       renderIaPreview();
       preview.classList.remove('d-none');
@@ -2912,7 +3034,7 @@
     const meal = iaSelect.value;
     if(!state.dietaPlano[meal]) state.dietaPlano[meal] = [];
     iaItensPendentes.forEach(item => {
-      const f = food(item.nome, item.qtd, item.kcal);
+      const f = food(item.nome, item.qtd, item.kcal, item.proteina, item.carbo, item.gordura);
       state.dietaPlano[meal].push(f);
       state.dietaConsumido[f.id] = true;
     });
@@ -3147,6 +3269,17 @@
     renderDashboard();
     maybeShowOnboarding();
   }
+
+  // ---------- TEMA CLARO/ESCURO ----------
+  const TEMA_KEY = 'fitness:tema';
+  const temaToggle = document.getElementById('temaToggle');
+  temaToggle.checked = document.documentElement.getAttribute('data-bs-theme') === 'light';
+  temaToggle.addEventListener('change', () => {
+    const novoTema = temaToggle.checked ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-bs-theme', novoTema);
+    localStorage.setItem(TEMA_KEY, novoTema);
+    renderDashboard(); // recalcula os gráficos SVG pra pegar as novas cores do tema
+  });
 
   init();
 })();
