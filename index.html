@@ -401,9 +401,6 @@
     <span class="greet flex-grow-1" id="greetBox">defina seu nome na aba Perfil</span>
     <div class="navbar-tools d-flex gap-2">
       <button class="btn btn-sm btn-accent d-none" id="btnInstall" title="Instalar como app"><i class="bi bi-phone"></i> Instalar app</button>
-      <button class="btn btn-sm btn-outline-light" id="btnExport" title="Baixar backup"><i class="bi bi-cloud-arrow-down"></i> Backup</button>
-      <button class="btn btn-sm btn-outline-light" id="btnImportBtn" title="Restaurar backup"><i class="bi bi-cloud-arrow-up"></i> Restaurar</button>
-      <input type="file" id="btnImport" accept="application/json" class="d-none">
     </div>
   </div>
 </nav>
@@ -467,7 +464,7 @@
         <div class="d-flex align-items-start gap-2">
           <i class="bi bi-info-circle accent-3 mt-1"></i>
           <div class="stat-sub mb-0">
-            Seus dados agora ficam salvos no armazenamento local <strong>deste navegador/celular</strong>, sem depender do Claude — funciona mesmo offline. Importante: isso só funciona quando você abre o arquivo <strong>baixado</strong> diretamente (ou instalado na tela inicial) — dentro do preview do Claude o navegador bloqueia esse tipo de armazenamento. Também é por navegador/app: se limpar os dados do navegador, trocar de celular ou abrir em outro app, os dados não acompanham — use o botão <strong>Backup</strong> de vez em quando pra ter uma cópia de segurança que você pode restaurar em qualquer lugar.
+            Seus dados agora ficam salvos no armazenamento local <strong>deste navegador/celular</strong>, sem depender do Claude — funciona mesmo offline. Importante: isso só funciona quando você abre o arquivo <strong>baixado</strong> diretamente (ou instalado na tela inicial) — dentro do preview do Claude o navegador bloqueia esse tipo de armazenamento. Também é por navegador/app: se limpar os dados do navegador, trocar de celular ou abrir em outro app, os dados não acompanham — <strong>entre com sua conta Google</strong> logo abaixo pra manter seus dados salvos com segurança e acessíveis em qualquer aparelho.
           </div>
         </div>
         <hr style="border-color:var(--line);" class="my-4">
@@ -2371,54 +2368,6 @@
     await saveJSON(KEYS.aguaMetaManual, null);
     renderAgua();
     toast('Meta de água voltou ao cálculo automático', 'bi-arrow-repeat');
-  });
-
-  // ---------- BACKUP / RESTORE ----------
-  document.getElementById('btnExport').addEventListener('click', () => {
-    const backup = {
-      exportadoEm: new Date().toISOString(),
-      perfil: state.perfil,
-      pesos: state.pesos,
-      plano: state.plano,
-      dietaPlano: state.dietaPlano,
-      dietaMeta: state.dietaMeta,
-      dietaHorarios: state.dietaHorarios,
-      dietaProtocolo: state.dietaProtocolo,
-      aguaMetaManual: state.aguaMetaManual
-    };
-    const blob = new Blob([JSON.stringify(backup, null, 2)], { type:'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'guia-fitness-backup-' + todayStr() + '.json';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-    toast('Backup baixado');
-  });
-
-  document.getElementById('btnImportBtn').addEventListener('click', () => {
-    document.getElementById('btnImport').click();
-  });
-  document.getElementById('btnImport').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = async (ev) => {
-      try{
-        const data = JSON.parse(ev.target.result);
-        if(!confirm('Restaurar este backup vai substituir seus dados atuais de perfil, peso, treinos e alimentação. Continuar?')) return;
-        await applyCloudData(data);
-        syncToCloudDebounced();
-        toast('Backup restaurado com sucesso');
-      }catch(err){
-        console.error(err);
-        toast('Arquivo de backup inválido', 'bi-exclamation-triangle');
-      }
-      e.target.value = '';
-    };
-    reader.readAsText(file);
   });
 
   // ---------- INSTALAR COMO APP ----------
