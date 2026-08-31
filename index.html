@@ -347,11 +347,12 @@
   .bottom-nav{
     position:fixed;
     left:0; right:0; bottom:0;
-    z-index:1040;
+    z-index:1900;
     display:flex;
     background:var(--bg-panel);
     border-top:1px solid var(--line);
-    padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+    padding:8px 4px calc(16px + env(safe-area-inset-bottom));
+    pointer-events:auto;
   }
   .bottom-nav-btn{
     flex:1;
@@ -363,14 +364,17 @@
     border:none;
     color:#8a94a3;
     font-size:0.68rem;
-    padding:6px 2px;
+    padding:8px 2px;
     border-radius:10px;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:rgba(245,165,36,0.3);
+    min-height:44px;
   }
   .bottom-nav-btn i{ font-size:1.25rem; }
   .bottom-nav-btn.active{ color:var(--accent); }
   body{ padding-bottom:0; }
   @media (max-width:767.98px){
-    body{ padding-bottom:64px; }
+    body{ padding-bottom:78px; }
   }
 
   .dash-clickable{ transition:transform 0.1s ease, border-color 0.15s ease; }
