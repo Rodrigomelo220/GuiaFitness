@@ -382,6 +382,47 @@
     border-color:var(--accent);
     transform:translateY(-2px);
   }
+
+  .conquista-badge{
+    width:84px;
+    text-align:center;
+  }
+  .conquista-badge .conquista-icone{
+    width:56px; height:56px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 6px;
+    font-size:1.5rem;
+    background:var(--bg-panel);
+    border:2px solid var(--line);
+    color:#4a5261;
+  }
+  .conquista-badge.desbloqueada .conquista-icone{
+    background:linear-gradient(135deg, var(--accent), #ffcf70);
+    border-color:var(--accent);
+    color:#1a1200;
+  }
+  .conquista-badge .conquista-nome{
+    font-size:0.68rem;
+    color:#8a94a3;
+    line-height:1.15;
+  }
+  .conquista-badge.desbloqueada .conquista-nome{ color:#e5e9f0; }
+
+  .lembrete-card{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:rgba(245,165,36,0.1);
+    border:1px solid rgba(245,165,36,0.35);
+    border-radius:12px;
+    padding:12px 14px;
+    margin-bottom:8px;
+  }
+  .lembrete-card i.lembrete-icone{ font-size:1.3rem; color:var(--accent); }
+  .lembrete-card .btn-close{ margin-left:auto; }
 </style>
 </head>
 <body>
@@ -488,6 +529,8 @@
         <div class="stat-sub" id="dashDateLabel"></div>
       </div>
 
+      <div id="dashLembretes" class="mb-4"></div>
+
       <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
           <div class="stat-card dash-clickable" data-goto="tab-ex-btn" style="cursor:pointer;">
@@ -552,6 +595,11 @@
           <span class="stat-sub" id="dashTreinoDiaLabel"></span>
         </div>
         <div id="dashTreinoList"></div>
+      </div>
+
+      <div class="panel mb-4">
+        <h5 class="mb-3"><i class="bi bi-trophy-fill accent-1"></i> Conquistas</h5>
+        <div id="dashConquistas" class="d-flex flex-wrap gap-3"></div>
       </div>
     </div>
 
@@ -1177,7 +1225,8 @@
     dietaHorarios: 'fitness:dieta:horarios',
     dietaProtocolo: 'fitness:dieta:protocolo',
     dietaConsumido: () => 'fitness:dieta:consumido:' + todayStr(),
-    iaApiKey: 'fitness:ia:geminiApiKey'
+    iaApiKey: 'fitness:ia:geminiApiKey',
+    conquistas: 'fitness:conquistas'
   };
 
   function ex(nome, series, categoria, descanso, duracao){
@@ -1247,6 +1296,7 @@
     agua: { copos: 0 },
     aguaMetaManual: null,
     iaApiKey: '',
+    conquistas: {},
     selectedDay: todayDayName(),
     dietaPlano: {},
     dietaMeta: 2000,
@@ -1582,11 +1632,15 @@
       document.getElementById('dashPesoSub').textContent = sortedPesos.length ? 'primeiro registro' : 'sem registros';
     }
 
-    renderDashStreak(hoje);
+    renderDashLembretes(hoje, listaHoje, feitosHoje, aguaConsumida, metaAgua, sortedPesos);
+
+    const streak = renderDashStreak(hoje);
     renderDashWeightChart(sortedPesos);
     renderDashKcalChart();
     renderDashAguaChart();
     renderDashTreinoList(listaHoje);
+    renderConquistas();
+    checkConquistasAgregadas(streak, aguaConsumida, metaAgua, consumido);
   }
 
   function renderDashStreak(hoje){
@@ -1614,6 +1668,7 @@
     }
     document.getElementById('dashStreakNum').innerHTML = '<i class="bi bi-fire"></i> ' + streak;
     document.getElementById('dashStreakSub').textContent = streak === 1 ? 'dia seguido treinando' : 'dias seguidos treinando';
+    return streak;
   }
 
   function renderDashWeightChart(sortedPesos){
@@ -1769,6 +1824,91 @@
     renderBarChartSVG(box, dados, aguaMetaML(), 'var(--accent-3)');
   }
 
+  // ---------- CONQUISTAS ----------
+  const CONQUISTAS_DEF = {
+    primeiro_treino: { nome: 'Primeiro treino', desc: 'Completou o primeiro exercício', icon: 'bi-lightning-charge-fill' },
+    primeiro_peso: { nome: 'Primeiro registro', desc: 'Registrou o primeiro peso', icon: 'bi-graph-up-arrow' },
+    streak_3: { nome: '3 dias seguidos', desc: 'Treinou 3 dias seguidos', icon: 'bi-fire' },
+    streak_7: { nome: '1 semana seguida', desc: 'Treinou 7 dias seguidos', icon: 'bi-fire' },
+    streak_14: { nome: '2 semanas seguidas', desc: 'Treinou 14 dias seguidos', icon: 'bi-fire' },
+    streak_30: { nome: '1 mês seguido', desc: 'Treinou 30 dias seguidos', icon: 'bi-fire' },
+    meta_agua: { nome: 'Bem hidratado', desc: 'Bateu a meta de água em um dia', icon: 'bi-droplet-fill' },
+    meta_kcal: { nome: 'Meta batida', desc: 'Bateu a meta calórica em um dia', icon: 'bi-egg-fried' },
+    ia_nutricionista: { nome: 'Nutricionista IA', desc: 'Usou a IA pra estimar uma refeição', icon: 'bi-stars' },
+    biblioteca_explorador: { nome: 'Explorador', desc: 'Adicionou um exercício da biblioteca', icon: 'bi-collection-play-fill' }
+  };
+
+  async function desbloquearConquista(id){
+    if(state.conquistas[id]) return;
+    state.conquistas[id] = new Date().toISOString();
+    await saveJSON(KEYS.conquistas, state.conquistas);
+    const def = CONQUISTAS_DEF[id];
+    if(def) toast('🏆 Conquista desbloqueada: ' + def.nome, 'bi-trophy-fill');
+    renderConquistas();
+  }
+
+  function renderConquistas(){
+    const box = document.getElementById('dashConquistas');
+    if(!box) return;
+    box.innerHTML = Object.entries(CONQUISTAS_DEF).map(([id, def]) => {
+      const desbloqueada = !!state.conquistas[id];
+      return `
+        <div class="conquista-badge ${desbloqueada ? 'desbloqueada' : ''}" title="${escapeHtml(def.desc)}">
+          <div class="conquista-icone"><i class="bi ${def.icon}"></i></div>
+          <div class="conquista-nome">${escapeHtml(def.nome)}</div>
+        </div>`;
+    }).join('');
+  }
+
+  function checkConquistasAgregadas(streak, aguaConsumida, metaAgua, kcalConsumido){
+    if(streak >= 3) desbloquearConquista('streak_3');
+    if(streak >= 7) desbloquearConquista('streak_7');
+    if(streak >= 14) desbloquearConquista('streak_14');
+    if(streak >= 30) desbloquearConquista('streak_30');
+    if(metaAgua > 0 && aguaConsumida >= metaAgua) desbloquearConquista('meta_agua');
+    if(state.dietaMeta > 0 && kcalConsumido >= state.dietaMeta) desbloquearConquista('meta_kcal');
+  }
+
+  // ---------- LEMBRETES CONTEXTUAIS ----------
+  function renderDashLembretes(hoje, listaHoje, feitosHoje, aguaConsumida, metaAgua, sortedPesos){
+    const box = document.getElementById('dashLembretes');
+    if(!box) return;
+    const agora = new Date();
+    const horaAtual = agora.getHours();
+    const lembretes = [];
+
+    if(metaAgua > 0 && aguaConsumida === 0 && horaAtual >= 10){
+      lembretes.push({ icon: 'bi-droplet-fill', texto: 'Você ainda não bebeu água hoje.', goto: 'tab-agua-btn' });
+    }
+    if(listaHoje.length > 0 && feitosHoje.length === 0 && horaAtual >= 18){
+      lembretes.push({ icon: 'bi-lightning-charge-fill', texto: 'Ainda não treinou hoje — dá tempo!', goto: 'tab-ex-btn' });
+    }
+    if(sortedPesos.length > 0){
+      const ultimaData = new Date(sortedPesos[sortedPesos.length-1].data + 'T00:00:00');
+      const diasSemRegistro = Math.floor((agora - ultimaData) / 86400000);
+      if(diasSemRegistro >= 7){
+        lembretes.push({ icon: 'bi-graph-up-arrow', texto: 'Já faz ' + diasSemRegistro + ' dias que você não registra seu peso.', goto: 'tab-peso-btn' });
+      }
+    }
+
+    box.innerHTML = lembretes.map((l, i) => `
+      <div class="lembrete-card" data-idx="${i}">
+        <i class="bi ${l.icon} lembrete-icone"></i>
+        <span style="font-size:0.88rem;">${escapeHtml(l.texto)}</span>
+        <button type="button" class="btn-close btn-close-white" aria-label="Fechar"></button>
+      </div>
+    `).join('');
+
+    box.querySelectorAll('.lembrete-card').forEach((card, i) => {
+      card.querySelector('span').addEventListener('click', () => {
+        const trigger = document.getElementById(lembretes[i].goto);
+        if(trigger) bootstrap.Tab.getOrCreateInstance(trigger).show();
+      });
+      card.querySelector('span').style.cursor = 'pointer';
+      card.querySelector('.btn-close').addEventListener('click', () => card.remove());
+    });
+  }
+
   // ---------- PERFIL ----------
   function pesoAtual(){
     if(state.pesos.length === 0) return null;
@@ -1873,6 +2013,7 @@
     if(!peso) return;
     state.pesos.push({ id: uid(), data, peso });
     await saveJSON(KEYS.pesos, state.pesos);
+    desbloquearConquista('primeiro_peso');
     document.getElementById('inpPeso').value = '';
     renderPesoList(); renderPesoStats(); renderAgua();
     toast('Peso registrado');
@@ -1918,6 +2059,7 @@
   async function marcarFeito(id){
     state.status[id] = 'feito';
     await saveJSON(KEYS.status(), state.status);
+    desbloquearConquista('primeiro_treino');
     renderExList();
     renderHojeStats();
   }
@@ -2314,6 +2456,7 @@
   }
 
   document.getElementById('btnAbrirAddEx').addEventListener('click', () => {
+    origemBibliotecaFlag = false;
     document.getElementById('inpExDia').innerHTML = DAY_ORDER.map(d => `<option value="${d}" ${d===state.selectedDay?'selected':''}>${d}</option>`).join('');
     document.getElementById('exForm').reset();
     document.getElementById('inpExDuracao').value = 8;
@@ -2359,7 +2502,9 @@
     }
   }
 
+  let origemBibliotecaFlag = false;
   function abrirAddExDoLibrary(nome, categoria){
+    origemBibliotecaFlag = true;
     document.getElementById('inpExDia').innerHTML = DAY_ORDER.map(d => `<option value="${d}" ${d===state.selectedDay?'selected':''}>${d}</option>`).join('');
     document.getElementById('exForm').reset();
     document.getElementById('inpExNome').value = nome;
@@ -2380,6 +2525,8 @@
     if(!state.plano[day]) state.plano[day] = [];
     state.plano[day].push(ex(nome, series, categoria, descanso, duracao));
     await saveJSON(KEYS.plano, state.plano);
+    if(origemBibliotecaFlag) desbloquearConquista('biblioteca_explorador');
+    origemBibliotecaFlag = false;
     bootstrap.Modal.getOrCreateInstance(document.getElementById('addExModal')).hide();
     renderExList();
     renderHojeStats();
@@ -2632,6 +2779,7 @@
     });
     await saveJSON(KEYS.dietaPlano, state.dietaPlano);
     await saveJSON(KEYS.dietaConsumido(), state.dietaConsumido);
+    desbloquearConquista('ia_nutricionista');
     const count = iaItensPendentes.length;
     iaItensPendentes = [];
     document.getElementById('iaPreview').classList.add('d-none');
@@ -2828,6 +2976,7 @@
     state.agua = await loadJSON(KEYS.agua(), { copos: 0 });
     state.aguaMetaManual = await loadJSON(KEYS.aguaMetaManual, null);
     state.iaApiKey = await loadJSON(KEYS.iaApiKey, '');
+    state.conquistas = await loadJSON(KEYS.conquistas, {});
     state.dietaPlano = await loadJSON(KEYS.dietaPlano, JSON.parse(JSON.stringify(DEFAULT_DIETA_PLANO)));
     state.dietaMeta = await loadJSON(KEYS.dietaMeta, 2000);
     state.dietaHorarios = await loadJSON(KEYS.dietaHorarios, {});
