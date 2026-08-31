@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="dark">
+<head>
+<script>
+  (function(){
+    try{
+      var tema = localStorage.getItem('fitness:tema');
+      if(tema === 'light') document.documentElement.setAttribute('data-bs-theme', 'light');
+    }catch(e){}
+  })();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Privacidade — Guia Fitness</title>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-icons.min.css" rel="stylesheet">
+<link href="css/fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --accent: #F5A524;
+    --bg-deep: #0E1116;
+    --bg-panel: #161B22;
+    --line: rgba(255,255,255,0.08);
+    --text-1: #e5e9f0;
+    --text-2: #8a94a3;
+  }
+  [data-bs-theme="light"]{
+    --bg-deep: #F4F6F9;
+    --bg-panel: #FFFFFF;
+    --line: rgba(15,23,42,0.10);
+    --text-1: #1a2130;
+    --text-2: #5b6472;
+  }
+  body{
+    background:var(--bg-deep);
+    color:var(--text-1);
+    font-family:'Inter', system-ui, sans-serif;
+    min-height:100vh;
+  }
+  h1,h2,h3,.brand{ font-family:'Poppins', system-ui, sans-serif; }
+  .panel{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:24px;
+  }
+  .stat-sub{ color:var(--text-2); }
+  a{ color:var(--accent); }
+  section{ margin-bottom:28px; }
+  section h2{ font-size:1.15rem; margin-bottom:10px; }
+  section p, section li{ font-size:0.95rem; line-height:1.6; }
+</style>
+</head>
+<body>
+<div class="container py-5" style="max-width:780px;">
+
+  <a href="index.html" class="stat-sub d-inline-flex align-items-center gap-1 mb-4" style="text-decoration:none;">
+    <i class="bi bi-arrow-left"></i> Voltar ao app
+  </a>
+
+  <div class="panel">
+    <div class="mb-4">
+      <span class="brand" style="font-size:1.4rem; font-weight:700;"><i class="bi bi-heart-pulse-fill" style="color:var(--accent);"></i> Guia Fitness</span>
+      <h1 class="mt-2 mb-1" style="font-size:1.6rem;">Política de Privacidade</h1>
+      <div class="stat-sub">Última atualização: agosto de 2026</div>
+    </div>
+
+    <section>
+      <p>Esta política explica quais dados o Guia Fitness coleta, como eles são usados e guardados, e quais direitos você tem sobre eles, em conformidade com a Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018).</p>
+    </section>
+
+    <section>
+      <h2><i class="bi bi-database accent-1"></i> Quais dados coletamos</h2>
+      <p>Ao usar o app, você pode nos fornecer:</p>
+      <ul>
+        <li><strong>Dados de perfil:</strong> nome, altura e idade (opcionais)</li>
+        <li><strong>Dados de saúde e uso do app:</strong> peso registrado ao longo do tempo, plano de treino, exercícios concluídos, peso usado nos exercícios, alimentos e calorias registrados, consumo de água</li>
+        <li><strong>Dados de conta:</strong> se você optar por entrar com Google ou e-mail/senha, seu e-mail e nome público da conta</li>
+      </ul>
+      <p>Não coletamos dados de pagamento, localização, ou qualquer informação além do que você mesmo insere no app.</p>
+    </section>
+
+    <section>
+      <h2><i class="bi bi-hdd-stack accent-3"></i> Onde seus dados ficam guardados</h2>
+      <p>Por padrão, todos os seus dados ficam salvos <strong>apenas no armazenamento local do seu navegador/celular</strong> — não saem do seu aparelho.</p>
+      <p>Se você optar por <strong>entrar com uma conta</strong> (Google ou e-mail/senha), seus dados também são salvos no <strong>Firebase</strong>, serviço de nuvem do Google, para que possam ser acessados em mais de um aparelho. Cada conta só tem acesso aos próprios dados.</p>
+    </section>
+
+    <section>
+      <h2><i class="bi bi-stars accent-2"></i> Uso de inteligência artificial</h2>
+      <p>O recurso "Diga o que comeu" envia o texto que você digita (a descrição da refeição) para a API do Google Gemini, usando uma chave que você mesmo configura, apenas para estimar calorias e macronutrientes. Nenhum outro dado seu é enviado nessa chamada.</p>
+    </section>
+
+    <section>
+      <h2><i class="bi bi-share accent-4"></i> Compartilhamento com terceiros</h2>
+      <p>Não vendemos, alugamos ou compartilhamos seus dados pessoais com terceiros para fins de marketing ou publicidade. Os únicos serviços de terceiros envolvidos são:</p>
+      <ul>
+        <li><strong>Google Firebase</strong> — autenticação e armazenamento em nuvem (só se você criar uma conta)</li>
+        <li><strong>Google Gemini</strong> — estimativa de calorias por IA (só se você usar esse recurso)</li>
+        <li><strong>YouTube</strong> e <strong>GitHub</strong> — exibição de vídeos e imagens de exercícios (conteúdo público, sem envio de dados seus)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><i class="bi bi-shield-check accent-1"></i> Seus direitos</h2>
+      <p>Conforme a LGPD, você pode a qualquer momento:</p>
+      <ul>
+        <li>Acessar os dados que temos sobre você</li>
+        <li>Corrigir dados incompletos ou desatualizados diretamente no app</li>
+        <li>Excluir seus dados — apagando os dados locais do navegador e/ou excluindo sua conta</li>
+        <li>Revogar o consentimento e parar de usar o app a qualquer momento</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2><i class="bi bi-envelope accent-3"></i> Contato</h2>
+      <p>Dúvidas sobre esta política ou sobre seus dados podem ser enviadas ao responsável pelo aplicativo.</p>
+    </section>
+
+    <section class="mb-0">
+      <h2><i class="bi bi-arrow-repeat accent-2"></i> Alterações nesta política</h2>
+      <p>Esta política pode ser atualizada conforme o app evolui. A data no topo desta página indica a versão mais recente.</p>
+    </section>
+  </div>
+
+</div>
+</body>
+</html>

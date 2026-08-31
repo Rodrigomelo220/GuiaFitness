@@ -501,6 +501,9 @@
     <div class="text-center">
       <button class="btn btn-sm btn-outline-light" id="authContinuarSemConta">Continuar sem conta (só neste aparelho)</button>
     </div>
+    <div class="text-center mt-3">
+      <a href="privacidade.html" class="stat-sub" style="font-size:0.75rem;">Política de Privacidade</a>
+    </div>
   </div>
 </div>
 
@@ -546,6 +549,9 @@
       </li>
       <li class="nav-item" role="presentation">
         <button class="nav-link w-100 text-start" id="tab-agua-btn" data-bs-toggle="pill" data-bs-target="#tab-agua" type="button"><i class="bi bi-droplet-fill"></i> Água</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link w-100 text-start" id="tab-historico-btn" data-bs-toggle="pill" data-bs-target="#tab-historico" type="button"><i class="bi bi-clock-history"></i> Histórico</button>
       </li>
     </ul>
 
@@ -677,6 +683,8 @@
         <h5 class="mb-2"><i class="bi bi-cloud-check accent-3"></i> Sincronização na nuvem (Google)</h5>
         <div class="stat-sub mb-3">Conecte sua conta Google pra salvar seus dados na nuvem e acessá-los de qualquer aparelho, automaticamente.</div>
         <div id="cloudConfigBox"></div>
+        <hr style="border-color:var(--line);" class="my-4">
+        <a href="privacidade.html" class="stat-sub"><i class="bi bi-shield-check"></i> Política de Privacidade</a>
       </div>
     </div>
 
@@ -1002,6 +1010,24 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- HISTÓRICO -->
+    <div class="tab-pane fade" id="tab-historico" role="tabpanel">
+      <div class="panel mb-4">
+        <h5 class="mb-3"><i class="bi bi-graph-up-arrow accent-4"></i> Progressão de carga</h5>
+        <div class="row g-2 mb-3">
+          <div class="col-md-6">
+            <select class="form-select" id="inpHistExercicio"><option value="">Selecione um exercício...</option></select>
+          </div>
+        </div>
+        <div id="histCargaChart"></div>
+      </div>
+
+      <div class="panel mb-4">
+        <h5 class="mb-3"><i class="bi bi-calendar3 accent-3"></i> Últimos 30 dias</h5>
+        <div id="histDiasList"></div>
       </div>
     </div>
 
@@ -1376,7 +1402,8 @@
     dietaProtocolo: 'fitness:dieta:protocolo',
     dietaConsumido: () => 'fitness:dieta:consumido:' + todayStr(),
     iaApiKey: 'fitness:ia:geminiApiKey',
-    conquistas: 'fitness:conquistas'
+    conquistas: 'fitness:conquistas',
+    cargaHistorico: 'fitness:cargaHistorico'
   };
 
   function ex(nome, series, categoria, descanso, duracao){
@@ -1447,6 +1474,7 @@
     aguaMetaManual: null,
     iaApiKey: '',
     conquistas: {},
+    cargaHistorico: [],
     selectedDay: todayDayName(),
     dietaPlano: {},
     dietaMeta: 2000,
@@ -1475,6 +1503,8 @@
   let cloudDb = null;
   let currentUser = null;
   let cloudSyncTimeout = null;
+  let cloudUnsubscribe = null;
+  const LOCAL_UPDATED_KEY = 'fitness:local:atualizadoEm';
 
   const CLOUD_SYNC_KEYS = new Set([
     KEYS.perfil, KEYS.pesos, KEYS.plano, KEYS.dietaPlano,
@@ -1483,7 +1513,7 @@
 
   function buildSyncPayload(){
     return {
-      atualizadoEm: new Date().toISOString(),
+      atualizadoEm: localStorage.getItem(LOCAL_UPDATED_KEY) || new Date().toISOString(),
       perfil: state.perfil,
       pesos: state.pesos,
       plano: state.plano,
@@ -1513,6 +1543,9 @@
     localStorage.setItem(KEYS.dietaHorarios, JSON.stringify(state.dietaHorarios));
     localStorage.setItem(KEYS.dietaProtocolo, JSON.stringify(state.dietaProtocolo));
     localStorage.setItem(KEYS.aguaMetaManual, JSON.stringify(state.aguaMetaManual));
+    // Alinha o relógio local com o que acabou de ser aplicado da nuvem, pra
+    // comparações futuras não acharem que o local está "mais novo" à toa.
+    if(data.atualizadoEm) localStorage.setItem(LOCAL_UPDATED_KEY, data.atualizadoEm);
 
     document.getElementById('inpProtocolo').value = state.dietaProtocolo;
     renderPerfilForm(); renderGreet();
@@ -1521,6 +1554,7 @@
     renderBiblioteca();
     renderMeals(); renderDietaStats();
     renderAgua();
+    renderDashboard();
   }
 
   async function pushToCloud(){
@@ -1535,26 +1569,51 @@
     cloudSyncTimeout = setTimeout(pushToCloud, 1500);
   }
 
+  // Resolve automaticamente qual versão é mais recente (local vs. nuvem) sem
+  // perguntar nada — e depois fica ouvindo mudanças da nuvem em tempo real,
+  // pra sincronizar sozinho se você usar outro aparelho.
   async function handlePostSignIn(){
     try{
       const docSnap = await cloudDb.collection('usuarios').doc(currentUser.uid).get();
+      const localAtualizadoEm = localStorage.getItem(LOCAL_UPDATED_KEY);
       if(docSnap.exists){
-        const usarNuvem = confirm('Encontramos dados salvos na nuvem para esta conta Google.\n\nOK = carregar dados da nuvem (substitui os deste aparelho)\nCancelar = manter os dados deste aparelho e enviar para a nuvem');
-        if(usarNuvem){
-          await applyCloudData(docSnap.data());
-          toast('Dados carregados da nuvem');
+        const cloudData = docSnap.data();
+        const cloudMaisNova = !localAtualizadoEm || (cloudData.atualizadoEm && cloudData.atualizadoEm > localAtualizadoEm);
+        if(cloudMaisNova){
+          await applyCloudData(cloudData);
+          toast('Dados sincronizados a partir da nuvem');
         } else {
           await pushToCloud();
-          toast('Dados deste aparelho enviados para a nuvem');
+          toast('Dados deste aparelho sincronizados com a nuvem');
         }
       } else {
         await pushToCloud();
-        toast('Conectado! Seus dados agora sincronizam com a nuvem');
+        toast('Conectado! Seus dados agora sincronizam automaticamente');
       }
+      iniciarSincronizacaoTempoReal();
     }catch(e){
       console.error(e);
       toast('Erro ao sincronizar com a nuvem', 'bi-exclamation-triangle');
     }
+  }
+
+  function iniciarSincronizacaoTempoReal(){
+    if(cloudUnsubscribe) { cloudUnsubscribe(); cloudUnsubscribe = null; }
+    if(!currentUser || !cloudDb) return;
+    cloudUnsubscribe = cloudDb.collection('usuarios').doc(currentUser.uid)
+      .onSnapshot(snap => {
+        if(!snap.exists || snap.metadata.hasPendingWrites) return; // ignora nosso próprio eco local
+        const data = snap.data();
+        const localAtualizadoEm = localStorage.getItem(LOCAL_UPDATED_KEY);
+        if(data.atualizadoEm && (!localAtualizadoEm || data.atualizadoEm > localAtualizadoEm)){
+          applyCloudData(data);
+          toast('Dados atualizados a partir de outro aparelho', 'bi-arrow-repeat');
+        }
+      }, (e) => console.error('erro na sincronização em tempo real', e));
+  }
+
+  function pararSincronizacaoTempoReal(){
+    if(cloudUnsubscribe){ cloudUnsubscribe(); cloudUnsubscribe = null; }
   }
 
   function initFirebase(config){
@@ -1568,7 +1627,7 @@
         renderCloudBox();
         renderOffcanvasAuthFooter();
         if(user){ hideAuthGate(); }
-        else { maybeShowAuthGate(); }
+        else { maybeShowAuthGate(); pararSincronizacaoTempoReal(); }
         if(isNewSignIn) handlePostSignIn();
       });
       return true;
@@ -1741,7 +1800,10 @@
   async function saveJSON(key, value){
     try{ localStorage.setItem(key, JSON.stringify(value)); }
     catch(e){ console.error('erro ao salvar', key, e); toast('Erro ao salvar — armazenamento do navegador indisponível', 'bi-exclamation-triangle'); }
-    if(CLOUD_SYNC_KEYS.has(key)) syncToCloudDebounced();
+    if(CLOUD_SYNC_KEYS.has(key)){
+      localStorage.setItem(LOCAL_UPDATED_KEY, new Date().toISOString());
+      syncToCloudDebounced();
+    }
   }
   async function loadJSON(key, fallback){
     try{
@@ -1928,6 +1990,117 @@
       return { label: d.label, valor: copos * 250 };
     });
   }
+
+  // ---------- HISTÓRICO DE TREINOS ----------
+  function renderHistDiasList(){
+    const box = document.getElementById('histDiasList');
+    if(!box) return;
+    const dias = ultimosNDias(30).slice().reverse(); // mais recente primeiro
+    box.innerHTML = dias.map(d => {
+      const listaDia = state.plano[d.diaSemana] || [];
+      let statusDia = {};
+      try{
+        const raw = localStorage.getItem('fitness:status:' + d.data);
+        if(raw) statusDia = JSON.parse(raw);
+      }catch(e){ statusDia = {}; }
+      const feitos = listaDia.filter(e => statusDia[e.id] === 'feito');
+      const cargasDoDia = state.cargaHistorico.filter(c => c.data === d.data);
+      if(listaDia.length === 0 && cargasDoDia.length === 0) return '';
+      const detalhes = feitos.map(e => {
+        const carga = cargasDoDia.find(c => c.exercicioNome === e.nome);
+        return `<div class="d-flex align-items-center gap-2 py-1">
+          <i class="bi bi-check-circle-fill accent-2"></i>
+          <span style="font-size:0.85rem;">${escapeHtml(e.nome)}</span>
+          ${carga ? `<span class="badge badge-dur">${fmt1(carga.peso)} kg</span>` : ''}
+        </div>`;
+      }).join('');
+      return `
+        <div class="mb-2">
+          <button class="btn btn-outline-light btn-sm w-100 d-flex justify-content-between align-items-center" data-toggle-dia="${d.data}">
+            <span>${d.diaSemana}, ${formatDate(d.data)}</span>
+            <span class="stat-sub mb-0">${feitos.length}/${listaDia.length} feitos</span>
+          </button>
+          <div class="d-none ps-3 pt-2" id="hist-dia-${d.data}">
+            ${detalhes || '<div class="stat-sub">nenhum exercício concluído nesse dia</div>'}
+          </div>
+        </div>`;
+    }).join('') || '<div class="empty-state"><i class="bi bi-calendar-x"></i>ainda não há histórico suficiente</div>';
+
+    box.querySelectorAll('[data-toggle-dia]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('hist-dia-' + btn.dataset.toggleDia).classList.toggle('d-none');
+      });
+    });
+  }
+
+  function renderHistExercicioSelect(){
+    const select = document.getElementById('inpHistExercicio');
+    const nomes = [...new Set(state.cargaHistorico.map(c => c.exercicioNome))].sort();
+    const valorAtual = select.value;
+    select.innerHTML = '<option value="">Selecione um exercício...</option>' +
+      nomes.map(n => `<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');
+    if(nomes.includes(valorAtual)) select.value = valorAtual;
+  }
+
+  function renderHistCargaChart(){
+    const box = document.getElementById('histCargaChart');
+    const nomeSelecionado = document.getElementById('inpHistExercicio').value;
+    if(!nomeSelecionado){
+      box.innerHTML = '<div class="stat-sub">escolha um exercício acima pra ver a evolução da carga usada</div>';
+      return;
+    }
+    const registros = state.cargaHistorico
+      .filter(c => c.exercicioNome === nomeSelecionado)
+      .sort((a,b) => a.data.localeCompare(b.data))
+      .slice(-20);
+    if(registros.length < 2){
+      box.innerHTML = '<div class="stat-sub">registre o peso usado nesse exercício em pelo menos 2 treinos pra ver o gráfico</div>';
+      return;
+    }
+    const w = 700, h = 280, marginX = 20, marginTop = 60, marginBottom = 34;
+    const pesosNum = registros.map(r => r.peso);
+    const min = Math.min(...pesosNum), max = Math.max(...pesosNum);
+    const pad = (max - min) * 0.15 || 1;
+    const yMin = min - pad, yMax = max + pad;
+    const stepX = registros.length > 1 ? (w - marginX*2) / (registros.length - 1) : 0;
+    const coords = registros.map((r, i) => {
+      const x = marginX + i * stepX;
+      const y = marginTop + (h - marginTop - marginBottom) * (1 - (r.peso - yMin) / (yMax - yMin));
+      return [x, y];
+    });
+    const pathD = coords.map((c,i) => (i===0?'M':'L') + c[0].toFixed(1) + ',' + c[1].toFixed(1)).join(' ');
+    const areaD = pathD + ' L' + coords[coords.length-1][0].toFixed(1) + ',' + (h-marginBottom) + ' L' + coords[0][0].toFixed(1) + ',' + (h-marginBottom) + ' Z';
+    const dots = coords.map((c,i) => `<circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="5" fill="var(--accent-4)"><title>${fmt1(registros[i].peso)} kg — ${formatDate(registros[i].data)}</title></circle>`).join('');
+
+    const containerWidth = box.clientWidth || 320;
+    const scale = containerWidth / w;
+    const desiredPx = containerWidth < 500 ? 16 : 17;
+    const fontSizeUnits = Math.round(desiredPx / scale);
+
+    const labels = coords.map((c,i) => {
+      const alterna = i % 2 === 0 ? 0 : fontSizeUnits * 2;
+      return `<text x="${c[0].toFixed(1)}" y="${(c[1]-16-alterna).toFixed(1)}" text-anchor="middle" font-size="${fontSizeUnits}" style="fill:var(--text-1)" font-weight="700">${fmt1(registros[i].peso)}</text>`;
+    }).join('');
+    box.innerHTML = `
+      <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto; display:block;">
+        <path d="${areaD}" fill="var(--accent-4)" opacity="0.12"></path>
+        <path d="${pathD}" fill="none" stroke="var(--accent-4)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></path>
+        ${dots}
+        ${labels}
+      </svg>
+      <div class="d-flex justify-content-between stat-sub mt-1">
+        <span>${formatDate(registros[0].data)}</span>
+        <span>${formatDate(registros[registros.length-1].data)}</span>
+      </div>`;
+  }
+
+  function renderHistorico(){
+    renderHistExercicioSelect();
+    renderHistCargaChart();
+    renderHistDiasList();
+  }
+  document.getElementById('inpHistExercicio').addEventListener('change', renderHistCargaChart);
+  document.getElementById('tab-historico-btn').addEventListener('shown.bs.tab', renderHistorico);
 
   function renderBarChartSVG(box, items, metaValor, corVar){
     const maxValor = Math.max(metaValor || 0, ...items.map(i => i.valor), 1);
@@ -2274,6 +2447,19 @@
     state.status[id] = 'feito';
     await saveJSON(KEYS.status(), state.status);
     desbloquearConquista('primeiro_treino');
+
+    const exItem = (state.plano[todayDayName()] || []).find(e => e.id === id);
+    if(exItem){
+      const pesoStr = prompt('Peso usado em "' + exItem.nome + '" (kg) — deixe em branco se não se aplica:', '');
+      if(pesoStr !== null && pesoStr.trim() !== ''){
+        const pesoUsado = parseFloat(pesoStr);
+        if(pesoUsado > 0){
+          state.cargaHistorico.push({ data: todayStr(), exercicioNome: exItem.nome, peso: pesoUsado, series: exItem.series || '' });
+          await saveJSON(KEYS.cargaHistorico, state.cargaHistorico);
+        }
+      }
+    }
+
     renderExList();
     renderHojeStats();
   }
@@ -3178,6 +3364,15 @@
     toast('App instalado com sucesso!');
   });
 
+  // ---------- SERVICE WORKER (offline de verdade) ----------
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch((e) => {
+        console.error('erro ao registrar service worker', e);
+      });
+    });
+  }
+
   document.querySelectorAll('#mainTabs .nav-link').forEach(btn => {
     btn.addEventListener('click', () => {
       const oc = bootstrap.Offcanvas.getInstance(document.getElementById('mainMenu'));
@@ -3238,6 +3433,7 @@
     state.aguaMetaManual = await loadJSON(KEYS.aguaMetaManual, null);
     state.iaApiKey = await loadJSON(KEYS.iaApiKey, '');
     state.conquistas = await loadJSON(KEYS.conquistas, {});
+    state.cargaHistorico = await loadJSON(KEYS.cargaHistorico, []);
     state.dietaPlano = await loadJSON(KEYS.dietaPlano, JSON.parse(JSON.stringify(DEFAULT_DIETA_PLANO)));
     state.dietaMeta = await loadJSON(KEYS.dietaMeta, 2000);
     state.dietaHorarios = await loadJSON(KEYS.dietaHorarios, {});
