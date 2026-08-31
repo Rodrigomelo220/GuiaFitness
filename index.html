@@ -15,10 +15,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Guia Fitness">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap-icons.min.css" rel="stylesheet">
+<link href="css/fonts.css" rel="stylesheet">
 
 <style>
   :root{
@@ -301,9 +300,95 @@
     .food-row .badge{ order:3; }
     #inpProtocolo{ font-size:0.9rem; }
   }
+
+  .auth-screen{
+    position:fixed;
+    inset:0;
+    z-index:2000;
+    background:radial-gradient(circle at 50% 0%, #1a2130 0%, var(--bg-deep) 70%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    overflow-y:auto;
+  }
+  .auth-card{
+    width:100%;
+    max-width:380px;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:28px 24px;
+  }
+  .auth-logo{
+    font-size:2.4rem;
+    color:var(--accent);
+    margin-bottom:6px;
+  }
+  .auth-divider{
+    display:flex;
+    align-items:center;
+    text-align:center;
+    color:#8a94a3;
+    font-size:0.8rem;
+  }
+  .auth-divider::before, .auth-divider::after{
+    content:"";
+    flex:1;
+    border-bottom:1px solid var(--line);
+  }
+  .auth-divider span{ padding:0 10px; }
+  #authTabLogin.active, #authTabCadastro.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#1a1200;
+  }
 </style>
 </head>
 <body>
+
+<!-- TELA DE LOGIN / CADASTRO -->
+<div id="authScreen" class="auth-screen d-none">
+  <div class="auth-card">
+    <div class="text-center mb-4">
+      <div class="auth-logo"><i class="bi bi-heart-pulse-fill"></i></div>
+      <h3 class="mb-0">Guia Fitness</h3>
+      <div class="stat-sub" id="authSubtitle">Entre na sua conta pra acessar seus dados</div>
+    </div>
+
+    <div class="btn-group w-100 mb-3" role="group">
+      <button type="button" class="btn btn-outline-light active" id="authTabLogin">Entrar</button>
+      <button type="button" class="btn btn-outline-light" id="authTabCadastro">Criar conta</button>
+    </div>
+
+    <button class="btn btn-outline-light w-100 mb-3 d-flex align-items-center justify-content-center gap-2" id="authGoogleBtn">
+      <i class="bi bi-google"></i> Continuar com Google
+    </button>
+    <div class="auth-divider mb-3"><span>ou com e-mail</span></div>
+
+    <form id="authForm">
+      <div class="mb-2">
+        <input type="email" class="form-control" id="authEmail" placeholder="E-mail" required autocomplete="email">
+      </div>
+      <div class="mb-2">
+        <input type="password" class="form-control" id="authSenha" placeholder="Senha" required autocomplete="current-password" minlength="6">
+      </div>
+      <div class="mb-2 d-none" id="authConfirmarSenhaBox">
+        <input type="password" class="form-control" id="authSenhaConfirmar" placeholder="Confirmar senha" autocomplete="new-password" minlength="6">
+      </div>
+      <div id="authError" class="text-danger stat-sub mb-2 d-none"></div>
+      <button type="submit" class="btn btn-accent w-100" id="authSubmitBtn"><i class="bi bi-box-arrow-in-right"></i> Entrar</button>
+    </form>
+    <div class="text-center mt-3">
+      <a href="#" id="authEsqueciSenha" class="stat-sub accent-3">Esqueci minha senha</a>
+    </div>
+
+    <hr style="border-color:var(--line);" class="my-4">
+    <div class="text-center">
+      <button class="btn btn-sm btn-outline-light" id="authContinuarSemConta">Continuar sem conta (só neste aparelho)</button>
+    </div>
+  </div>
+</div>
 
 <nav class="navbar navbar-fit sticky-top">
   <div class="container-fluid px-3 px-md-4 d-flex flex-wrap align-items-center gap-2">
@@ -384,6 +469,10 @@
             Seus dados agora ficam salvos no armazenamento local <strong>deste navegador/celular</strong>, sem depender do Claude — funciona mesmo offline. Importante: isso só funciona quando você abre o arquivo <strong>baixado</strong> diretamente (ou instalado na tela inicial) — dentro do preview do Claude o navegador bloqueia esse tipo de armazenamento. Também é por navegador/app: se limpar os dados do navegador, trocar de celular ou abrir em outro app, os dados não acompanham — use o botão <strong>Backup</strong> de vez em quando pra ter uma cópia de segurança que você pode restaurar em qualquer lugar.
           </div>
         </div>
+        <hr style="border-color:var(--line);" class="my-4">
+        <h5 class="mb-2"><i class="bi bi-cloud-check accent-3"></i> Sincronização na nuvem (Google)</h5>
+        <div class="stat-sub mb-3">Conecte sua conta Google pra salvar seus dados na nuvem e acessá-los de qualquer aparelho, automaticamente.</div>
+        <div id="cloudConfigBox"></div>
       </div>
     </div>
 
@@ -563,26 +652,31 @@
           <h5 class="mb-0"><i class="bi bi-stars accent-2"></i> Diga o que comeu</h5>
         </div>
         <div class="stat-sub mb-2">descreva em texto livre o que você comeu, e a IA estima os alimentos e calorias pra você</div>
-        <div class="row g-2 align-items-end mb-2">
-          <div class="col-md-3">
-            <label class="form-label">Refeição</label>
-            <select class="form-select" id="inpIaRefeicao"></select>
+
+        <div id="iaConfigBox" class="mb-3"></div>
+
+        <div id="iaFormBox" class="d-none">
+          <div class="row g-2 align-items-end mb-2">
+            <div class="col-md-3">
+              <label class="form-label">Refeição</label>
+              <select class="form-select" id="inpIaRefeicao"></select>
+            </div>
+            <div class="col-md-7">
+              <label class="form-label">O que você comeu?</label>
+              <input type="text" class="form-control" id="inpIaDescricao" placeholder="Ex: 2 ovos mexidos, uma banana e um copo de leite">
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-accent w-100" id="btnEstimarIA"><i class="bi bi-magic"></i> Estimar</button>
+            </div>
           </div>
-          <div class="col-md-7">
-            <label class="form-label">O que você comeu?</label>
-            <input type="text" class="form-control" id="inpIaDescricao" placeholder="Ex: 2 ovos mexidos, uma banana e um copo de leite">
-          </div>
-          <div class="col-md-2">
-            <button class="btn btn-accent w-100" id="btnEstimarIA"><i class="bi bi-magic"></i> Estimar</button>
-          </div>
-        </div>
-        <div id="iaLoading" class="stat-sub d-none"><i class="bi bi-hourglass-split"></i> Calculando com IA...</div>
-        <div id="iaPreview" class="d-none">
-          <div class="stat-sub mb-2"><i class="bi bi-info-circle"></i> Estimativa gerada por IA — os valores podem não ser exatos, revise antes de confirmar.</div>
-          <div id="iaPreviewList" class="mb-2"></div>
-          <div class="d-flex gap-2">
-            <button class="btn btn-accent" id="btnConfirmarIA"><i class="bi bi-check2-all"></i> Adicionar itens</button>
-            <button class="btn btn-outline-light" id="btnCancelarIA">Cancelar</button>
+          <div id="iaLoading" class="stat-sub d-none"><i class="bi bi-hourglass-split"></i> Calculando com IA...</div>
+          <div id="iaPreview" class="d-none">
+            <div class="stat-sub mb-2"><i class="bi bi-info-circle"></i> Estimativa gerada por IA — os valores podem não ser exatos, revise antes de confirmar.</div>
+            <div id="iaPreviewList" class="mb-2"></div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-accent" id="btnConfirmarIA"><i class="bi bi-check2-all"></i> Adicionar itens</button>
+              <button class="btn btn-outline-light" id="btnCancelarIA">Cancelar</button>
+            </div>
           </div>
         </div>
       </div>
@@ -769,8 +863,9 @@
 
 <div id="toast-area"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="js/Sortable.min.js"></script>
+<script src="js/firebase-compat.min.js"></script>
 <script>
 (function(){
   "use strict";
@@ -879,7 +974,8 @@
     dietaMeta: 'fitness:dieta:meta',
     dietaHorarios: 'fitness:dieta:horarios',
     dietaProtocolo: 'fitness:dieta:protocolo',
-    dietaConsumido: () => 'fitness:dieta:consumido:' + todayStr()
+    dietaConsumido: () => 'fitness:dieta:consumido:' + todayStr(),
+    iaApiKey: 'fitness:ia:geminiApiKey'
   };
 
   function ex(nome, series, categoria, descanso, duracao){
@@ -948,6 +1044,7 @@
     status: {},
     agua: { copos: 0 },
     aguaMetaManual: null,
+    iaApiKey: '',
     selectedDay: todayDayName(),
     dietaPlano: {},
     dietaMeta: 2000,
@@ -960,11 +1057,261 @@
   let restPendingId = null;
   let exSortable = null;
 
+  // ---------- SINCRONIZAÇÃO NA NUVEM (Firebase + Google) ----------
+  // Configuração fixa do projeto Firebase — preenchida uma única vez pelo dono do app.
+  // Não é segredo: a segurança real fica nas Regras do Firestore (acesso só ao próprio uid).
+  const FIREBASE_CONFIG = {
+    apiKey: "",
+    authDomain: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: ""
+  };
+  let firebaseApp = null;
+  let cloudAuth = null;
+  let cloudDb = null;
+  let currentUser = null;
+  let cloudSyncTimeout = null;
+
+  const CLOUD_SYNC_KEYS = new Set([
+    KEYS.perfil, KEYS.pesos, KEYS.plano, KEYS.dietaPlano,
+    KEYS.dietaMeta, KEYS.dietaHorarios, KEYS.dietaProtocolo, KEYS.aguaMetaManual
+  ]);
+
+  function buildSyncPayload(){
+    return {
+      atualizadoEm: new Date().toISOString(),
+      perfil: state.perfil,
+      pesos: state.pesos,
+      plano: state.plano,
+      dietaPlano: state.dietaPlano,
+      dietaMeta: state.dietaMeta,
+      dietaHorarios: state.dietaHorarios,
+      dietaProtocolo: state.dietaProtocolo,
+      aguaMetaManual: state.aguaMetaManual
+    };
+  }
+
+  async function applyCloudData(data){
+    if(data.perfil) state.perfil = data.perfil;
+    if(data.pesos) state.pesos = data.pesos;
+    if(data.plano) state.plano = data.plano;
+    if(data.dietaPlano) state.dietaPlano = data.dietaPlano;
+    if(typeof data.dietaMeta === 'number') state.dietaMeta = data.dietaMeta;
+    if(data.dietaHorarios) state.dietaHorarios = data.dietaHorarios;
+    if(typeof data.dietaProtocolo === 'string') state.dietaProtocolo = data.dietaProtocolo;
+    if(data.aguaMetaManual !== undefined) state.aguaMetaManual = data.aguaMetaManual;
+
+    localStorage.setItem(KEYS.perfil, JSON.stringify(state.perfil));
+    localStorage.setItem(KEYS.pesos, JSON.stringify(state.pesos));
+    localStorage.setItem(KEYS.plano, JSON.stringify(state.plano));
+    localStorage.setItem(KEYS.dietaPlano, JSON.stringify(state.dietaPlano));
+    localStorage.setItem(KEYS.dietaMeta, JSON.stringify(state.dietaMeta));
+    localStorage.setItem(KEYS.dietaHorarios, JSON.stringify(state.dietaHorarios));
+    localStorage.setItem(KEYS.dietaProtocolo, JSON.stringify(state.dietaProtocolo));
+    localStorage.setItem(KEYS.aguaMetaManual, JSON.stringify(state.aguaMetaManual));
+
+    document.getElementById('inpProtocolo').value = state.dietaProtocolo;
+    renderPerfilForm(); renderGreet();
+    renderPesoStats(); renderPesoList();
+    renderDayTabs(); renderHojeStats(); renderExList();
+    renderBiblioteca();
+    renderMeals(); renderDietaStats();
+    renderAgua();
+  }
+
+  async function pushToCloud(){
+    if(!currentUser || !cloudDb) return;
+    try{
+      await cloudDb.collection('usuarios').doc(currentUser.uid).set(buildSyncPayload(), { merge: true });
+    }catch(e){ console.error('erro ao sincronizar com a nuvem', e); }
+  }
+  function syncToCloudDebounced(){
+    if(!currentUser || !cloudDb) return;
+    clearTimeout(cloudSyncTimeout);
+    cloudSyncTimeout = setTimeout(pushToCloud, 1500);
+  }
+
+  async function handlePostSignIn(){
+    try{
+      const docSnap = await cloudDb.collection('usuarios').doc(currentUser.uid).get();
+      if(docSnap.exists){
+        const usarNuvem = confirm('Encontramos dados salvos na nuvem para esta conta Google.\n\nOK = carregar dados da nuvem (substitui os deste aparelho)\nCancelar = manter os dados deste aparelho e enviar para a nuvem');
+        if(usarNuvem){
+          await applyCloudData(docSnap.data());
+          toast('Dados carregados da nuvem');
+        } else {
+          await pushToCloud();
+          toast('Dados deste aparelho enviados para a nuvem');
+        }
+      } else {
+        await pushToCloud();
+        toast('Conectado! Seus dados agora sincronizam com a nuvem');
+      }
+    }catch(e){
+      console.error(e);
+      toast('Erro ao sincronizar com a nuvem', 'bi-exclamation-triangle');
+    }
+  }
+
+  function initFirebase(config){
+    try{
+      firebaseApp = firebase.apps.length ? firebase.app() : firebase.initializeApp(config);
+      cloudAuth = firebase.auth();
+      cloudDb = firebase.firestore();
+      cloudAuth.onAuthStateChanged(user => {
+        const isNewSignIn = !currentUser && user;
+        currentUser = user;
+        renderCloudBox();
+        if(user){ hideAuthGate(); }
+        else { maybeShowAuthGate(); }
+        if(isNewSignIn) handlePostSignIn();
+      });
+      return true;
+    }catch(e){ console.error('erro ao iniciar firebase', e); return false; }
+  }
+
+  function renderCloudBox(){
+    const box = document.getElementById('cloudConfigBox');
+    if(!box) return;
+    if(!firebaseApp){
+      box.innerHTML = `<div class="stat-sub"><i class="bi bi-hourglass-split"></i> Sincronização na nuvem ainda não configurada neste app.</div>`;
+      return;
+    }
+    if(currentUser){
+      box.innerHTML = `
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <span class="badge badge-dur"><i class="bi bi-cloud-check"></i> Conectado como ${escapeHtml(currentUser.email || currentUser.displayName || '')}</span>
+          <button class="btn btn-sm btn-outline-light" id="btnCloudSignOut">Sair</button>
+        </div>
+      `;
+      document.getElementById('btnCloudSignOut').addEventListener('click', () => { cloudAuth.signOut(); });
+    } else {
+      box.innerHTML = `<button class="btn btn-accent btn-sm" id="btnCloudSignIn"><i class="bi bi-google"></i> Entrar com Google</button>`;
+      document.getElementById('btnCloudSignIn').addEventListener('click', async () => {
+        try{
+          await cloudAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+        }catch(e){
+          console.error(e);
+          toast('Erro ao entrar com Google — tente novamente', 'bi-exclamation-triangle');
+        }
+      });
+    }
+  }
+
+  // ---------- TELA DE LOGIN / CADASTRO ----------
+  const AUTH_SKIP_KEY = 'fitness:auth:skip';
+  let authMode = 'login';
+
+  function hideAuthGate(){
+    document.getElementById('authScreen').classList.add('d-none');
+  }
+  function maybeShowAuthGate(){
+    if(FIREBASE_CONFIG.apiKey && !localStorage.getItem(AUTH_SKIP_KEY) && !currentUser){
+      document.getElementById('authScreen').classList.remove('d-none');
+    }
+  }
+  function setAuthError(msg){
+    const box = document.getElementById('authError');
+    if(!msg){ box.classList.add('d-none'); box.textContent=''; return; }
+    box.textContent = msg;
+    box.classList.remove('d-none');
+  }
+  function traduzErroAuth(e){
+    const map = {
+      'auth/email-already-in-use': 'Já existe uma conta com esse e-mail — tente entrar em vez de criar conta.',
+      'auth/invalid-email': 'E-mail inválido.',
+      'auth/weak-password': 'A senha precisa ter pelo menos 6 caracteres.',
+      'auth/user-not-found': 'Não encontramos conta com esse e-mail.',
+      'auth/wrong-password': 'Senha incorreta.',
+      'auth/invalid-credential': 'E-mail ou senha incorretos.',
+      'auth/too-many-requests': 'Muitas tentativas — aguarde um pouco e tente de novo.'
+    };
+    return (e && map[e.code]) || 'Não foi possível concluir — tente novamente.';
+  }
+
+  function setAuthMode(mode){
+    authMode = mode;
+    setAuthError(null);
+    document.getElementById('authTabLogin').classList.toggle('active', mode === 'login');
+    document.getElementById('authTabCadastro').classList.toggle('active', mode === 'cadastro');
+    document.getElementById('authConfirmarSenhaBox').classList.toggle('d-none', mode !== 'cadastro');
+    document.getElementById('authSubtitle').textContent = mode === 'login'
+      ? 'Entre na sua conta pra acessar seus dados'
+      : 'Crie sua conta gratuita pra salvar seus dados na nuvem';
+    document.getElementById('authSubmitBtn').innerHTML = mode === 'login'
+      ? '<i class="bi bi-box-arrow-in-right"></i> Entrar'
+      : '<i class="bi bi-person-plus"></i> Criar conta';
+  }
+
+  document.getElementById('authTabLogin').addEventListener('click', () => setAuthMode('login'));
+  document.getElementById('authTabCadastro').addEventListener('click', () => setAuthMode('cadastro'));
+
+  document.getElementById('authGoogleBtn').addEventListener('click', async () => {
+    if(!cloudAuth) return;
+    setAuthError(null);
+    try{
+      await cloudAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+      hideAuthGate();
+    }catch(e){
+      console.error(e);
+      setAuthError(traduzErroAuth(e));
+    }
+  });
+
+  document.getElementById('authForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if(!cloudAuth) return;
+    setAuthError(null);
+    const email = document.getElementById('authEmail').value.trim();
+    const senha = document.getElementById('authSenha').value;
+    if(authMode === 'cadastro'){
+      const confirmar = document.getElementById('authSenhaConfirmar').value;
+      if(senha !== confirmar){ setAuthError('As senhas não coincidem.'); return; }
+    }
+    const btn = document.getElementById('authSubmitBtn');
+    btn.disabled = true;
+    try{
+      if(authMode === 'login'){
+        await cloudAuth.signInWithEmailAndPassword(email, senha);
+      } else {
+        await cloudAuth.createUserWithEmailAndPassword(email, senha);
+      }
+      hideAuthGate();
+    }catch(e){
+      console.error(e);
+      setAuthError(traduzErroAuth(e));
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  document.getElementById('authEsqueciSenha').addEventListener('click', async (e) => {
+    e.preventDefault();
+    if(!cloudAuth) return;
+    const email = document.getElementById('authEmail').value.trim() || prompt('Digite seu e-mail para redefinir a senha:');
+    if(!email) return;
+    try{
+      await cloudAuth.sendPasswordResetEmail(email);
+      toast('E-mail de redefinição de senha enviado');
+    }catch(e){
+      console.error(e);
+      setAuthError(traduzErroAuth(e));
+    }
+  });
+
+  document.getElementById('authContinuarSemConta').addEventListener('click', () => {
+    localStorage.setItem(AUTH_SKIP_KEY, '1');
+    hideAuthGate();
+  });
+
   // Armazenamento local do navegador (localStorage) — os dados ficam salvos
   // neste navegador/dispositivo específico, sem depender do Claude.
   async function saveJSON(key, value){
     try{ localStorage.setItem(key, JSON.stringify(value)); }
     catch(e){ console.error('erro ao salvar', key, e); toast('Erro ao salvar — armazenamento do navegador indisponível', 'bi-exclamation-triangle'); }
+    if(CLOUD_SYNC_KEYS.has(key)) syncToCloudDebounced();
   }
   async function loadJSON(key, fallback){
     try{
@@ -1500,8 +1847,45 @@
     toast('Alimento adicionado em ' + meal);
   });
 
-  // ---------- CONTADOR DE CALORIAS POR IA ----------
+  // ---------- CONTADOR DE CALORIAS POR IA (Google Gemini - gratuito) ----------
   let iaItensPendentes = [];
+
+  function renderIaConfigBox(){
+    const box = document.getElementById('iaConfigBox');
+    const formBox = document.getElementById('iaFormBox');
+    if(state.iaApiKey){
+      box.innerHTML = `
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <span class="badge badge-dur"><i class="bi bi-check2-circle"></i> IA configurada</span>
+          <button class="btn btn-sm btn-outline-light" id="btnTrocarIaKey">Trocar chave</button>
+        </div>`;
+      formBox.classList.remove('d-none');
+      document.getElementById('btnTrocarIaKey').addEventListener('click', () => {
+        state.iaApiKey = '';
+        renderIaConfigBox();
+      });
+    } else {
+      box.innerHTML = `
+        <div class="stat-sub mb-2">
+          Pra usar essa função, você precisa de uma chave grátis do Google Gemini.
+          <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" class="accent-3">Criar chave grátis em aistudio.google.com</a>
+          (entre com sua conta Google → "Get API key" → "Create API key" → copie e cole abaixo)
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <input type="password" class="form-control" id="inpIaApiKey" placeholder="Cole sua chave de API aqui" style="max-width:320px;">
+          <button class="btn btn-accent" id="btnSalvarIaKey"><i class="bi bi-check2"></i> Salvar chave</button>
+        </div>`;
+      formBox.classList.add('d-none');
+      document.getElementById('btnSalvarIaKey').addEventListener('click', async () => {
+        const key = document.getElementById('inpIaApiKey').value.trim();
+        if(!key){ toast('Cole a chave antes de salvar', 'bi-exclamation-triangle'); return; }
+        state.iaApiKey = key;
+        await saveJSON(KEYS.iaApiKey, key);
+        renderIaConfigBox();
+        toast('Chave salva! Já pode usar o "Diga o que comeu"');
+      });
+    }
+  }
 
   function renderIaPreview(){
     const list = document.getElementById('iaPreviewList');
@@ -1534,6 +1918,7 @@
   }
 
   document.getElementById('btnEstimarIA').addEventListener('click', async () => {
+    if(!state.iaApiKey){ toast('Configure sua chave de IA primeiro (acima)', 'bi-exclamation-triangle'); return; }
     const descricao = document.getElementById('inpIaDescricao').value.trim();
     if(!descricao){ toast('Descreva o que você comeu primeiro', 'bi-exclamation-triangle'); return; }
     const loading = document.getElementById('iaLoading');
@@ -1543,20 +1928,21 @@
     loading.classList.remove('d-none');
     btn.disabled = true;
     try{
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const systemPrompt = 'Você é um assistente de nutrição. O usuário vai descrever o que comeu em português, em texto livre. Divida a descrição em itens de alimento individuais e estime a quantidade e as calorias de cada um, usando valores nutricionais típicos brasileiros. Responda APENAS com um array JSON válido, no formato exato: [{"nome":"nome do alimento","qtd":"quantidade estimada (ex: 2 unidades, 150g, 1 copo)","kcal":numero_inteiro_de_calorias}]. Se a descrição tiver vários alimentos, retorne um item por alimento.';
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + encodeURIComponent(state.iaApiKey), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 1000,
-          system: 'Você é um assistente de nutrição. O usuário vai descrever o que comeu em português, em texto livre. Divida a descrição em itens de alimento individuais e estime a quantidade e as calorias de cada um, usando valores nutricionais típicos brasileiros. Responda APENAS com um array JSON válido, sem nenhum texto antes ou depois, sem markdown, no formato exato: [{"nome":"nome do alimento","qtd":"quantidade estimada (ex: 2 unidades, 150g, 1 copo)","kcal":numero_inteiro_de_calorias}]. Se a descrição tiver vários alimentos, retorne um item por alimento.',
-          messages: [{ role: 'user', content: descricao }]
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          contents: [{ role: 'user', parts: [{ text: descricao }] }],
+          generationConfig: { responseMimeType: 'application/json' }
         })
       });
       const data = await response.json();
-      const textBlock = (data.content || []).find(b => b.type === 'text');
-      if(!textBlock) throw new Error('Resposta vazia da IA');
-      const clean = textBlock.text.replace(/```json|```/g, '').trim();
+      if(data.error) throw new Error(data.error.message || 'Erro na API do Gemini');
+      const textOut = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text;
+      if(!textOut) throw new Error('Resposta vazia da IA');
+      const clean = textOut.replace(/```json|```/g, '').trim();
       const itens = JSON.parse(clean);
       if(!Array.isArray(itens) || itens.length === 0) throw new Error('Nenhum item reconhecido');
       iaItensPendentes = itens.map(it => ({
@@ -1568,7 +1954,7 @@
       preview.classList.remove('d-none');
     } catch(err){
       console.error('erro ao estimar com IA', err);
-      toast('Não consegui estimar agora — tente descrever de outro jeito ou adicione manualmente', 'bi-exclamation-triangle');
+      toast('Não consegui estimar agora — verifique sua chave ou tente de outro jeito', 'bi-exclamation-triangle');
     } finally {
       loading.classList.add('d-none');
       btn.disabled = false;
@@ -1720,30 +2106,8 @@
       try{
         const data = JSON.parse(ev.target.result);
         if(!confirm('Restaurar este backup vai substituir seus dados atuais de perfil, peso, treinos e alimentação. Continuar?')) return;
-        if(data.perfil) state.perfil = data.perfil;
-        if(data.pesos) state.pesos = data.pesos;
-        if(data.plano) state.plano = data.plano;
-        if(data.dietaPlano) state.dietaPlano = data.dietaPlano;
-        if(typeof data.dietaMeta === 'number') state.dietaMeta = data.dietaMeta;
-        if(data.dietaHorarios) state.dietaHorarios = data.dietaHorarios;
-        if(typeof data.dietaProtocolo === 'string') state.dietaProtocolo = data.dietaProtocolo;
-        if(data.aguaMetaManual !== undefined) state.aguaMetaManual = data.aguaMetaManual;
-
-        await saveJSON(KEYS.perfil, state.perfil);
-        await saveJSON(KEYS.pesos, state.pesos);
-        await saveJSON(KEYS.plano, state.plano);
-        await saveJSON(KEYS.dietaPlano, state.dietaPlano);
-        await saveJSON(KEYS.dietaMeta, state.dietaMeta);
-        await saveJSON(KEYS.dietaHorarios, state.dietaHorarios);
-        await saveJSON(KEYS.dietaProtocolo, state.dietaProtocolo);
-        await saveJSON(KEYS.aguaMetaManual, state.aguaMetaManual);
-
-        document.getElementById('inpProtocolo').value = state.dietaProtocolo;
-        renderPerfilForm(); renderGreet();
-        renderPesoStats(); renderPesoList();
-        renderDayTabs(); renderHojeStats(); renderExList();
-        renderMeals(); renderDietaStats();
-        renderAgua();
+        await applyCloudData(data);
+        syncToCloudDebounced();
         toast('Backup restaurado com sucesso');
       }catch(err){
         console.error(err);
@@ -1819,6 +2183,7 @@
     state.status = await loadJSON(KEYS.status(), {});
     state.agua = await loadJSON(KEYS.agua(), { copos: 0 });
     state.aguaMetaManual = await loadJSON(KEYS.aguaMetaManual, null);
+    state.iaApiKey = await loadJSON(KEYS.iaApiKey, '');
     state.dietaPlano = await loadJSON(KEYS.dietaPlano, JSON.parse(JSON.stringify(DEFAULT_DIETA_PLANO)));
     state.dietaMeta = await loadJSON(KEYS.dietaMeta, 2000);
     state.dietaHorarios = await loadJSON(KEYS.dietaHorarios, {});
@@ -1835,6 +2200,15 @@
     renderHojeStats();
     renderExList();
     renderBiblioteca();
+    renderIaConfigBox();
+
+    if(FIREBASE_CONFIG.apiKey){
+      try{ initFirebase(FIREBASE_CONFIG); }
+      catch(e){ console.error('erro ao iniciar sincronização na nuvem', e); }
+      maybeShowAuthGate();
+    }
+    renderCloudBox();
+
     renderMeals();
     renderDietaStats();
     renderAgua();
