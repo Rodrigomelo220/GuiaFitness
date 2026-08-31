@@ -434,6 +434,7 @@
         <button class="nav-link w-100 text-start" id="tab-agua-btn" data-bs-toggle="pill" data-bs-target="#tab-agua" type="button"><i class="bi bi-droplet-fill"></i> Água</button>
       </li>
     </ul>
+    <div id="offcanvasAuthFooter" class="mt-4 pt-3" style="border-top:1px solid var(--line);"></div>
   </div>
 </div>
 
@@ -579,7 +580,7 @@
     <!-- BIBLIOTECA DE EXERCÍCIOS -->
     <div class="tab-pane fade" id="tab-biblioteca" role="tabpanel">
       <div class="panel mb-4">
-        <h5 class="mb-3"><i class="bi bi-collection-play-fill accent-3"></i> Biblioteca de exercícios</h5>
+        <h5 class="mb-3"><i class="bi bi-play-circle-fill accent-3"></i> Exercícios do seu plano (com vídeo)</h5>
         <div class="row g-2 mb-3">
           <div class="col-md-6">
             <input type="text" class="form-control" id="inpBibliotecaBusca" placeholder="Buscar exercício por nome...">
@@ -591,6 +592,33 @@
           </div>
         </div>
         <div id="bibliotecaList"></div>
+      </div>
+
+      <div class="panel mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+          <h5 class="mb-0"><i class="bi bi-collection-play-fill accent-3"></i> Biblioteca completa</h5>
+          <span class="stat-sub" id="exLibCountLabel"></span>
+        </div>
+        <div class="stat-sub mb-3">Mais de 800 exercícios (Free Exercise DB) — nomes traduzidos automaticamente, com imagens do movimento.</div>
+        <div class="row g-2 mb-3">
+          <div class="col-md-4">
+            <input type="text" class="form-control" id="inpExLibBusca" placeholder="Buscar por nome...">
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" id="inpExLibMusculo"><option value="">Grupo muscular</option></select>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" id="inpExLibEquipamento"><option value="">Equipamento</option></select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select" id="inpExLibNivel"><option value="">Nível</option></select>
+          </div>
+        </div>
+        <div id="exLibLoading" class="stat-sub"><i class="bi bi-hourglass-split"></i> Carregando biblioteca...</div>
+        <div id="exLibGrid" class="row g-3"></div>
+        <div class="text-center mt-3">
+          <button class="btn btn-outline-light d-none" id="btnExLibCarregarMais">Carregar mais</button>
+        </div>
       </div>
     </div>
 
@@ -856,6 +884,29 @@
         <div id="videoModalFallback" class="d-none">
           <p class="stat-sub mb-3">Ainda não tenho um vídeo selecionado para este exercício específico — vou abrir uma busca no YouTube para você.</p>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE DETALHES DO EXERCÍCIO (BIBLIOTECA COMPLETA) -->
+<div class="modal fade" id="exLibDetailModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content p-2">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title" id="exLibDetailTitle"></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-3">
+          <img id="exLibDetailImg" src="" alt="" style="max-width:100%; max-height:320px; border-radius:12px; background:#000;">
+        </div>
+        <div id="exLibDetailBadges" class="mb-3 d-flex flex-wrap gap-2"></div>
+        <div class="d-flex gap-2 mb-3">
+          <button class="btn btn-accent btn-sm" id="btnExLibAdicionar"><i class="bi bi-plus-lg"></i> Adicionar ao treino</button>
+          <button class="btn btn-outline-light btn-sm" id="btnExLibTraduzir"><i class="bi bi-translate"></i> Traduzir instruções</button>
+        </div>
+        <div id="exLibInstrucoesBox" class="stat-sub"></div>
       </div>
     </div>
   </div>
@@ -1164,6 +1215,7 @@
         const isNewSignIn = !currentUser && user;
         currentUser = user;
         renderCloudBox();
+        renderOffcanvasAuthFooter();
         if(user){ hideAuthGate(); }
         else { maybeShowAuthGate(); }
         if(isNewSignIn) handlePostSignIn();
@@ -1196,6 +1248,32 @@
           console.error(e);
           toast('Erro ao entrar com Google — tente novamente', 'bi-exclamation-triangle');
         }
+      });
+    }
+  }
+
+  function renderOffcanvasAuthFooter(){
+    const box = document.getElementById('offcanvasAuthFooter');
+    if(!box) return;
+    if(!firebaseApp){ box.innerHTML = ''; return; }
+    if(currentUser){
+      box.innerHTML = `
+        <div class="stat-sub mb-2">Conectado como<br><strong>${escapeHtml(currentUser.email || currentUser.displayName || '')}</strong></div>
+        <button class="btn btn-outline-danger btn-sm w-100" id="btnOffcanvasSignOut"><i class="bi bi-box-arrow-right"></i> Sair do app</button>
+      `;
+      document.getElementById('btnOffcanvasSignOut').addEventListener('click', () => {
+        const oc = bootstrap.Offcanvas.getInstance(document.getElementById('mainMenu'));
+        if(oc) oc.hide();
+        cloudAuth.signOut();
+        toast('Você saiu da conta');
+      });
+    } else {
+      box.innerHTML = `<button class="btn btn-outline-light btn-sm w-100" id="btnOffcanvasEntrar"><i class="bi bi-box-arrow-in-right"></i> Entrar / Criar conta</button>`;
+      document.getElementById('btnOffcanvasEntrar').addEventListener('click', () => {
+        const oc = bootstrap.Offcanvas.getInstance(document.getElementById('mainMenu'));
+        if(oc) oc.hide();
+        localStorage.removeItem(AUTH_SKIP_KEY);
+        document.getElementById('authScreen').classList.remove('d-none');
       });
     }
   }
@@ -1579,7 +1657,207 @@
   }
   document.getElementById('inpBibliotecaBusca').addEventListener('input', renderBiblioteca);
   bibliotecaCategoriaSelect.addEventListener('change', renderBiblioteca);
-  document.getElementById('tab-biblioteca-btn').addEventListener('shown.bs.tab', renderBiblioteca);
+  document.getElementById('tab-biblioteca-btn').addEventListener('shown.bs.tab', () => {
+    renderBiblioteca();
+    loadExLibData();
+    startExLibAnim();
+  });
+  document.getElementById('tab-biblioteca-btn').addEventListener('hidden.bs.tab', stopExLibAnim);
+
+  // ---------- BIBLIOTECA COMPLETA (Free Exercise DB) ----------
+  const EXLIB_IMG_BASE = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/';
+  const EXLIB_JSON_BASE = 'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/';
+  const EXLIB_CATEGORIA_TO_MET = {
+    'Força': 'musc_pesada', 'Powerlifting': 'musc_pesada', 'Levantamento Olímpico': 'musc_pesada',
+    'Alongamento': 'alongamento', 'Pliometria': 'funcional', 'Strongman': 'funcional',
+    'Cardio': 'cardio_mod'
+  };
+
+  let exLibData = null;
+  let exLibLoading = false;
+  let exLibPage = 1;
+  const EXLIB_PAGE_SIZE = 24;
+  let exLibAnimTimer = null;
+  let exLibAnimFrame = 0;
+
+  function startExLibAnim(){
+    if(exLibAnimTimer) return;
+    exLibAnimTimer = setInterval(() => {
+      exLibAnimFrame = exLibAnimFrame === 0 ? 1 : 0;
+      document.querySelectorAll('.exlib-anim-img').forEach(img => {
+        const src = exLibAnimFrame === 0 ? img.dataset.img0 : img.dataset.img1;
+        if(src) img.src = src;
+      });
+    }, 700);
+  }
+  function stopExLibAnim(){
+    if(exLibAnimTimer){ clearInterval(exLibAnimTimer); exLibAnimTimer = null; }
+  }
+
+  async function loadExLibData(){
+    if(exLibData || exLibLoading) return;
+    exLibLoading = true;
+    try{
+      const res = await fetch('js/exercises-library.json');
+      exLibData = await res.json();
+      document.getElementById('exLibLoading').classList.add('d-none');
+
+      const musculos = new Set(), equipamentos = new Set(), niveis = new Set();
+      exLibData.forEach(ex => {
+        (ex.musculosPrimarios || []).forEach(m => musculos.add(m));
+        if(ex.equipamento) equipamentos.add(ex.equipamento);
+        if(ex.nivel) niveis.add(ex.nivel);
+      });
+      const musSelect = document.getElementById('inpExLibMusculo');
+      const eqSelect = document.getElementById('inpExLibEquipamento');
+      const nivSelect = document.getElementById('inpExLibNivel');
+      musSelect.innerHTML += [...musculos].sort().map(m => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join('');
+      eqSelect.innerHTML += [...equipamentos].sort().map(m => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join('');
+      nivSelect.innerHTML += [...niveis].sort().map(m => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join('');
+
+      renderExLibGrid(true);
+    }catch(e){
+      console.error('erro ao carregar biblioteca completa', e);
+      document.getElementById('exLibLoading').innerHTML = '<i class="bi bi-exclamation-triangle"></i> Não consegui carregar a biblioteca completa agora.';
+    }
+    exLibLoading = false;
+  }
+
+  function exLibFiltered(){
+    const busca = document.getElementById('inpExLibBusca').value.trim().toLowerCase();
+    const musculo = document.getElementById('inpExLibMusculo').value;
+    const equipamento = document.getElementById('inpExLibEquipamento').value;
+    const nivel = document.getElementById('inpExLibNivel').value;
+    return exLibData.filter(ex => {
+      if(busca && !ex.nome.toLowerCase().includes(busca) && !ex.nomeEn.toLowerCase().includes(busca)) return false;
+      if(musculo && !(ex.musculosPrimarios || []).includes(musculo)) return false;
+      if(equipamento && ex.equipamento !== equipamento) return false;
+      if(nivel && ex.nivel !== nivel) return false;
+      return true;
+    });
+  }
+
+  function renderExLibGrid(reset){
+    if(!exLibData) return;
+    if(reset) exLibPage = 1;
+    const filtrados = exLibFiltered();
+    document.getElementById('exLibCountLabel').textContent = filtrados.length + ' exercícios';
+    const visiveis = filtrados.slice(0, exLibPage * EXLIB_PAGE_SIZE);
+    const grid = document.getElementById('exLibGrid');
+    grid.innerHTML = visiveis.map(ex => {
+      const img0 = ex.imagens[0] ? EXLIB_IMG_BASE + ex.imagens[0] : '';
+      const img1 = ex.imagens[1] ? EXLIB_IMG_BASE + ex.imagens[1] : img0;
+      return `
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="exlib-card" data-id="${escapeHtml(ex.id)}" style="cursor:pointer; background:var(--bg-panel); border:1px solid var(--line); border-radius:12px; overflow:hidden; height:100%;">
+          <img class="exlib-anim-img" data-img0="${escapeHtml(img0)}" data-img1="${escapeHtml(img1)}" src="${escapeHtml(img0)}" loading="lazy" style="width:100%; aspect-ratio:1/1; object-fit:cover; background:#000;" alt="${escapeHtml(ex.nome)}">
+          <div class="p-2">
+            <div class="ex-name" style="font-size:0.85rem; line-height:1.2;">${escapeHtml(ex.nome)}</div>
+            <div class="stat-sub" style="font-size:0.72rem;">${escapeHtml(ex.categoria || '')}</div>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    grid.querySelectorAll('.exlib-card').forEach(card => {
+      card.addEventListener('click', () => abrirExLibDetalhe(card.dataset.id));
+    });
+    document.getElementById('btnExLibCarregarMais').classList.toggle('d-none', visiveis.length >= filtrados.length);
+  }
+
+  ['inpExLibBusca','inpExLibMusculo','inpExLibEquipamento','inpExLibNivel'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => renderExLibGrid(true));
+    document.getElementById(id).addEventListener('change', () => renderExLibGrid(true));
+  });
+  document.getElementById('btnExLibCarregarMais').addEventListener('click', () => {
+    exLibPage++;
+    renderExLibGrid(false);
+  });
+
+  let exLibDetalheAtual = null;
+  function abrirExLibDetalhe(id){
+    const ex = exLibData.find(e => e.id === id);
+    if(!ex) return;
+    exLibDetalheAtual = ex;
+    document.getElementById('exLibDetailTitle').textContent = ex.nome;
+    const img0 = ex.imagens[0] ? EXLIB_IMG_BASE + ex.imagens[0] : '';
+    const img1 = ex.imagens[1] ? EXLIB_IMG_BASE + ex.imagens[1] : img0;
+    const detailImg = document.getElementById('exLibDetailImg');
+    detailImg.className = 'exlib-anim-img';
+    detailImg.dataset.img0 = img0;
+    detailImg.dataset.img1 = img1;
+    detailImg.src = img0;
+    detailImg.style.maxWidth = '100%';
+    detailImg.style.maxHeight = '320px';
+    detailImg.style.borderRadius = '12px';
+    detailImg.style.background = '#000';
+
+    const badges = [];
+    if(ex.categoria) badges.push(`<span class="badge badge-met"><i class="bi bi-tag"></i> ${escapeHtml(ex.categoria)}</span>`);
+    if(ex.nivel) badges.push(`<span class="badge badge-dur"><i class="bi bi-bar-chart"></i> ${escapeHtml(ex.nivel)}</span>`);
+    if(ex.equipamento) badges.push(`<span class="badge badge-dur"><i class="bi bi-tools"></i> ${escapeHtml(ex.equipamento)}</span>`);
+    (ex.musculosPrimarios || []).forEach(m => badges.push(`<span class="badge badge-met"><i class="bi bi-lightning-charge"></i> ${escapeHtml(m)}</span>`));
+    document.getElementById('exLibDetailBadges').innerHTML = badges.join(' ');
+
+    const cacheKey = 'fitness:exlib:instr:' + ex.id;
+    const cached = localStorage.getItem(cacheKey);
+    document.getElementById('exLibInstrucoesBox').innerHTML = cached
+      ? cached.split('\n').map(l => `<p class="mb-1">${escapeHtml(l)}</p>`).join('')
+      : '<span class="stat-sub">Clique em "Traduzir instruções" pra ver o passo a passo em português.</span>';
+
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('exLibDetailModal')).show();
+  }
+
+  document.getElementById('btnExLibAdicionar').addEventListener('click', () => {
+    if(!exLibDetalheAtual) return;
+    const categoriaMet = EXLIB_CATEGORIA_TO_MET[exLibDetalheAtual.categoria] || 'musc_leve';
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('exLibDetailModal')).hide();
+    abrirAddExDoLibrary(exLibDetalheAtual.nome, categoriaMet);
+  });
+
+  document.getElementById('btnExLibTraduzir').addEventListener('click', async () => {
+    if(!exLibDetalheAtual) return;
+    const ex = exLibDetalheAtual;
+    const cacheKey = 'fitness:exlib:instr:' + ex.id;
+    const cached = localStorage.getItem(cacheKey);
+    if(cached) return;
+    const box = document.getElementById('exLibInstrucoesBox');
+    box.innerHTML = '<span class="stat-sub"><i class="bi bi-hourglass-split"></i> Buscando e traduzindo instruções...</span>';
+    try{
+      const res = await fetch(EXLIB_JSON_BASE + ex.id + '.json');
+      const detalhe = await res.json();
+      const instrucoesEn = (detalhe.instructions || []).join('\n');
+      if(!instrucoesEn){
+        box.innerHTML = '<span class="stat-sub">Este exercício não tem instruções detalhadas na base de dados.</span>';
+        return;
+      }
+      if(!state.iaApiKey){
+        box.innerHTML = '<div class="stat-sub mb-2"><i class="bi bi-info-circle"></i> Configure sua chave de IA gratuita (aba Alimentação) pra traduzir automaticamente. Por enquanto, aqui está em inglês:</div>' +
+          instrucoesEn.split('\n').map(l => `<p class="mb-1">${escapeHtml(l)}</p>`).join('');
+        return;
+      }
+      const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + encodeURIComponent(state.iaApiKey), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: 'Traduza as instruções de exercício físico a seguir para português do Brasil, de forma natural e clara, mantendo uma frase por linha, sem numerar, sem comentários adicionais.' }] },
+          contents: [{ role: 'user', parts: [{ text: instrucoesEn }] }]
+        })
+      });
+      const data = await response.json();
+      if(data.error) throw new Error(data.error.message || 'Erro na API do Gemini');
+      const textOut = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0] && data.candidates[0].content.parts[0].text;
+      if(!textOut) throw new Error('Resposta vazia da IA');
+      localStorage.setItem(cacheKey, textOut.trim());
+      box.innerHTML = textOut.trim().split('\n').map(l => l.trim()).filter(Boolean).map(l => `<p class="mb-1">${escapeHtml(l)}</p>`).join('');
+    }catch(e){
+      console.error('erro ao traduzir instruções', e);
+      box.innerHTML = '<span class="stat-sub text-danger"><i class="bi bi-exclamation-triangle"></i> Não consegui traduzir agora — tente de novo.</span>';
+    }
+  });
+
+  document.getElementById('exLibDetailModal').addEventListener('hidden.bs.modal', () => {
+    exLibDetalheAtual = null;
+  });
 
   function renderExList(){
     const box = document.getElementById('exList');
@@ -2208,7 +2486,7 @@
       maybeShowAuthGate();
     }
     renderCloudBox();
-
+    renderOffcanvasAuthFooter();
     renderMeals();
     renderDietaStats();
     renderAgua();
