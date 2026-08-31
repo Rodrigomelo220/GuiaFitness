@@ -343,6 +343,41 @@
     border-color:var(--accent);
     color:#1a1200;
   }
+
+  .bottom-nav{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    z-index:1040;
+    display:flex;
+    background:var(--bg-panel);
+    border-top:1px solid var(--line);
+    padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+  }
+  .bottom-nav-btn{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:2px;
+    background:none;
+    border:none;
+    color:#8a94a3;
+    font-size:0.68rem;
+    padding:6px 2px;
+    border-radius:10px;
+  }
+  .bottom-nav-btn i{ font-size:1.25rem; }
+  .bottom-nav-btn.active{ color:var(--accent); }
+  body{ padding-bottom:0; }
+  @media (max-width:767.98px){
+    body{ padding-bottom:64px; }
+  }
+
+  .dash-clickable{ transition:transform 0.1s ease, border-color 0.15s ease; }
+  .dash-clickable:hover, .dash-clickable:active{
+    border-color:var(--accent);
+    transform:translateY(-2px);
+  }
 </style>
 </head>
 <body>
@@ -394,7 +429,7 @@
   <div class="container-fluid px-3 px-md-4 d-flex flex-wrap align-items-center gap-2">
     <button class="btn btn-sm btn-outline-light menu-toggle-btn d-flex align-items-center gap-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#mainMenu" aria-controls="mainMenu" title="Abrir menu — trocar de seção">
       <i class="bi bi-list" style="font-size:1.2rem;"></i>
-      <span id="menuToggleLabel">Perfil</span>
+      <span id="menuToggleLabel">Início</span>
       <i class="bi bi-chevron-down" style="font-size:0.7rem;"></i>
     </button>
     <span class="brand"><i class="bi bi-heart-pulse-fill"></i> Guia Fitness</span>
@@ -413,7 +448,10 @@
   <div class="offcanvas-body">
     <ul class="nav nav-pills flex-column gap-2" id="mainTabs" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active w-100 text-start" id="tab-perfil-btn" data-bs-toggle="pill" data-bs-target="#tab-perfil" type="button"><i class="bi bi-person-circle"></i> Perfil</button>
+        <button class="nav-link active w-100 text-start" id="tab-inicio-btn" data-bs-toggle="pill" data-bs-target="#tab-inicio" type="button"><i class="bi bi-house-door-fill"></i> Início</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link w-100 text-start" id="tab-perfil-btn" data-bs-toggle="pill" data-bs-target="#tab-perfil" type="button"><i class="bi bi-person-circle"></i> Perfil</button>
       </li>
       <li class="nav-item" role="presentation">
         <button class="nav-link w-100 text-start" id="tab-peso-btn" data-bs-toggle="pill" data-bs-target="#tab-peso" type="button"><i class="bi bi-graph-up-arrow"></i> Peso &amp; IMC</button>
@@ -439,8 +477,67 @@
 
   <div class="tab-content">
 
+    <!-- INÍCIO / DASHBOARD -->
+    <div class="tab-pane fade show active" id="tab-inicio" role="tabpanel">
+      <div class="panel mb-4">
+        <h4 class="mb-1" id="dashGreeting">Bem-vindo!</h4>
+        <div class="stat-sub" id="dashDateLabel"></div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="stat-card dash-clickable" data-goto="tab-ex-btn" style="cursor:pointer;">
+            <div class="stat-label"><i class="bi bi-lightning-charge-fill"></i> Treino hoje</div>
+            <div class="stat-num accent-1" id="dashTreinoNum">0/0</div>
+            <div class="stat-sub" id="dashTreinoSub">sem treino hoje</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card dash-clickable" data-goto="tab-dieta-btn" style="cursor:pointer;">
+            <div class="stat-label"><i class="bi bi-egg-fried"></i> Calorias</div>
+            <div class="stat-num accent-2" id="dashKcalNum">0</div>
+            <div class="stat-sub" id="dashKcalSub">de --</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card dash-clickable" data-goto="tab-agua-btn" style="cursor:pointer;">
+            <div class="stat-label"><i class="bi bi-droplet-fill"></i> Água</div>
+            <div class="stat-num accent-3" id="dashAguaNum">0</div>
+            <div class="stat-sub" id="dashAguaSub">de -- ml</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card dash-clickable" data-goto="tab-peso-btn" style="cursor:pointer;">
+            <div class="stat-label"><i class="bi bi-graph-up-arrow"></i> Peso atual</div>
+            <div class="stat-num accent-4" id="dashPesoNum">--</div>
+            <div class="stat-sub" id="dashPesoSub">sem registros</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel mb-4">
+        <div class="d-flex align-items-center gap-3">
+          <div class="stat-num accent-1" id="dashStreakNum" style="font-size:2.6rem;"><i class="bi bi-fire"></i> 0</div>
+          <div class="stat-sub" id="dashStreakSub">dias seguidos treinando</div>
+        </div>
+      </div>
+
+      <div class="panel mb-4">
+        <h5 class="mb-3"><i class="bi bi-graph-up accent-4"></i> Evolução do peso</h5>
+        <div id="dashWeightChart"></div>
+      </div>
+
+      <div class="panel mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0"><i class="bi bi-list-check accent-3"></i> Treino de hoje</h5>
+          <span class="stat-sub" id="dashTreinoDiaLabel"></span>
+        </div>
+        <div id="dashTreinoList"></div>
+      </div>
+    </div>
+
     <!-- PERFIL -->
-    <div class="tab-pane fade show active" id="tab-perfil" role="tabpanel">
+    <div class="tab-pane fade" id="tab-perfil" role="tabpanel">
       <div class="panel">
         <h4 class="mb-3"><i class="bi bi-person-circle accent-1"></i> Meu perfil</h4>
         <form id="perfilForm" class="row g-3">
@@ -922,6 +1019,24 @@
 </div>
 
 <div id="toast-area"></div>
+
+<nav class="bottom-nav d-md-none" id="bottomNav">
+  <button type="button" class="bottom-nav-btn active" data-bs-toggle="pill" data-bs-target="#tab-inicio">
+    <i class="bi bi-house-door-fill"></i><span>Início</span>
+  </button>
+  <button type="button" class="bottom-nav-btn" data-bs-toggle="pill" data-bs-target="#tab-ex">
+    <i class="bi bi-lightning-charge-fill"></i><span>Treino</span>
+  </button>
+  <button type="button" class="bottom-nav-btn" data-bs-toggle="pill" data-bs-target="#tab-dieta">
+    <i class="bi bi-egg-fried"></i><span>Dieta</span>
+  </button>
+  <button type="button" class="bottom-nav-btn" data-bs-toggle="pill" data-bs-target="#tab-agua">
+    <i class="bi bi-droplet-fill"></i><span>Água</span>
+  </button>
+  <button type="button" class="bottom-nav-btn" data-bs-toggle="offcanvas" data-bs-target="#mainMenu">
+    <i class="bi bi-three-dots"></i><span>Mais</span>
+  </button>
+</nav>
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/Sortable.min.js"></script>
@@ -1413,6 +1528,120 @@
       const raw = localStorage.getItem(key);
       return raw !== null ? JSON.parse(raw) : fallback;
     }catch(e){ return fallback; }
+  }
+
+  // ---------- INÍCIO / DASHBOARD ----------
+  function renderDashboard(){
+    document.getElementById('dashGreeting').textContent = state.perfil.nome ? ('Olá, ' + state.perfil.nome + '!') : 'Bem-vindo!';
+    const hoje = todayDayName();
+    document.getElementById('dashDateLabel').textContent = hoje + ' • ' + formatDate(todayStr());
+    document.getElementById('dashTreinoDiaLabel').textContent = hoje;
+
+    const listaHoje = state.plano[hoje] || [];
+    const feitosHoje = listaHoje.filter(e => state.status[e.id] === 'feito');
+    document.getElementById('dashTreinoNum').textContent = feitosHoje.length + '/' + listaHoje.length;
+    document.getElementById('dashTreinoSub').textContent = listaHoje.length ? 'exercícios feitos' : 'sem treino hoje';
+
+    let consumido = 0;
+    MEAL_ORDER.forEach(m => { (state.dietaPlano[m] || []).forEach(f => { if(state.dietaConsumido[f.id]) consumido += (f.kcal || 0); }); });
+    document.getElementById('dashKcalNum').textContent = consumido;
+    document.getElementById('dashKcalSub').textContent = 'de ' + (state.dietaMeta || '--') + (state.dietaMeta ? ' kcal' : '');
+
+    const aguaConsumida = state.agua.copos * 250;
+    const metaAgua = aguaMetaML();
+    document.getElementById('dashAguaNum').textContent = aguaConsumida;
+    document.getElementById('dashAguaSub').textContent = 'de ' + metaAgua + ' ml';
+
+    const atual = pesoAtual();
+    document.getElementById('dashPesoNum').textContent = atual !== null ? fmt1(atual) + ' kg' : '--';
+    const sortedPesos = [...state.pesos].sort((a,b)=> a.data.localeCompare(b.data));
+    if(sortedPesos.length >= 2){
+      const diff = sortedPesos[sortedPesos.length-1].peso - sortedPesos[sortedPesos.length-2].peso;
+      const sign = diff > 0 ? '+' : '';
+      document.getElementById('dashPesoSub').textContent = sign + fmt1(diff) + ' kg desde o último registro';
+    } else {
+      document.getElementById('dashPesoSub').textContent = sortedPesos.length ? 'primeiro registro' : 'sem registros';
+    }
+
+    renderDashStreak(hoje);
+    renderDashWeightChart(sortedPesos);
+    renderDashTreinoList(listaHoje);
+  }
+
+  function renderDashStreak(hoje){
+    // Conta dias consecutivos (a partir de ontem, ou de hoje se já treinou) em que
+    // havia treino programado e ao menos 1 exercício foi marcado como feito.
+    let streak = 0;
+    let cursor = new Date();
+    const hojeTemFeito = (state.plano[hoje] || []).some(e => state.status[e.id] === 'feito');
+    if(!hojeTemFeito) cursor.setDate(cursor.getDate() - 1);
+
+    for(let i = 0; i < 365; i++){
+      const dataStr = cursor.getFullYear() + '-' + String(cursor.getMonth()+1).padStart(2,'0') + '-' + String(cursor.getDate()).padStart(2,'0');
+      const diaSemana = JS_DAY_TO_NAME[cursor.getDay()];
+      const listaDia = state.plano[diaSemana] || [];
+      if(listaDia.length === 0) break; // sem treino programado esse dia — não conta nem quebra, mas paramos por simplicidade
+      let statusDia = {};
+      try{
+        const raw = localStorage.getItem('fitness:status:' + dataStr);
+        if(raw) statusDia = JSON.parse(raw);
+      }catch(e){ statusDia = {}; }
+      const teveFeito = listaDia.some(e => statusDia[e.id] === 'feito');
+      if(!teveFeito) break;
+      streak++;
+      cursor.setDate(cursor.getDate() - 1);
+    }
+    document.getElementById('dashStreakNum').innerHTML = '<i class="bi bi-fire"></i> ' + streak;
+    document.getElementById('dashStreakSub').textContent = streak === 1 ? 'dia seguido treinando' : 'dias seguidos treinando';
+  }
+
+  function renderDashWeightChart(sortedPesos){
+    const box = document.getElementById('dashWeightChart');
+    if(sortedPesos.length < 2){
+      box.innerHTML = '<div class="stat-sub">registre pelo menos 2 pesos pra ver o gráfico de evolução</div>';
+      return;
+    }
+    const pontos = sortedPesos.slice(-20); // últimos 20 registros
+    const pesosNum = pontos.map(p => p.peso);
+    const min = Math.min(...pesosNum), max = Math.max(...pesosNum);
+    const pad = (max - min) * 0.15 || 1;
+    const yMin = min - pad, yMax = max + pad;
+    const w = 700, h = 220, marginX = 12, marginY = 16;
+    const stepX = pontos.length > 1 ? (w - marginX*2) / (pontos.length - 1) : 0;
+    const coords = pontos.map((p, i) => {
+      const x = marginX + i * stepX;
+      const y = marginY + (h - marginY*2) * (1 - (p.peso - yMin) / (yMax - yMin));
+      return [x, y];
+    });
+    const pathD = coords.map((c,i) => (i===0?'M':'L') + c[0].toFixed(1) + ',' + c[1].toFixed(1)).join(' ');
+    const areaD = pathD + ' L' + coords[coords.length-1][0].toFixed(1) + ',' + (h-marginY) + ' L' + coords[0][0].toFixed(1) + ',' + (h-marginY) + ' Z';
+    const dots = coords.map((c,i) => `<circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="4" fill="var(--accent-4)"><title>${fmt1(pontos[i].peso)} kg — ${formatDate(pontos[i].data)}</title></circle>`).join('');
+    box.innerHTML = `
+      <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto; display:block;">
+        <path d="${areaD}" fill="var(--accent-4)" opacity="0.12"></path>
+        <path d="${pathD}" fill="none" stroke="var(--accent-4)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></path>
+        ${dots}
+      </svg>
+      <div class="d-flex justify-content-between stat-sub mt-1">
+        <span>${formatDate(pontos[0].data)}</span>
+        <span>${formatDate(pontos[pontos.length-1].data)}</span>
+      </div>`;
+  }
+
+  function renderDashTreinoList(listaHoje){
+    const box = document.getElementById('dashTreinoList');
+    if(listaHoje.length === 0){
+      box.innerHTML = '<div class="empty-state"><i class="bi bi-calendar-x"></i>sem exercícios programados pra hoje</div>';
+      return;
+    }
+    box.innerHTML = listaHoje.map(e => {
+      const st = state.status[e.id];
+      const icon = st === 'feito' ? 'bi-check-circle-fill accent-2' : (st === 'pulado' ? 'bi-skip-forward-fill text-danger' : 'bi-circle');
+      return `<div class="d-flex align-items-center gap-2 py-1">
+        <i class="bi ${icon}"></i>
+        <span class="${st === 'feito' ? 'text-decoration-line-through' : ''}" style="font-size:0.9rem;">${escapeHtml(e.nome)}</span>
+      </div>`;
+    }).join('');
   }
 
   // ---------- PERFIL ----------
@@ -2423,6 +2652,29 @@
     });
   });
 
+  // ---------- SINCRONIZAÇÃO ENTRE MENU LATERAL E BARRA INFERIOR ----------
+  function syncNavActiveState(paneSelector){
+    document.querySelectorAll('#mainTabs .nav-link[data-bs-target], .bottom-nav-btn[data-bs-target]').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-bs-target') === paneSelector);
+    });
+    const mainBtn = document.querySelector('#mainTabs .nav-link[data-bs-target="' + paneSelector + '"]');
+    if(mainBtn) document.getElementById('menuToggleLabel').textContent = mainBtn.textContent.trim();
+  }
+  document.addEventListener('shown.bs.tab', (e) => {
+    const target = e.target.getAttribute('data-bs-target');
+    if(target){
+      syncNavActiveState(target);
+      if(target === '#tab-inicio') renderDashboard();
+    }
+  });
+
+  document.querySelectorAll('.dash-clickable[data-goto]').forEach(card => {
+    card.addEventListener('click', () => {
+      const trigger = document.getElementById(card.dataset.goto);
+      if(trigger) bootstrap.Tab.getOrCreateInstance(trigger).show();
+    });
+  });
+
   document.getElementById('videoModal').addEventListener('hidden.bs.modal', () => {
     document.getElementById('videoModalIframe').src = '';
   });
@@ -2464,6 +2716,7 @@
     renderMeals();
     renderDietaStats();
     renderAgua();
+    renderDashboard();
   }
 
   init();
