@@ -1610,7 +1610,7 @@
     const min = Math.min(...pesosNum), max = Math.max(...pesosNum);
     const pad = (max - min) * 0.15 || 1;
     const yMin = min - pad, yMax = max + pad;
-    const w = 700, h = 240, marginX = 16, marginTop = 34, marginBottom = 16;
+    const w = 700, h = 280, marginX = 20, marginTop = 60, marginBottom = 20;
     const stepX = pontos.length > 1 ? (w - marginX*2) / (pontos.length - 1) : 0;
     const coords = pontos.map((p, i) => {
       const x = marginX + i * stepX;
@@ -1619,10 +1619,10 @@
     });
     const pathD = coords.map((c,i) => (i===0?'M':'L') + c[0].toFixed(1) + ',' + c[1].toFixed(1)).join(' ');
     const areaD = pathD + ' L' + coords[coords.length-1][0].toFixed(1) + ',' + (h-marginBottom) + ' L' + coords[0][0].toFixed(1) + ',' + (h-marginBottom) + ' Z';
-    const dots = coords.map((c,i) => `<circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="4" fill="var(--accent-4)"><title>${fmt1(pontos[i].peso)} kg — ${formatDate(pontos[i].data)}</title></circle>`).join('');
+    const dots = coords.map((c,i) => `<circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="5" fill="var(--accent-4)"><title>${fmt1(pontos[i].peso)} kg — ${formatDate(pontos[i].data)}</title></circle>`).join('');
     const labels = coords.map((c,i) => {
-      const alterna = i % 2 === 0 ? 0 : 12; // alterna altura pra rótulos vizinhos não colarem
-      return `<text x="${c[0].toFixed(1)}" y="${(c[1]-10-alterna).toFixed(1)}" text-anchor="middle" font-size="12" fill="#cbd5e1" font-weight="600">${fmt1(pontos[i].peso)}</text>`;
+      const alterna = i % 2 === 0 ? 0 : 24; // alterna altura pra rótulos vizinhos não colarem
+      return `<text x="${c[0].toFixed(1)}" y="${(c[1]-16-alterna).toFixed(1)}" text-anchor="middle" font-size="24" fill="#e5e9f0" font-weight="700">${fmt1(pontos[i].peso)}</text>`;
     }).join('');
     box.innerHTML = `
       <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto; display:block;">
