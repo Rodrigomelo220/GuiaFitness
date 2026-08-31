@@ -1625,7 +1625,7 @@
     // com tamanho parecido (em pixels de verdade) tanto no celular quanto no PC.
     const containerWidth = box.clientWidth || 340;
     const scale = containerWidth / w;
-    const desiredPx = containerWidth < 500 ? 16 : 13; // um pouco maior no celular
+    const desiredPx = containerWidth < 500 ? 16 : 17; // celular / PC
     const fontSizeUnits = Math.round(desiredPx / scale);
 
     const labels = coords.map((c,i) => {
