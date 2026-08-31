@@ -1025,19 +1025,19 @@
 <div id="toast-area"></div>
 
 <nav class="bottom-nav d-md-none" id="bottomNav">
-  <button type="button" class="bottom-nav-btn active" data-bs-toggle="pill" data-bs-target="#tab-inicio">
+  <button type="button" class="bottom-nav-btn active" data-nav-toggle="pill" data-bs-target="#tab-inicio">
     <i class="bi bi-house-door-fill"></i><span>Início</span>
   </button>
-  <button type="button" class="bottom-nav-btn" data-bs-toggle="pill" data-bs-target="#tab-ex">
+  <button type="button" class="bottom-nav-btn" data-nav-toggle="pill" data-bs-target="#tab-ex">
     <i class="bi bi-lightning-charge-fill"></i><span>Treino</span>
   </button>
-  <button type="button" class="bottom-nav-btn" data-bs-toggle="pill" data-bs-target="#tab-dieta">
+  <button type="button" class="bottom-nav-btn" data-nav-toggle="pill" data-bs-target="#tab-dieta">
     <i class="bi bi-egg-fried"></i><span>Dieta</span>
   </button>
-  <button type="button" class="bottom-nav-btn" data-bs-toggle="pill" data-bs-target="#tab-agua">
+  <button type="button" class="bottom-nav-btn" data-nav-toggle="pill" data-bs-target="#tab-agua">
     <i class="bi bi-droplet-fill"></i><span>Água</span>
   </button>
-  <button type="button" class="bottom-nav-btn" data-bs-toggle="offcanvas" data-bs-target="#mainMenu">
+  <button type="button" class="bottom-nav-btn" data-nav-toggle="offcanvas" data-bs-target="#mainMenu">
     <i class="bi bi-three-dots"></i><span>Mais</span>
   </button>
 </nav>
@@ -1610,21 +1610,26 @@
     const min = Math.min(...pesosNum), max = Math.max(...pesosNum);
     const pad = (max - min) * 0.15 || 1;
     const yMin = min - pad, yMax = max + pad;
-    const w = 700, h = 220, marginX = 12, marginY = 16;
+    const w = 700, h = 240, marginX = 16, marginTop = 34, marginBottom = 16;
     const stepX = pontos.length > 1 ? (w - marginX*2) / (pontos.length - 1) : 0;
     const coords = pontos.map((p, i) => {
       const x = marginX + i * stepX;
-      const y = marginY + (h - marginY*2) * (1 - (p.peso - yMin) / (yMax - yMin));
+      const y = marginTop + (h - marginTop - marginBottom) * (1 - (p.peso - yMin) / (yMax - yMin));
       return [x, y];
     });
     const pathD = coords.map((c,i) => (i===0?'M':'L') + c[0].toFixed(1) + ',' + c[1].toFixed(1)).join(' ');
-    const areaD = pathD + ' L' + coords[coords.length-1][0].toFixed(1) + ',' + (h-marginY) + ' L' + coords[0][0].toFixed(1) + ',' + (h-marginY) + ' Z';
+    const areaD = pathD + ' L' + coords[coords.length-1][0].toFixed(1) + ',' + (h-marginBottom) + ' L' + coords[0][0].toFixed(1) + ',' + (h-marginBottom) + ' Z';
     const dots = coords.map((c,i) => `<circle cx="${c[0].toFixed(1)}" cy="${c[1].toFixed(1)}" r="4" fill="var(--accent-4)"><title>${fmt1(pontos[i].peso)} kg — ${formatDate(pontos[i].data)}</title></circle>`).join('');
+    const labels = coords.map((c,i) => {
+      const alterna = i % 2 === 0 ? 0 : 12; // alterna altura pra rótulos vizinhos não colarem
+      return `<text x="${c[0].toFixed(1)}" y="${(c[1]-10-alterna).toFixed(1)}" text-anchor="middle" font-size="12" fill="#cbd5e1" font-weight="600">${fmt1(pontos[i].peso)}</text>`;
+    }).join('');
     box.innerHTML = `
       <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto; display:block;">
         <path d="${areaD}" fill="var(--accent-4)" opacity="0.12"></path>
         <path d="${pathD}" fill="none" stroke="var(--accent-4)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></path>
         ${dots}
+        ${labels}
       </svg>
       <div class="d-flex justify-content-between stat-sub mt-1">
         <span>${formatDate(pontos[0].data)}</span>
@@ -2676,6 +2681,21 @@
     card.addEventListener('click', () => {
       const trigger = document.getElementById(card.dataset.goto);
       if(trigger) bootstrap.Tab.getOrCreateInstance(trigger).show();
+    });
+  });
+
+  // Chamada explícita da API do Bootstrap pros botões da barra inferior
+  // (mais confiável no mobile do que só depender dos atributos data-bs-*)
+  document.querySelectorAll('.bottom-nav-btn[data-bs-target]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetSel = btn.getAttribute('data-bs-target');
+      if(btn.getAttribute('data-nav-toggle') === 'offcanvas'){
+        const offEl = document.querySelector(targetSel);
+        if(offEl) bootstrap.Offcanvas.getOrCreateInstance(offEl).toggle();
+      } else {
+        const trigger = document.querySelector('#mainTabs [data-bs-target="' + targetSel + '"]');
+        if(trigger) bootstrap.Tab.getOrCreateInstance(trigger).show();
+      }
     });
   });
 
