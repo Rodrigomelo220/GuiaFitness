@@ -878,6 +878,18 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
+        <div id="videoModalGifWrap" class="d-none">
+          <div class="row g-3 align-items-start">
+            <div class="col-md-7 text-center">
+              <img id="videoModalGifImg" src="" alt="" style="max-width:100%; border-radius:12px; background:#000;">
+              <div class="stat-sub mt-1">demonstração em loop</div>
+            </div>
+            <div class="col-md-5 text-center">
+              <img id="videoModalMusculoImg" src="" alt="Músculos trabalhados" style="max-width:100%; border-radius:12px;">
+              <div class="stat-sub mt-1">músculos trabalhados</div>
+            </div>
+          </div>
+        </div>
         <div id="videoModalEmbedWrap" class="ratio ratio-16x9 d-none">
           <iframe id="videoModalIframe" src="" title="Vídeo do exercício" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
@@ -957,6 +969,14 @@
     'Búlgaro com Halter': 'MzjO0-M-wns',
     'Panturrilha Sentado Maquina': 'pRAw2Dc6WFQ',
     'Glúteos Coice na Polia Pernas Estendidas': '-9HxL3OH7Ao'
+  };
+
+  // GIFs e diagramas musculares próprios (gerados por IA e aprovados manualmente) — têm prioridade sobre o vídeo do YouTube
+  const EXERCICIO_GIF_MAP = {
+    'Agachamento Sumô com Halteres': {
+      gif: 'img/exercicios-gif/agachamento-sumo-halteres.gif',
+      musculos: 'img/musculos/agachamento-sumo-halteres.jpg'
+    }
   };
 
   // Biblioteca de exercícios: nome, categoria (MET) e vídeo (quando disponível)
@@ -1112,12 +1132,12 @@
   // Configuração fixa do projeto Firebase — preenchida uma única vez pelo dono do app.
   // Não é segredo: a segurança real fica nas Regras do Firestore (acesso só ao próprio uid).
   const FIREBASE_CONFIG = {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: ""
+    apiKey: "AIzaSyD7xI4qFPaIXNBA555G2tVwb3qUDpouJI",
+    authDomain: "guia-fitness-944b1.firebaseapp.com",
+    projectId: "guia-fitness-944b1",
+    storageBucket: "guia-fitness-944b1.firebasestorage.app",
+    messagingSenderId: "108099943866",
+    appId: "1:108099943866:web:da8f05aff52b7829bc3183"
   };
   let firebaseApp = null;
   let cloudAuth = null;
@@ -1630,24 +1650,7 @@
         btn.addEventListener('click', () => {
           const action = btn.dataset.action;
           if(action === 'video-lib'){
-            const videoId = EXERCICIO_VIDEO_MAP[nome];
-            const modalTitle = document.getElementById('videoModalTitle');
-            const embedWrap = document.getElementById('videoModalEmbedWrap');
-            const iframe = document.getElementById('videoModalIframe');
-            const fallback = document.getElementById('videoModalFallback');
-            modalTitle.innerHTML = '<i class="bi bi-play-circle accent-3"></i> ' + escapeHtml(nome);
-            if(videoId){
-              iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
-              embedWrap.classList.remove('d-none');
-              fallback.classList.add('d-none');
-              bootstrap.Modal.getOrCreateInstance(document.getElementById('videoModal')).show();
-            } else {
-              embedWrap.classList.add('d-none');
-              fallback.classList.remove('d-none');
-              bootstrap.Modal.getOrCreateInstance(document.getElementById('videoModal')).show();
-              const query = encodeURIComponent(nome + ' exercício execução correta');
-              window.open('https://www.youtube.com/results?search_query=' + query, '_blank', 'noopener');
-            }
+            abrirModalVideoExercicio(nome);
           } else if(action === 'add-lib'){
             abrirAddExDoLibrary(nome, categoria);
           }
@@ -1924,24 +1927,7 @@
         btn.addEventListener('click', async () => {
           const action = btn.dataset.action;
           if(action === 'video'){
-            const videoId = EXERCICIO_VIDEO_MAP[exItem.nome];
-            const modalTitle = document.getElementById('videoModalTitle');
-            const embedWrap = document.getElementById('videoModalEmbedWrap');
-            const iframe = document.getElementById('videoModalIframe');
-            const fallback = document.getElementById('videoModalFallback');
-            modalTitle.innerHTML = '<i class="bi bi-play-circle accent-3"></i> ' + escapeHtml(exItem.nome);
-            if(videoId){
-              iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
-              embedWrap.classList.remove('d-none');
-              fallback.classList.add('d-none');
-              bootstrap.Modal.getOrCreateInstance(document.getElementById('videoModal')).show();
-            } else {
-              embedWrap.classList.add('d-none');
-              fallback.classList.remove('d-none');
-              bootstrap.Modal.getOrCreateInstance(document.getElementById('videoModal')).show();
-              const query = encodeURIComponent(exItem.nome + ' exercício execução correta');
-              window.open('https://www.youtube.com/results?search_query=' + query, '_blank', 'noopener');
-            }
+            abrirModalVideoExercicio(exItem.nome);
           } else if(action === 'feito'){
             if(state.status[id] === 'feito'){
               state.status[id] = 'pendente';
@@ -1982,6 +1968,45 @@
     document.getElementById('inpExDuracao').value = 8;
     bootstrap.Modal.getOrCreateInstance(document.getElementById('addExModal')).show();
   });
+
+  function abrirModalVideoExercicio(nome){
+    const modalTitle = document.getElementById('videoModalTitle');
+    const gifWrap = document.getElementById('videoModalGifWrap');
+    const embedWrap = document.getElementById('videoModalEmbedWrap');
+    const iframe = document.getElementById('videoModalIframe');
+    const fallback = document.getElementById('videoModalFallback');
+    modalTitle.innerHTML = '<i class="bi bi-play-circle accent-3"></i> ' + escapeHtml(nome);
+
+    const gifInfo = EXERCICIO_GIF_MAP[nome];
+    const videoId = EXERCICIO_VIDEO_MAP[nome];
+
+    gifWrap.classList.add('d-none');
+    embedWrap.classList.add('d-none');
+    fallback.classList.add('d-none');
+    iframe.src = '';
+
+    if(gifInfo){
+      document.getElementById('videoModalGifImg').src = gifInfo.gif;
+      const musculoImg = document.getElementById('videoModalMusculoImg');
+      if(gifInfo.musculos){
+        musculoImg.src = gifInfo.musculos;
+        musculoImg.parentElement.classList.remove('d-none');
+      } else {
+        musculoImg.parentElement.classList.add('d-none');
+      }
+      gifWrap.classList.remove('d-none');
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('videoModal')).show();
+    } else if(videoId){
+      iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+      embedWrap.classList.remove('d-none');
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('videoModal')).show();
+    } else {
+      fallback.classList.remove('d-none');
+      bootstrap.Modal.getOrCreateInstance(document.getElementById('videoModal')).show();
+      const query = encodeURIComponent(nome + ' exercício execução correta');
+      window.open('https://www.youtube.com/results?search_query=' + query, '_blank', 'noopener');
+    }
+  }
 
   function abrirAddExDoLibrary(nome, categoria){
     document.getElementById('inpExDia').innerHTML = DAY_ORDER.map(d => `<option value="${d}" ${d===state.selectedDay?'selected':''}>${d}</option>`).join('');
